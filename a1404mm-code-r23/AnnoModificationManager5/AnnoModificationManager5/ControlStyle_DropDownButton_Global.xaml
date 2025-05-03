@@ -1,0 +1,54 @@
+﻿<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Microsoft_Windows_Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
+    xmlns:devctrls="clr-namespace:AnnoModificationManager5.Controls">
+	<!-- Resource dictionary entries should be defined here. -->
+	<SolidColorBrush x:Key="ButtonNormalBorder" Color="#FF707070"/>
+	<Style TargetType="{x:Type devctrls:DropDownButton}">
+		<Setter Property="FocusVisualStyle" Value="{StaticResource ButtonFocusVisual}"/>
+		<Setter Property="Background" Value="{StaticResource ButtonNormalBackground}"/>
+		<Setter Property="BorderBrush" Value="{StaticResource ButtonNormalBorder}"/>
+		<Setter Property="BorderThickness" Value="1"/>
+		<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+		<Setter Property="HorizontalContentAlignment" Value="Center"/>
+		<Setter Property="VerticalContentAlignment" Value="Center"/>
+		<Setter Property="Padding" Value="1"/>
+		<Setter Property="Template">
+			<Setter.Value>
+                <ControlTemplate TargetType="{x:Type devctrls:DropDownButton}">
+					<ControlTemplate.Resources>
+						<Storyboard x:Key="Highlight_Show">
+							<DoubleAnimation Duration="0:0:0.25" Storyboard.TargetName="HighlightChrome" Storyboard.TargetProperty="Opacity" From="0" To="1"/>
+						</Storyboard>
+						<Storyboard x:Key="Highlight_Hide">
+							<DoubleAnimation Duration="0:0:1" Storyboard.TargetName="HighlightChrome" Storyboard.TargetProperty="Opacity" From="1" To="0"/>
+						</Storyboard>
+					</ControlTemplate.Resources>
+                    <Grid>
+                        <Border x:Name="Chrome" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true" BorderThickness="1" CornerRadius="2" d:LayoutOverrides="Width, Height"/>
+                        <Border x:Name="HighlightChrome" SnapsToDevicePixels="true" BorderThickness="1" CornerRadius="2" d:LayoutOverrides="Width, Height" IsHitTestVisible="False" Opacity="0" BorderBrush="{DynamicResource Brush_UI_Border}" Background="{DynamicResource Brush_UI_MediumGray}"/>
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+						<!--<Trigger Property="IsKeyboardFocused" Value="true">
+							<Setter Property="Microsoft_Windows_Themes:ButtonChrome.RenderDefaulted" TargetName="Chrome" Value="true"/>
+						</Trigger>
+						<Trigger Property="ToggleButton.IsChecked" Value="true">
+							<Setter Property="Microsoft_Windows_Themes:ButtonChrome.RenderPressed" TargetName="Chrome" Value="true"/>
+						</Trigger>-->
+						<Trigger Property="IsEnabled" Value="false">
+							<Setter Property="Foreground" Value="#ADADAD"/>
+						</Trigger>
+						<EventTrigger RoutedEvent="UIElement.MouseEnter">
+							<BeginStoryboard Storyboard="{StaticResource Highlight_Show}"/>
+						</EventTrigger>
+						<EventTrigger RoutedEvent="UIElement.MouseLeave">
+							<BeginStoryboard Storyboard="{StaticResource Highlight_Hide}"/>
+						</EventTrigger>
+					</ControlTemplate.Triggers>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+</ResourceDictionary>

@@ -1,0 +1,75 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:lng="clr-namespace:AnnoModificationManager5.Language.DictionarySystem"
+             xmlns:AnnoModificationManager5_Controls="clr-namespace:AnnoModificationManager5.Controls" x:Class="AnnoModificationManager5.MainControls.ModificationAnalyzerPanel" 
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="800" Background="White">
+    <Border BorderBrush="{DynamicResource Brush_UI_Border}" BorderThickness="0,1,0,0">
+    	<Grid>
+    		<Image Margin="0" Source="/AnnoModificationManager5;component/Images/Header/headerImage_n05.jpg" Stretch="Fill" VerticalAlignment="Top" Height="120" Opacity="0.3" d:IsLocked="True"/>
+    		<Grid Height="64" VerticalAlignment="Top">
+    			<Image HorizontalAlignment="Left" Margin="0" Source="/AnnoModificationManager5;component/Images/Logo/Version3_Comet256.ico" Stretch="Fill" Width="64"/>
+    			<TextBlock HorizontalAlignment="Left" Text="Anno 1404 Modification Manager" VerticalAlignment="Top" Margin="68,8,0,0" FontSize="16"
+                        Name="field_Name" />
+    			<TextBlock HorizontalAlignment="Left" Text="Version 4.0.0.0" VerticalAlignment="Bottom" Margin="68,0,0,14.76" Name="field_Version" />
+    		</Grid>
+    		<AnnoModificationManager5_Controls:ImagePresenter HorizontalAlignment="Right" d:LayoutOverrides="Height" Width="256"
+                    x:Name="imagePresenter" />
+    		<Border Height="27" Margin="8,0,256,8" VerticalAlignment="Bottom" Background="{DynamicResource Brush_UI_White}" BorderBrush="{DynamicResource Brush_UI_Border}" CornerRadius="2,0,0,2" BorderThickness="1,1,0,1">
+    			<ToolBar IsOverflowOpen="False" Background="{StaticResource Brush_UI_White}">
+                    <!--<Button Click="button_ShowActivationInformation_Click" x:Name="button_ShowActivationInformation" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Image Height="16" Source="/AnnoModificationManager5;component/Images/Icons/information.png" Stretch="Fill" Width="16"/>
+                    </Button>-->
+                    <Button Click="button_Activate_Click" x:Name="button_Activate" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    					<StackPanel Orientation="Horizontal">
+    						<Image Height="16" Source="/AnnoModificationManager5;component/Images/Icons/tick.png" Stretch="Fill" Width="16"/>
+                            <TextBlock Text="{lng:LanguageMarkup Dictionary=MainUI,Key=AnalyzerPanel_Activate}" Margin="3,0,0,0"/>
+    					</StackPanel>
+    				</Button>
+    				<Button Click="button_Deactivate_Click" x:Name="button_Deactivate" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    					<StackPanel Orientation="Horizontal">
+    						<Image Height="16" Source="/AnnoModificationManager5;component/Images/Icons/cross.png" Stretch="Fill" Width="16"/>
+    						<TextBlock Text="{lng:LanguageMarkup Dictionary=MainUI, Key=AnalyzerPanel_Deactivate}" Margin="3,0,0,0"/>
+    					</StackPanel>
+    				</Button>
+                    <Button Click="button_ShowActivationInformation_Click" x:Name="button_ShowActivationInformation" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Height="16" Source="/AnnoModificationManager5;component/Images/Icons/information.png" Stretch="Fill" Width="16"/>
+                            <TextBlock Text="{lng:LanguageMarkup Dictionary=UserInterface, Key=Information}" Margin="3,0,0,0"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="button_IsIncompatible" IsEnabled="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Height="16" Source="/AnnoModificationManager5;component/Images/Icons/error.png" Stretch="Fill" Width="16"/>
+                            <TextBlock Text="{lng:LanguageMarkup Dictionary=UserInterface, Key=NotCompatible}" Margin="3,0,0,0"/>
+                        </StackPanel>
+                    </Button>
+                    <Border BorderBrush="{DynamicResource Brush_UI_Border}" BorderThickness="1,0,0,0" Margin="5,3"/>
+    				<Button Click="button_OpenDocumentation_Click" x:Name="button_OpenDocumentation" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    					<StackPanel Orientation="Horizontal">
+    						<Image Height="16" Source="/AnnoModificationManager5;component/Images/Icons/help.png" Stretch="Fill" Width="16"/>
+    						<TextBlock Text="{lng:LanguageMarkup Dictionary=MainUI, Key=AnalyzerPanel_OpenDocumentation}" Margin="3,0,0,0"/>
+    					</StackPanel>
+    				</Button>
+    				<Button Click="button_OpenWebsite_Click" x:Name="button_OpenWebsite" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    					<StackPanel Orientation="Horizontal">
+    						<Image Height="16" Source="/AnnoModificationManager5;component/Images/Icons/world.png" Stretch="Fill" Width="16"/>
+    						<TextBlock Text="{lng:LanguageMarkup Dictionary=MainUI, Key=AnalyzerPanel_OpenWebsite}" Margin="3,0,0,0"/>
+    					</StackPanel>
+    				</Button>
+    				<Border BorderBrush="{DynamicResource Brush_UI_Border}" BorderThickness="1,0,0,0" Margin="5,3"/>
+    				<Button Click="button_Delete_Click"  x:Name="button_Delete" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    					<StackPanel Orientation="Horizontal">
+    						<Image Height="16" Source="/AnnoModificationManager5;component/Images/Icons/bin.png" Stretch="Fill" Width="16"/>
+    						<TextBlock Text="{lng:LanguageMarkup Dictionary=UserInterface, Key=Delete}" Margin="3,0,0,0"/>
+    					</StackPanel>
+    				</Button>
+    			</ToolBar>
+    		</Border>
+    		<TextBox x:Name="field_Description" TextWrapping="Wrap" Text="Das Tool zum Verwalten von Anno 1404 Modifikationen." Margin="8,64,260,39" Background="{x:Null}" BorderBrush="{x:Null}" BorderThickness="0" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
+    	</Grid>
+    </Border>
+</UserControl>

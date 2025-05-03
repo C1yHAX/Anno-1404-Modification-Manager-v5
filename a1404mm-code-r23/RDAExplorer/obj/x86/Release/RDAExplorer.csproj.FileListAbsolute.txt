@@ -1,0 +1,7 @@
+C:\Users\VanDER\Documents\GitHub\Anno-1404-Modification-Manager-v5\a1404mm-code-r23\RDAExplorer\bin\Release\ZLib.dll
+C:\Users\VanDER\Documents\GitHub\Anno-1404-Modification-Manager-v5\a1404mm-code-r23\RDAExplorer\bin\Release\RDAExplorer.dll
+C:\Users\VanDER\Documents\GitHub\Anno-1404-Modification-Manager-v5\a1404mm-code-r23\RDAExplorer\bin\Release\RDAExplorer.pdb
+C:\Users\VanDER\Documents\GitHub\Anno-1404-Modification-Manager-v5\a1404mm-code-r23\RDAExplorer\obj\x86\Release\RDAExplorer.csproj.AssemblyReference.cache
+C:\Users\VanDER\Documents\GitHub\Anno-1404-Modification-Manager-v5\a1404mm-code-r23\RDAExplorer\obj\x86\Release\RDAExplorer.csproj.CoreCompileInputs.cache
+C:\Users\VanDER\Documents\GitHub\Anno-1404-Modification-Manager-v5\a1404mm-code-r23\RDAExplorer\obj\x86\Release\RDAExplorer.dll
+C:\Users\VanDER\Documents\GitHub\Anno-1404-Modification-Manager-v5\a1404mm-code-r23\RDAExplorer\obj\x86\Release\RDAExplorer.pdb

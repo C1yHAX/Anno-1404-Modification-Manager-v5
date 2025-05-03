@@ -171,9 +171,9 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AnnoModificationManager4\AnnoModificationManager4\AnnoModificationManager4.csproj">
+    <ProjectReference Include="..\AnnoModificationManager5\AnnoModificationManager5\AnnoModificationManager5.csproj">
       <Project>{F050E07F-C124-4FD0-B0D6-C61AFC3367D8}</Project>
-      <Name>AnnoModificationManager4</Name>
+      <Name>AnnoModificationManager5</Name>
     </ProjectReference>
     <ProjectReference Include="..\RDAExplorer\RDAExplorer.csproj">
       <Project>{17BE4544-1441-451E-8DC0-8C5DCDAFBCF4}</Project>
