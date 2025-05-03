@@ -1,0 +1,142 @@
+﻿<Window
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:lng="clr-namespace:AnnoModificationManager5.Language.DictionarySystem"
+		xmlns:ctrls="clr-namespace:AnnoModificationManager5.Controls"
+		xmlns:Microsoft_Windows_Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero" x:Class="AnnoModificationManager5.UserInterface.MainUI.DownloadPackagesWindow"
+		Loaded="Window_Loaded"
+		ResizeMode="NoResize"
+		Title="{lng:LanguageMarkup Dictionary=DownloadPackagesWindow, Key=Title}" Height="600" Width="800" WindowStartupLocation="CenterScreen">   
+	
+	<Window.Resources>
+		<Style x:Key="RadioButtonStyle_Bold" TargetType="{x:Type RadioButton}">
+			<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+			<Setter Property="Background" Value="#FFF4F4F4"/>
+			<Setter Property="BorderBrush" Value="#FF8E8F8F"/>
+			<Setter Property="BorderThickness" Value="1"/>
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="{x:Type RadioButton}">
+						<BulletDecorator Background="Transparent">
+							<BulletDecorator.Bullet>
+								<Microsoft_Windows_Themes:BulletChrome BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" IsChecked="{TemplateBinding IsChecked}" IsRound="True" RenderMouseOver="{TemplateBinding IsMouseOver}" RenderPressed="{TemplateBinding IsPressed}" Visibility="Collapsed"/>
+							</BulletDecorator.Bullet>
+							<ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+						</BulletDecorator>
+						<ControlTemplate.Triggers>
+							<Trigger Property="HasContent" Value="True">
+								<Setter Property="FocusVisualStyle">
+									<Setter.Value>
+										<Style>
+											<Setter Property="Control.Template">
+												<Setter.Value>
+													<ControlTemplate>
+														<Rectangle Margin="14,0,0,0" SnapsToDevicePixels="True" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+													</ControlTemplate>
+												</Setter.Value>
+											</Setter>
+										</Style>
+									</Setter.Value>
+								</Setter>
+								<Setter Property="Padding" Value="4,0,0,0"/>
+							</Trigger>
+							<Trigger Property="IsEnabled" Value="False">
+								<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+							</Trigger>
+							<Trigger Property="IsChecked" Value="True">
+								<Setter Property="RadioButton.FontWeight" Value="Bold"/>
+							</Trigger>
+							<Trigger Property="IsChecked" Value="False">
+								<Setter Property="RadioButton.FontWeight" Value="Normal"/>
+							</Trigger>
+						</ControlTemplate.Triggers>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+	</Window.Resources>   
+	
+	<DockPanel LastChildFill="True">
+		<ToolBar DockPanel.Dock="Top" Height="27" Background="{x:Null}" BorderBrush="{x:Null}" Name="versionFilterToolBar">
+			<RadioButton x:Name="filter_All" Content="Alle Modifikationen" Margin="5,0,5,0" Style="{DynamicResource RadioButtonStyle_Bold}" Checked="filter_All_Checked" />
+			<RadioButton x:Name="filter_AllVersions" Content="Versionsunabhängig" Margin="5,0,5,0" Style="{DynamicResource RadioButtonStyle_Bold}"
+					Checked="filter_AllVersions_Checked" />
+			<RadioButton x:Name="filter_Anno" Content="Anno 1404" Margin="5,0,5,0" Style="{DynamicResource RadioButtonStyle_Bold}"
+					Checked="filter_Anno_Checked" />
+			<RadioButton x:Name="filter_Addon" Content="Anno 1404 Venedig" Margin="5,0,5,0" Style="{DynamicResource RadioButtonStyle_Bold}"
+					Checked="filter_Addon_Checked" />
+		</ToolBar>
+		<CheckBox Checked="check_ShowHidden_Checked" Unchecked="check_ShowHidden_Checked" Content="{lng:LanguageMarkup Dictionary=DownloadPackagesWindow, Key=check_ShowHidden}" DockPanel.Dock="Bottom" Margin="3" x:Name="check_ShowHidden" />
+		<Grid x:Name="downloadProgressGrid" DockPanel.Dock="Bottom" Visibility="Collapsed" Height="40">
+			<ProgressBar Margin="5,0,110,0" Height="10" Background="White" BorderBrush="{DynamicResource Brush_UI_Border}" Foreground="{DynamicResource Brush_UI_Blue}"  x:Name="progress_Download" VerticalAlignment="Center" />
+			<Button Content="{lng:LanguageMarkup Dictionary=UserInterface, Key=Cancel}" Background="{StaticResource Brush_UI_White}" HorizontalAlignment="Right" Width="100" Height="30" x:Name="button_ProgressCancel" Click="button_ProgressCancel_Click" Margin="5" /> 
+		</Grid>
+		<ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" BorderThickness="0" x:Name="list_Packages" BorderBrush="{x:Null}">
+			<ListView.GroupStyle>
+				<GroupStyle>
+					<GroupStyle.ContainerStyle>
+						<Style TargetType="{x:Type GroupItem}">
+							<Setter Property="Template">
+								<Setter.Value>
+									<ControlTemplate TargetType="{x:Type GroupItem}">
+										<Expander IsExpanded="True" Header="{Binding Name}" Style="{DynamicResource ExpanderStyle_Small}">
+											<ItemsPresenter />
+										</Expander>
+									</ControlTemplate>
+								</Setter.Value>
+							</Setter>
+						</Style>
+					</GroupStyle.ContainerStyle>
+				</GroupStyle>
+			</ListView.GroupStyle>
+			<ListView.View>
+				<GridView>
+					<GridView.ColumnHeaderContainerStyle>
+						<Style>
+							<Setter Property="UIElement.Visibility" Value="Collapsed"/>
+						</Style>
+					</GridView.ColumnHeaderContainerStyle>
+					<GridViewColumn Width="100">
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<ContentPresenter Height="60" Content="{Binding GetImage}"/>
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+					<GridViewColumn Width="320" >
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Vertical">
+									<TextBlock Text="{Binding UI_Name}" FontWeight="Bold" />
+									<!--<TextBlock Text="{Binding UI_AnnoVersions}" FontWeight="Bold" />-->
+									<StackPanel Orientation="Horizontal">
+										<TextBlock Text="{lng:LanguageMarkup Dictionary=MainUI, Key=ModificationList_AuthorLabel}"/>
+										<TextBlock Text="{Binding Author}"/>
+									</StackPanel>
+									<TextBlock Text="{Binding UI_Description}" TextWrapping="Wrap" Foreground="Gray" Margin="0,3,0,0"/>                                      
+								</StackPanel>
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+					<GridViewColumn Width="120" DisplayMemberBinding="{Binding VersionString}"/>
+					<!--<GridViewColumn Width="100" DisplayMemberBinding="{Binding UI_FileSize}"/>-->
+					<GridViewColumn Width="120">
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<CheckBox Content="{lng:LanguageMarkup Dictionary=DownloadPackagesWindow, Key=check_IsHidden}"
+										x:Name="check_ModificationHidden" IsChecked="{Binding IsHidden, Mode=TwoWay}" Checked="check_ModificationHidden_Unchecked"/>
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+					<GridViewColumn Width="110">
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<ctrls:ContentButton Click="button_Download_Click" Binding="{Binding}" Background="{StaticResource Brush_UI_White}" Height="28" Content="{lng:LanguageMarkup Dictionary=DownloadPackagesWindow, Key=button_Download}" x:Name="button_Download" />
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+				</GridView>
+			</ListView.View>
+		</ListView>
+	</DockPanel>
+</Window>

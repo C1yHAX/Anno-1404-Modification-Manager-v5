@@ -11,12 +11,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using RDAExplorer;
-using ammctrl = AnnoModificationManager4.Controls;
-using ammmisc = AnnoModificationManager4.Misc;
+using ammctrl = AnnoModificationManager5.Controls;
+using ammmisc = AnnoModificationManager5.Misc;
 using RDAExplorerGUI.Controls;
 using wf = System.Windows.Forms;
 using System.ComponentModel;
-using AnnoModificationManager4.UserInterface.Misc;
+using AnnoModificationManager5.UserInterface.Misc;
 using System.IO;
 using RDAExplorer.Misc;
 

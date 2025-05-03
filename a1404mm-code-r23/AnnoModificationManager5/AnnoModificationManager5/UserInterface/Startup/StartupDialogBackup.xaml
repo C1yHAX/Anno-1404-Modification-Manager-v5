@@ -1,0 +1,24 @@
+﻿<Window x:Class="AnnoModificationManager5.UserInterface.Startup.StartupDialogBackup"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:lng="clr-namespace:AnnoModificationManager5.Language.DictionarySystem"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        Title="Anno 1404 Modification Manager 4.2" Height="480" Width="640" Icon="/AnnoModificationManager5;component/Images/Logo/Version3_Comet20.ico" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Grid>
+        <Grid Height="30" Margin="8,0,8,8" VerticalAlignment="Bottom">
+            <Button x:Name="button_OK" Content="OK" HorizontalAlignment="Right" Margin="0" Width="100"  Background="{DynamicResource Brush_UI_White}" Click="button_OK_Click" />
+            <Button x:Name="button_Cancel" Content="{lng:LanguageMarkup Dictionary=UserInterface,Key=Cancel}" HorizontalAlignment="Right" Margin="0,0,104,0" Width="100"  Background="{DynamicResource Brush_UI_White}"
+                    Click="button_Cancel_Click" />
+            <Button x:Name="button_Help" Content="{lng:LanguageMarkup Dictionary=UserInterface,Key=Help}" HorizontalAlignment="Left" Margin="0,0,104,0" Width="100"  Background="{DynamicResource Brush_UI_White}"
+                   Click="button_Help_Click" />
+        </Grid>
+        <Image Height="60" Source="/AnnoModificationManager5;component/Images/Header/headerImage_n05.jpg" Stretch="Fill"
+                VerticalAlignment="Top" />
+        <Image Height="117" HorizontalAlignment="Left" Margin="8,20,0,0" Name="image1" Stretch="Uniform" VerticalAlignment="Top" Width="166"
+                Source="/AnnoModificationManager5;component/Images/Icon.png" />
+        <Label Content="Anno 1404 Modification Manager 5.0" Height="28" Margin="180,83,12,0"  VerticalAlignment="Top" FontSize="14" />
+        <RadioButton Content="{lng:LanguageMarkup Dictionary=MainUI, Key=RDAStart_AutoBackup}" IsChecked="True" Height="16" HorizontalAlignment="Left" Margin="198,316,0,0" Name="r_AutoBackup" VerticalAlignment="Top" />
+        <TextBlock TextWrapping="Wrap" Text="{lng:LanguageMarkup Dictionary=MainUI, Key=RDAStart_Message}" Height="153" Margin="70,157,12,0"  VerticalAlignment="Top"  Name="lbl_Message"/>
+        <RadioButton Content="{lng:LanguageMarkup Dictionary=MainUI, Key=RDAStart_ManualBackup}" Height="16" HorizontalAlignment="Left" Margin="198,338,0,0" Name="r_ManualBackup" VerticalAlignment="Top" />
+    </Grid>
+</Window>

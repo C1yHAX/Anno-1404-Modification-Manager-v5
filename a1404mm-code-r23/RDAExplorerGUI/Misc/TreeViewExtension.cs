@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Controls;
-using ammctrls = AnnoModificationManager4.Controls;
-using ammmisc = AnnoModificationManager4.Misc;
+using ammctrls = AnnoModificationManager5.Controls;
+using ammmisc = AnnoModificationManager5.Misc;
 using RDAExplorer.Misc;
 using RDAExplorerGUI.Controls;
 
