@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="DevelopmentTools.Tools.TaskSystem.TaskViewer_Text"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid Background="White">
+    	<Border Height="28" VerticalAlignment="Bottom" Background="{DynamicResource Brush_UI_White}" BorderBrush="{DynamicResource Brush_UI_Border}" BorderThickness="0,1,0,0">
+    		<Grid>
+                <CheckBox Checked="button_Save_Click" Unchecked="button_Save_Click" x:Name="Checkbox_Done" Content="Done" HorizontalAlignment="Left" Margin="5,0,0,0" d:LayoutOverrides="Height" VerticalAlignment="Center"/>
+    			<Button Click="button_Save_Click"  Content="Save" HorizontalAlignment="Right" Margin="0" Width="75" d:LayoutOverrides="Height" Background="{x:Null}" BorderBrush="{x:Null}" Name="button_Save" />
+    		</Grid>
+            
+    	</Border>
+    	<TextBox x:Name="Field_Message" TextWrapping="NoWrap" Margin="0,28" d:LayoutOverrides="Width" BorderBrush="{x:Null}" BorderThickness="0"
+                AcceptsReturn="True" AcceptsTab="True" />
+    	<Border Height="27" VerticalAlignment="Top" Background="{DynamicResource Brush_UI_White}" BorderThickness="0,0,0,1" BorderBrush="{DynamicResource Brush_UI_Border}">
+    		<Grid>
+    			<TextBlock HorizontalAlignment="Left" Text="Name" d:LayoutOverrides="Height" VerticalAlignment="Center" Margin="5,0,0,0"/>
+    			<TextBox x:Name="Field_Name" Margin="40.697,0,5,0" TextWrapping="NoWrap" VerticalAlignment="Center"/>
+    		</Grid>
+    	</Border>
+    </Grid>
+</UserControl>

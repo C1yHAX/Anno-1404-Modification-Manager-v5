@@ -1,0 +1,26 @@
+﻿<Window x:Class="AnnoModificationManager4.UserInterface.MainUI.ChangeDataFolderDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:lng="clr-namespace:AnnoModificationManager4.Language.DictionarySystem"
+        Loaded="Window_Loaded"
+        Title="PathTooLongException thrown" Height="480" Width="640" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Image Stretch="Fill" Height="60" VerticalAlignment="Top" Source="/AnnoModificationManager4;component/Images/Header/headerImage_n05.jpg" />
+        <TextBlock VerticalAlignment="Top" Margin="5,70,5,0" Text="{lng:LanguageMarkup Dictionary=Modification,Key=ChangeDataFolder}"/>
+        <GroupBox VerticalAlignment="Top" Margin="0,120,0,0" Header="{lng:LanguageMarkup Dictionary=SettingsDialog, Key=GroupBox_DataDirectory}">
+            <Grid>
+                <TextBox Text="" Height="21.96" VerticalAlignment="Top" BorderBrush="{x:Null}" x:Name="field_DataDirectory" />
+                <RadioButton Content="{lng:LanguageMarkup Dictionary=UserInterface, Key=Default}" HorizontalAlignment="Left" Margin="8,25.96,0,0" VerticalAlignment="Top" x:Name="radio_DataDirectory_Auto" />
+                <RadioButton Content="{lng:LanguageMarkup Dictionary=UserInterface, Key=Startup_GroupBox_AnnoDirectory_Choose}" HorizontalAlignment="Left" Margin="8,45.92,0,0" VerticalAlignment="Top" x:Name="radio_DataDirectory_Choose" />
+            </Grid>
+        </GroupBox>
+        <Grid Height="30" Margin="8,0,8,8" VerticalAlignment="Bottom">
+            <Button Background="{DynamicResource Brush_UI_White}" Content="OK" HorizontalAlignment="Right" Margin="0"
+    			x:Name="button_OK" Width="100"
+    			Click="button_OK_Click" />
+            <Button Background="{DynamicResource Brush_UI_White}"
+    			Content="{lng:LanguageMarkup Dictionary=UserInterface, Key=Cancel}" HorizontalAlignment="Right" Margin="0,0,104,0"
+    			x:Name="button_Cancel" Width="100" Click="button_Cancel_Click" />
+        </Grid>
+    </Grid>
+</Window>

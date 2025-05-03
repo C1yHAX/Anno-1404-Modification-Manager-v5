@@ -1,0 +1,703 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F050E07F-C124-4FD0-B0D6-C61AFC3367D8}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AnnoModificationManager4</RootNamespace>
+    <AssemblyName>AnnoModificationManager4</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <Utf8Output>true</Utf8Output>
+    <ExpressionBlendVersion>4.0.20408.0</ExpressionBlendVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;RDA_SAVEATHP</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Images\Logo\AMM4_Icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ICSharpCode.AvalonEdit">
+      <HintPath>..\..\..\Assemblys\ICSharpCode.AvalonEdit.dll</HintPath>
+    </Reference>
+    <Reference Include="Ionic.Zip">
+      <HintPath>..\..\..\Assemblys\Ionic.Zip.dll</HintPath>
+    </Reference>
+    <Reference Include="Itenso.Windows.Controls.ListViewLayout">
+      <HintPath>..\..\..\Assemblys\Itenso.Windows.Controls.ListViewLayout.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="PixelLab.Common">
+      <HintPath>..\..\..\Assemblys\PixelLab.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="PixelLab.Wpf">
+      <HintPath>..\..\..\Assemblys\PixelLab.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationFramework.Aero" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Components\AnnoDirectoryHandler.cs" />
+    <Compile Include="Components\AnnoVersionHandler.cs" />
+    <Compile Include="Components\BackupHandler.cs" />
+    <Compile Include="Components\ModificationHandler.cs" />
+    <Compile Include="Components\ModificationHelpers\ConflictResponse.cs" />
+    <Compile Include="Components\StartupHandler.cs" />
+    <Compile Include="Controls\ContentButton.cs" />
+    <Compile Include="Controls\DropdownButton.cs" />
+    <Compile Include="Controls\ImagePresenter.xaml.cs">
+      <DependentUpon>ImagePresenter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ModifiedTreeViewItem.cs" />
+    <Compile Include="DownloadService\ModificationInfo.cs" />
+    <Compile Include="DownloadService\ModificationInfoConnector.cs" />
+    <Compile Include="Language\DictionarySystem\LanguageDictionary.cs" />
+    <Compile Include="Language\DictionarySystem\LanguageMarkupExtension.cs" />
+    <Compile Include="Language\LabelEditor_Big.xaml.cs">
+      <DependentUpon>LabelEditor_Big.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Language\LabelEditor.xaml.cs">
+      <DependentUpon>LabelEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainControls\Buttons\DownloadPackagesButton.xaml.cs">
+      <DependentUpon>DownloadPackagesButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainControls\Buttons\RDAChangesButton.xaml.cs">
+      <DependentUpon>RDAChangesButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainControls\Buttons\UpdateButton.xaml.cs">
+      <DependentUpon>UpdateButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainControls\ModificationAnalyzerPanel.xaml.cs">
+      <DependentUpon>ModificationAnalyzerPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainControls\ModificationList\ModificationListControl.xaml.cs">
+      <DependentUpon>ModificationListControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Misc\ApplicationExtension.cs" />
+    <Compile Include="Misc\ArithmeticConverter.cs" />
+    <Compile Include="Misc\BitmapImageExtension.cs" />
+    <Compile Include="Misc\CodeExtension.cs" />
+    <Compile Include="Misc\ControlExtension.cs" />
+    <Compile Include="Misc\NativeMethods.cs" />
+    <Compile Include="Misc\ProgressBarExtension.cs" />
+    <Compile Include="Misc\PropertyList.cs" />
+    <Compile Include="Misc\RDAManagerExtension.cs" />
+    <Compile Include="Misc\RegistryExtension.cs" />
+    <Compile Include="Misc\SaveFileDialog.cs" />
+    <Compile Include="Misc\DirectoryExtension.cs" />
+    <Compile Include="Misc\FileExtension.cs" />
+    <Compile Include="Misc\OpenFileDialog.cs" />
+    <Compile Include="Misc\Serializers\XSerializer.cs" />
+    <Compile Include="Misc\StringExtension.cs" />
+    <Compile Include="Misc\TimeoutWebClient.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Misc\TreeViewExtension.cs" />
+    <Compile Include="Misc\WebExtension.cs" />
+    <Compile Include="Misc\WindowExtension.cs" />
+    <Compile Include="Misc\XExtension.cs" />
+    <Compile Include="Misc\XmlExtension.cs" />
+    <Compile Include="ModificationTypes\ListModule\ListModifiers\AddGroupModifier.cs" />
+    <Compile Include="ModificationTypes\ModificationActivationResponse.cs" />
+    <Compile Include="ModificationTypes\ModificationInfo.cs" />
+    <Compile Include="ModificationTypes\ModificationUICollector.cs" />
+    <Compile Include="ModificationTypes\ModificationUtils.cs" />
+    <Compile Include="ModificationTypes\TaskSystem\Task.cs" />
+    <Compile Include="ModificationTypes\TaskSystem\TaskList.cs" />
+    <Compile Include="ModificationTypes\Userdefined\UserdefinedValue_FileItem.cs" />
+    <Compile Include="ModificationTypes\Userdefined\UserdefinedValueGroup.cs" />
+    <Compile Include="ModificationTypes\Userdefined\UserdefinedValue_ComboBoxItem.cs" />
+    <Compile Include="RDA\AMMRDAManager.cs" />
+    <Compile Include="UserInterface\Group\ModificationGroupDescription.cs" />
+    <Compile Include="UserInterface\Group\PipeStringConverter.cs" />
+    <Compile Include="UserInterface\MainUI\AboutDialog.xaml.cs">
+      <DependentUpon>AboutDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserInterface\MainUI\ActivationDialog.xaml.cs">
+      <DependentUpon>ActivationDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserInterface\MainUI\ApplyChangesWindow.xaml.cs">
+      <DependentUpon>ApplyChangesWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserInterface\MainUI\ChangeDataFolderDialog.xaml.cs">
+      <DependentUpon>ChangeDataFolderDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserInterface\MainUI\DeleteDialog.xaml.cs">
+      <DependentUpon>DeleteDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserInterface\MainUI\DeactivationDialog.xaml.cs">
+      <DependentUpon>DeactivationDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserInterface\MainUI\DownloadPackagesWindow.xaml.cs">
+      <DependentUpon>DownloadPackagesWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserInterface\MainUI\ModificationStatusInformationDialog.xaml.cs">
+      <DependentUpon>ModificationStatusInformationDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserInterface\MainUI\RestoreManager.xaml.cs">
+      <DependentUpon>RestoreManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserInterface\MainUI\SettingsDialog.xaml.cs">
+      <DependentUpon>SettingsDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserInterface\Misc\FolderBrowser.xaml.cs">
+      <DependentUpon>FolderBrowser.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserInterface\Misc\MessageWindow.xaml.cs">
+      <DependentUpon>MessageWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserInterface\Startup\StartupDialog.xaml.cs">
+      <DependentUpon>StartupDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserInterface\Startup\StartupDialogBackup.xaml.cs">
+      <DependentUpon>StartupDialogBackup.xaml</DependentUpon>
+    </Compile>
+    <Page Include="ArrowLibrary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Brushes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ControlStyle_Button_Global.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ControlStyle_Button_NoBorder.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ControlStyle_DropDownButton_Global.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ControlStyle_DropDownButton_NoBorder.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ControlStyle_Expander_Headerless.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ControlStyle_Expander_Small.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ControlStyle_ListViewItem_Global.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ControlStyle_ListView_NoScroll.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ControlStyle_NumericUpDown_Global.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ControlStyle_ProgressBar_Global.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ControlStyle_TabItem_Global.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ControlStyle_Toolbar_Global.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ControlStyle_TreeViewItem_Global.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ControlStyle_ScrollBar_Global.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\ImagePresenter.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Language\LabelEditor_Big.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Language\LabelEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainControls\Buttons\DownloadPackagesButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainControls\Buttons\RDAChangesButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainControls\Buttons\UpdateButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainControls\ModificationAnalyzerPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainControls\ModificationList\ModificationListControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Language\Label.cs" />
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="UserInterface\MainUI\AboutDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserInterface\MainUI\ActivationDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserInterface\MainUI\ApplyChangesWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserInterface\MainUI\ChangeDataFolderDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserInterface\MainUI\DeleteDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserInterface\MainUI\DeactivationDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserInterface\MainUI\DownloadPackagesWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserInterface\MainUI\ModificationStatusInformationDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserInterface\MainUI\RestoreManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserInterface\MainUI\SettingsDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserInterface\Misc\FolderBrowser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserInterface\Misc\MessageWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserInterface\Startup\StartupDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserInterface\Startup\StartupDialogBackup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Misc\DispatcherExtension.cs" />
+    <Compile Include="Misc\Enums.cs" />
+    <Compile Include="Misc\RandomProvider.cs" />
+    <Compile Include="Misc\StringBuilderExtension.cs" />
+    <Compile Include="ModificationTypes\ListModule\ListFile.cs" />
+    <Compile Include="ModificationTypes\ListModule\ListFileCollector.cs" />
+    <Compile Include="ModificationTypes\ListModule\ListModifiers\AddModifier.cs" />
+    <Compile Include="ModificationTypes\ListModule\ListModifiers\EditModifier.cs" />
+    <Compile Include="ModificationTypes\ListModule\ListModifiers\IListModifier.cs" />
+    <Compile Include="ModificationTypes\ListModule\ListModifiers\RemoveModifier.cs" />
+    <Compile Include="ModificationTypes\ListModule\ListModuleList.cs" />
+    <Compile Include="ModificationTypes\Modification.cs" />
+    <Compile Include="ModificationTypes\Userdefined\ListUserdefinedValue.cs" />
+    <Compile Include="ModificationTypes\Userdefined\UserdefinedValue.cs" />
+    <Compile Include="ModificationTypes\Userdefined\XMLUserdefinedValue.cs" />
+    <Compile Include="ModificationTypes\XML\XMLFile.cs" />
+    <Compile Include="ModificationTypes\XML\XMLFileCollector.cs" />
+    <Compile Include="ModificationTypes\XML\XMLModifiers\AddModifier.cs" />
+    <Compile Include="ModificationTypes\XML\XMLModifiers\EditModifier.cs" />
+    <Compile Include="ModificationTypes\XML\XMLModifiers\IXMLModifier.cs" />
+    <Compile Include="ModificationTypes\XML\XmlModuleList.cs" />
+    <Compile Include="ModificationTypes\XML\XMLModifiers\RemoveModifier.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="app.manifest" />
+    <None Include="data_restore.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Help\AMM4Help_Deutsch.chm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Help\AMM4Help_English.chm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Help\DevHelp.chm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Header\headerImage_n04.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Header\headerImage_n05.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Language\Dictionaries\MainUI.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Language\Dictionaries\Initialization.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\arrow_refresh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\asterisk_yellow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\brick.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\bullet_white.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\cog.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\cross.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\cut.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\disk.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\error.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\exclamation.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\folder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\folder_add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\folder_explore.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\folder_star.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\help.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\hourglass.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\information.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\key.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\key_add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\key_go.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\page_paste.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\page_white.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\page_white_code.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\page_white_copy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\page_white_gear.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\page_white_picture.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\page_white_text.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\pencil.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\plugin_disabled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\resultset_bottom.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\resultset_next.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\resultset_top.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\shape_handles.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\tag.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\tag_dark.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\textfield.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\tick.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\world.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\zoom.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Logo\Version3_Comet20.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Logo\Version3_Comet256.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Logo\Version3Iconpng_64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\bullet_arrow_down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <SplashScreen Include="Images\Logo\AMM4_Splash.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Language\Dictionaries\Modification.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Language\Dictionaries\UserInterface.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Logo\AMM4_Icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Logo\AMM4_Icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\bin.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Language\Dictionaries\ActivationDialog.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\text_signature.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\text_numeric.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\table.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Language\Dictionaries\RestoreManager.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Language\Dictionaries\SettingsDialog.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Language\Dictionaries\DeactivationDialog.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Language\Dictionaries\DeleteDialog.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Language\Dictionaries\DownloadPackagesWindow.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\AMM4_Icon_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\AlternativePreview.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\Anno_Addon_16.png" />
+    <Resource Include="Images\Icons\Anno_Retail_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\AMM4_AboutDlgImage.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\folder_star_blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\Icon_Addon.png" />
+    <Resource Include="Images\Icons\Icon_Retail.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\AMM4_Icon_50.png" />
+    <Resource Include="Images\Icon_Addon_50.png" />
+    <Resource Include="Images\Icon_Retail_50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\text_list_bullets.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\timeline_marker.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\RDAExplorer\RDAExplorer\RDAExplorer.csproj">
+      <Project>{17BE4544-1441-451E-8DC0-8C5DCDAFBCF4}</Project>
+      <Name>RDAExplorer</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Language\Dictionaries\ApplyChangesDialog.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\page_white_zip.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\Icon_IAAM.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icon_IAAM_50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\arrow_rotate_clockwise.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

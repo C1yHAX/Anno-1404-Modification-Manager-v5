@@ -1,0 +1,189 @@
+﻿<UserControl
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:local="clr-namespace:DevelopmentTools"       	
+	mc:Ignorable="d"
+	x:Class="DevelopmentTools.ProjectControl"
+	x:Name="UserControl"
+	d:DesignWidth="640" d:DesignHeight="480" xmlns:my="clr-namespace:DevelopmentTools.Tools.TaskSystem">
+	<Grid x:Name="LayoutRoot" Background="White">
+		<Menu Height="22" VerticalAlignment="Top" Background="{DynamicResource Brush_UI_White}" BorderBrush="{DynamicResource Brush_UI_Border}" BorderThickness="0,0,0,1">
+            <MenuItem Header="Project">
+                <MenuItem Header="Open ..." Name="Project_Open" Click="Project_Open_Click">
+                    <MenuItem.Icon>
+                        <Image Source="/DevelopmentTools;component/Images/Icons/folder.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="Save" Name="Project_Save" Click="Project_Save_Click">
+                    <MenuItem.Icon>
+                        <Image Source="/DevelopmentTools;component/Images/Icons/disk.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Save as ..." Name="Project_SaveAs" Click="Project_SaveAs_Click">
+                    <MenuItem.Icon>
+                        <Image Source="/DevelopmentTools;component/Images/Icons/disk.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Save copy ..." Name="Project_SaveCopy" Click="Project_SaveCopy_Click">
+                    <MenuItem.Icon>
+                        <Image Source="/DevelopmentTools;component/Images/Icons/disk.png" />
+                    </MenuItem.Icon>
+                </MenuItem>                
+                <Separator />
+                <MenuItem Header="Save to Temporary Folder" Name="Project_State_Save" Click="Project_State_Save_Click">
+                    <MenuItem.Icon>
+                        <Image Source="/DevelopmentTools;component/Images/Icons/disk.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Load from Temporary Folder" Name="Project_State_Load" Click="Project_State_Load_Click">
+                    <MenuItem.Icon>
+                        <Image Source="/DevelopmentTools;component/Images/Icons/folder.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="Test" Name="Project_Test" Click="Project_Test_Click">
+                    <MenuItem.Icon>
+                        <Image Source="/DevelopmentTools;component/Images/Icons/tag_dark.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Patch" Name="Project_Patch" Click="Project_Patch_Click">
+                    <MenuItem.Icon>
+                        <Image Source="/DevelopmentTools;component/Images/Icons/arrow_refresh.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Click="Project_Publish_Click" Header="Publish" Name="Project_Publish">
+                    <MenuItem.Icon>
+                        <Image Source="/DevelopmentTools;component/Images/Icons/world.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator/>
+                <!--<MenuItem Click="Project_RemoveUnusedOriginalFiles_Click" Header="Remove unused original Files" Name="Project_RemoveUnusedOriginalFiles">
+                    <MenuItem.Icon>
+                        <Image Source="/DevelopmentTools;component/Images/Icons/brick.png" />
+                    </MenuItem.Icon>
+                </MenuItem>-->
+                <MenuItem Click="Project_OpenProjectFolder_Click" Header="Open Project Folder" Name="Project_OpenProjectFolder">
+                    <MenuItem.Icon>
+                        <Image Source="/DevelopmentTools;component/Images/Icons/folder.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="Close Project" x:Name="Project_Close" Click="Project_Close_Click">
+                    <MenuItem.Icon>
+                        <Image Source="/DevelopmentTools;component/Images/Icons/cross.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Exit" x:Name="Application_Exit" Click="Application_Exit_Click">
+                    <MenuItem.Icon>
+                        <Image Source="/DevelopmentTools;component/Images/Icons/cross.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Tools">        
+                <!--<MenuItem Header="Modification Package Converter">
+                    <MenuItem.Icon>
+                        <Image Source="/DevelopmentTools;component/Images/Icons/arrow_refresh.png" />
+                    </MenuItem.Icon>
+                </MenuItem>-->
+                <MenuItem Header="Modification Publisher" Name="Tools_OpenPublisher" Click="Tools_OpenPublisher_Click">
+                    <MenuItem.Icon>
+                        <Image Source="/DevelopmentTools;component/Images/Icons/world.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>                 
+                <MenuItem Header="Settings" Name="Tools_OpenSettings" Click="Tools_OpenSettings_Click">
+                    <MenuItem.Icon>
+                        <Image Source="/DevelopmentTools;component/Images/Icons/cog.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Plugins" Name="Menu_Plugins">
+            </MenuItem>
+            <MenuItem Header="Help">
+                <MenuItem Click="Help_ShowHelp_Click"  Header="Help" Name="Help_ShowHelp">
+                    <MenuItem.Icon>
+                        <Image Source="/DevelopmentTools;component/Images/Icons/help.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Click="Help_ShowInfo_Click" Header="Info" Name="Help_ShowInfo">
+                    <MenuItem.Icon>
+                        <Image Source="/DevelopmentTools;component/Images/Icons/information.png" />
+                    </MenuItem.Icon>
+                </MenuItem>                
+            </MenuItem>
+        </Menu>
+        <Grid Margin="0,22,0,0">
+            <ContentPresenter x:Name="CurrentEditor"/>
+        </Grid>
+        <TreeView SelectedItemChanged="EditorList_SelectedItemChanged" x:Name="EditorList" HorizontalAlignment="Left" Margin="0,22,0,0" Width="190" BorderThickness="0,0,1,0" BorderBrush="{DynamicResource Brush_UI_Border}" Height="140" VerticalAlignment="Top">
+            <TreeViewItem Name="EditorList_ModificationInfoEditor">
+                <TreeViewItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/DevelopmentTools;component/Images/Icons/cog.png" />
+                        <TextBlock Text="Project Settings" Margin="3,0,0,0" />
+                    </StackPanel>
+                </TreeViewItem.Header>
+            </TreeViewItem>
+            <TreeViewItem IsExpanded="True">
+                <TreeViewItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/DevelopmentTools;component/Images/Icons/page_white.png" />
+                        <TextBlock Text="Files" Margin="3,0,0,0" />
+                    </StackPanel>
+                </TreeViewItem.Header>
+                <TreeViewItem Name="EditorList_FileSystem_Anno">
+                    <TreeViewItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/DevelopmentTools;component/Images/Icons/folder.png" />
+                            <TextBlock Text="Anno Directory" Margin="3,0,0,0" />
+                        </StackPanel>
+                    </TreeViewItem.Header>
+                </TreeViewItem>
+                <TreeViewItem Name="EditorList_FileSystem_AppData">
+                    <TreeViewItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/DevelopmentTools;component/Images/Icons/folder.png" />
+                            <TextBlock Text="Application Data" Margin="3,0,0,0" />
+                        </StackPanel>
+                    </TreeViewItem.Header>
+                </TreeViewItem>
+            </TreeViewItem>
+            <TreeViewItem Name="EditorList_Modulemanager">
+                <TreeViewItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/DevelopmentTools;component/Images/Icons/brick.png" />
+                        <TextBlock Text="Module Manager" Margin="3,0,0,0" />
+                    </StackPanel>
+                </TreeViewItem.Header>
+            </TreeViewItem>
+            <TreeViewItem Name="EditorList_XmlModuleEditor">
+                <TreeViewItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/DevelopmentTools;component/Images/Icons/page_white_code.png" />
+                        <TextBlock Text="XML Modules" Margin="3,0,0,0" />
+                    </StackPanel>
+                </TreeViewItem.Header>
+            </TreeViewItem>
+            <TreeViewItem Name="EditorList_ListModuleEditor">
+                <TreeViewItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/DevelopmentTools;component/Images/Icons/page_white_text.png" />
+                        <TextBlock Text="List Modules" Margin="3,0,0,0" />
+                    </StackPanel>
+                </TreeViewItem.Header>
+            </TreeViewItem>
+            <TreeViewItem Name="EditorList_UserdefinedValueEditor">
+                <TreeViewItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/DevelopmentTools;component/Images/Icons/pencil.png" />
+                        <TextBlock Text="Userdefined Values" Margin="3,0,0,0" />
+                    </StackPanel>
+                </TreeViewItem.Header>
+            </TreeViewItem>
+        </TreeView>
+        <my:TaskButton Content="Button" Height="22" HorizontalAlignment="Right" x:Name="taskButton" VerticalAlignment="Top"
+                HorizontalContentAlignment="Right" Margin="0,0,5,0"/>
+    </Grid>
+</UserControl>

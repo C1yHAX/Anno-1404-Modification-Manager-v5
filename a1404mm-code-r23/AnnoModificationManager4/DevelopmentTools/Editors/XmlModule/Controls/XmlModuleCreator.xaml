@@ -1,0 +1,8 @@
+﻿<Window x:Class="DevelopmentTools.Editors.XmlModule.Controls.XmlModuleCreator"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="XmlModuleCreator" Height="500" Width="700" WindowStartupLocation="CenterScreen">
+    <Grid>
+        
+    </Grid>
+</Window>

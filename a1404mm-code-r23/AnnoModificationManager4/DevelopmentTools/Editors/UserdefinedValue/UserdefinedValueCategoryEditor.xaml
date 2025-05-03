@@ -1,0 +1,23 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:AnnoModificationManager4_Language="clr-namespace:AnnoModificationManager4.Language;assembly=AnnoModificationManager4" mc:Ignorable="d" x:Class="DevelopmentTools.Editors.UserdefinedValue.UserdefinedValueCategoryEditor"
+        Title="Create/Edit Group" Height="480" Width="640"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <DockPanel Height="30" Margin="8,0,3,8" VerticalAlignment="Bottom" LastChildFill="False">
+            <Button Click="button_ok_Click" x:Name="button_ok" Content="OK" Width="100" DockPanel.Dock="Right" Background="{DynamicResource Brush_UI_White}" Margin="0,0,5,0"/>
+            <Button Click="button_cancel_Click" x:Name="button_cancel" Content="Cancel" Width="100" Background="{DynamicResource Brush_UI_White}" DockPanel.Dock="Right" Margin="0,0,5,0"  />
+        </DockPanel>
+        <Image Margin="0" Source="/DevelopmentTools;component/Images/Header/headerImage_n05.jpg" Stretch="Fill" Height="60" VerticalAlignment="Top"/>
+        <StackPanel Margin="8,64,3,42">
+        	<Grid>
+        		<Grid HorizontalAlignment="Left" Width="100">
+        			<TextBlock TextWrapping="NoWrap" Text="Internal Name" VerticalAlignment="Center" d:LayoutOverrides="Width" HorizontalAlignment="Left"/>
+        		</Grid>
+        		<TextBox x:Name="Field_InternalName" TextWrapping="NoWrap" Text="New Group" Margin="100,0,0,0"/>
+        	</Grid>
+        	<AnnoModificationManager4_Language:LabelEditor x:Name="LabelEditor_Name" Margin="0,5,0,0"/>
+        </StackPanel>
+    </Grid>
+</Window>
