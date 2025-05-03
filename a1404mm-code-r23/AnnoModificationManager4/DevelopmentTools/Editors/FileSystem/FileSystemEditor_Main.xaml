@@ -1,0 +1,148 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:Microsoft_Windows_Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero" x:Class="DevelopmentTools.Editors.FileSystem.FileSystemEditor_Main" 
+             mc:Ignorable="d" 
+             d:DesignHeight="480" d:DesignWidth="640">     
+	<UserControl.Resources>
+		<Style x:Key="ButtonStyle_SubFolder" TargetType="{x:Type Button}">
+			<Setter Property="FocusVisualStyle">
+				<Setter.Value>
+					<Style>
+						<Setter Property="Control.Template">
+							<Setter.Value>
+								<ControlTemplate>
+									<Rectangle Margin="2" SnapsToDevicePixels="True" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+								</ControlTemplate>
+							</Setter.Value>
+						</Setter>
+					</Style>
+				</Setter.Value>
+			</Setter>
+			<Setter Property="Background">
+				<Setter.Value>
+					<LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+						<GradientStop Color="#FFF3F3F3" Offset="0"/>
+						<GradientStop Color="#FFEBEBEB" Offset="0.5"/>
+						<GradientStop Color="#FFDDDDDD" Offset="0.5"/>
+						<GradientStop Color="#FFCDCDCD" Offset="1"/>
+					</LinearGradientBrush>
+				</Setter.Value>
+			</Setter>
+			<Setter Property="BorderBrush" Value="#FF707070"/>
+			<Setter Property="BorderThickness" Value="1"/>
+			<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+			<Setter Property="HorizontalContentAlignment" Value="Center"/>
+			<Setter Property="VerticalContentAlignment" Value="Center"/>
+			<Setter Property="Padding" Value="1"/>
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="{x:Type Button}">
+						<Grid>
+							<Microsoft_Windows_Themes:ButtonChrome x:Name="Chrome" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" RenderMouseOver="{TemplateBinding IsMouseOver}" RenderPressed="{TemplateBinding IsPressed}" RenderDefaulted="{TemplateBinding IsDefaulted}" SnapsToDevicePixels="True" Opacity="0"/>
+							<Border x:Name="HighlightBorder" BorderBrush="{DynamicResource Brush_UI_Border}" BorderThickness="1" Margin="1" CornerRadius="2" Background="{DynamicResource Brush_UI_MediumGray}" Visibility="Hidden"/>
+							<Border BorderBrush="{DynamicResource Brush_UI_Border}" BorderThickness="0,0,1,0" Margin="0,4,4,4"/>
+							<ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="Left" Margin="5,0,10,0"/>
+						</Grid>
+						<ControlTemplate.Triggers>
+							<Trigger Property="IsKeyboardFocused" Value="True">
+								<Setter Property="RenderDefaulted" TargetName="Chrome" Value="True"/>
+							</Trigger>
+							<Trigger Property="ToggleButton.IsChecked" Value="True">
+								<Setter Property="RenderPressed" TargetName="Chrome" Value="True"/>
+							</Trigger>
+							<Trigger Property="IsEnabled" Value="False">
+								<Setter Property="Foreground" Value="#FFADADAD"/>
+							</Trigger>
+							<Trigger Property="Button.IsMouseOver" Value="True">
+								<Setter Property="Visibility" TargetName="HighlightBorder" Value="Visible"/>
+							</Trigger>
+							<Trigger Property="Button.IsMouseOver" Value="False">
+								<Setter Property="Visibility" TargetName="HighlightBorder" Value="Hidden"/>
+							</Trigger>
+						</ControlTemplate.Triggers>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+	</UserControl.Resources>
+    <Grid Background="White">
+        <Border HorizontalAlignment="Left" Width="190" VerticalAlignment="Stretch" Margin="0,140,0,0" BorderThickness="0,0,1,0" BorderBrush="{DynamicResource Brush_UI_Border}"/>
+        <Grid Margin="190,0,0,0">
+        	<Grid Height="27" VerticalAlignment="Top">
+        		<ToolBar HorizontalAlignment="Left" Width="100" BorderBrush="{DynamicResource Brush_UI_Border}" BorderThickness="0,0,0,1" IsOverflowOpen="False" Background="White">
+        			<Button Click="Folder_OpenWindowsExplorer_Click" x:Name="Folder_OpenWindowsExplorer" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        				<Image Height="16" Source="/DevelopmentTools;component/Images/Icons/folder_explore.png" Stretch="Fill" Width="16"/>
+        			</Button>
+        			<Button Click="Folder_Refresh_Click" x:Name="Folder_Refresh" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        				<Image Height="16" Source="/DevelopmentTools;component/Images/Icons/arrow_refresh.png" Stretch="Fill" Width="16"/>
+        			</Button>
+                    <Separator />
+                    <Button Click="Folder_NewFolder_Click" x:Name="Folder_NewFolder" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Image Height="16" Source="/DevelopmentTools;component/Images/Icons/folder_add.png" Stretch="Fill" Width="16"/>
+                    </Button>
+                </ToolBar>
+                <Border Margin="100,0,0,0" BorderThickness="0,0,0,1" BorderBrush="{DynamicResource Brush_UI_Border}" Background="White"   >
+        		    <StackPanel Orientation="Horizontal" x:Name="Folder_Toolbar_SubFolders" />   
+                </Border>
+        	</Grid>
+        	<ListView SelectionMode="Extended" MouseDoubleClick="FileList_MouseDoubleClick" Margin="0,27,0,0" BorderBrush="{x:Null}" BorderThickness="0" Foreground="Black" x:Name="FileList">
+        		<!--<ListView.ItemsPanel>
+        			<ItemsPanelTemplate>
+        				<WrapPanel IsItemsHost="True"/>   			
+					</ItemsPanelTemplate>    		
+				</ListView.ItemsPanel>-->
+				<ListView.ContextMenu>
+					<ContextMenu>
+						<MenuItem Header="Open" Click="FileList_ContextMenu_Open_Click">
+                            <MenuItem.Icon>
+                                <Image Source="/DevelopmentTools;component/Images/Icons/folder.png" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <Separator/>
+						<MenuItem Header="Paste" Click="FileList_ContextMenu_Paste_Click">
+                            <MenuItem.Icon>
+                                <Image Source="/DevelopmentTools;component/Images/Icons/page_paste.png" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Copy" Click="FileList_ContextMenu_Copy_Click">
+                            <MenuItem.Icon>
+                                <Image Source="/DevelopmentTools;component/Images/Icons/page_white_copy.png" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <!--<MenuItem Header="Cut" Click="FileList_ContextMenu_Cut_Click">
+                            <MenuItem.Icon>
+                                <Image Source="/DevelopmentTools;component/Images/Icons/cut.png" />
+                            </MenuItem.Icon>
+                        </MenuItem>-->
+                        <Separator/>
+                        <MenuItem Header="Delete" Click="FileList_ContextMenu_Delete_Click">
+                            <MenuItem.Icon>
+                                <Image Source="/DevelopmentTools;component/Images/Icons/cross.png" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </ContextMenu>
+				</ListView.ContextMenu>				
+				<ListView.View>
+        			<GridView>
+        				<GridView.ColumnHeaderContainerStyle>
+        					<Style>
+        						<Setter Property="UIElement.Visibility" Value="Collapsed"/> 					
+							</Style>  				
+						</GridView.ColumnHeaderContainerStyle>
+                        <GridViewColumn Width="Auto">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Image Source="{Binding Icon}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn x:Name="FileList_GridViewColumn_FileName" Width="Auto" DisplayMemberBinding="{Binding Name}"  />
+                    </GridView>
+        		</ListView.View>
+        	</ListView>
+        </Grid>           
+    </Grid>
+</UserControl>

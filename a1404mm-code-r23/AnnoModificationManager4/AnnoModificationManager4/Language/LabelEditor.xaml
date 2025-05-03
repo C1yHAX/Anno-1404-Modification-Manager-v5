@@ -1,0 +1,26 @@
+﻿<UserControl x:Class="AnnoModificationManager4.Language.LabelEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" Background="White" d:DesignWidth="396">
+    <Grid>
+    	<GroupBox Header="Not loaded" VerticalAlignment="Top" Height="80" Name="groupBox">
+    		<Grid>
+    			<Grid Height="21.96" VerticalAlignment="Top" Margin="0,5,0,0">
+    				<TextBox TextChanged="TextChanged_UpdateBinding"  Margin="100,0,0,0" TextWrapping="NoWrap" Text="" d:LayoutOverrides="Height" Name="Field_German" />
+    				<Grid HorizontalAlignment="Left" Width="100">
+    					<TextBlock TextWrapping="NoWrap" Text="German" d:LayoutOverrides="Width, Height" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+    				</Grid>
+    			</Grid>
+    			<Grid Margin="0,30.96,0,0" Height="21.96" VerticalAlignment="Top">
+                    <TextBox TextChanged="TextChanged_UpdateBinding" Margin="100,0,0,0" TextWrapping="NoWrap" Text="" d:LayoutOverrides="Height" Name="Field_English" />
+    				<Grid HorizontalAlignment="Left" Width="100">
+    					<TextBlock TextWrapping="NoWrap" Text="English" d:LayoutOverrides="Width, Height" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+    				</Grid>
+    			</Grid>
+    		</Grid>
+    	</GroupBox>
+            
+    </Grid>
+</UserControl>

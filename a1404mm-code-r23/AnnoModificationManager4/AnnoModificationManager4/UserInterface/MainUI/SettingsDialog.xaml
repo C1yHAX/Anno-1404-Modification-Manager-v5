@@ -1,0 +1,72 @@
+﻿<Window x:Class="AnnoModificationManager4.UserInterface.MainUI.SettingsDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:lng="clr-namespace:AnnoModificationManager4.Language.DictionarySystem" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
+        Title="{lng:LanguageMarkup Dictionary=SettingsDialog,Key=Title}" Height="480" Width="640" Loaded="Window_Loaded" >
+    <Grid>
+    	<Image Height="60" Margin="0" Source="/AnnoModificationManager4;component/Images/Header/headerImage_n05.jpg" Stretch="Fill" VerticalAlignment="Top"/>
+    	<Grid Height="30" Margin="8,0,8,8" VerticalAlignment="Bottom">
+    		<Button Background="{DynamicResource Brush_UI_White}" Content="OK" HorizontalAlignment="Right" Margin="0"
+    			x:Name="button_OK" Width="100"
+    			Click="button_OK_Click" />
+    		<Button Background="{DynamicResource Brush_UI_White}"
+    			Content="{lng:LanguageMarkup Dictionary=UserInterface, Key=Cancel}" HorizontalAlignment="Right" Margin="0,0,104,0"
+    			x:Name="button_Cancel" Width="100" Click="button_Cancel_Click" />
+    	</Grid>
+    	<TabControl Margin="8,32,8,42" BorderBrush="{DynamicResource Brush_UI_Border}">
+    		<TabItem Header="{lng:LanguageMarkup Dictionary=SettingsDialog, Key=Tab_General}">
+    			<Grid Background="White">
+    				<StackPanel>
+    					<GroupBox Header="Sprache / Language">
+    						<StackPanel>
+    							<RadioButton x:Name="radio_Language_German" Content="Deutsch" Margin="0,3,0,0"  />
+    							<RadioButton x:Name="radio_Language_English" Content="English" Margin="0,3,0,0" />
+    						</StackPanel>
+    					</GroupBox>
+                        <GroupBox Header="{lng:LanguageMarkup Dictionary=SettingsDialog, Key=GroupBox_DataDirectory}">
+                            <Grid>
+                                <TextBox Text="" Height="21.96" VerticalAlignment="Top" BorderBrush="{x:Null}" x:Name="field_DataDirectory" />
+                                <RadioButton Content="{lng:LanguageMarkup Dictionary=UserInterface, Key=Default}" HorizontalAlignment="Left" Margin="8,25.96,0,0" VerticalAlignment="Top" x:Name="radio_DataDirectory_Auto" />
+                                <RadioButton Content="{lng:LanguageMarkup Dictionary=UserInterface, Key=Startup_GroupBox_AnnoDirectory_Choose}" HorizontalAlignment="Left" Margin="8,45.92,0,0" VerticalAlignment="Top" x:Name="radio_DataDirectory_Choose" />
+                            </Grid>
+                        </GroupBox>
+    				</StackPanel>
+    			</Grid>
+    		</TabItem>
+    		<TabItem Header="Anno 1404" Margin="0">
+    			<StackPanel Background="White">
+    				<GroupBox Header="{lng:LanguageMarkup Dictionary=UserInterface, Key=Startup_GroupBox_AnnoDirectory}">
+    					<Grid>
+    						<TextBox Text="" Height="21.96" VerticalAlignment="Top" BorderBrush="{x:Null}" x:Name="field_AnnoDirectory" />
+    						<RadioButton Content="{lng:LanguageMarkup Dictionary=UserInterface, Key=Startup_GroupBox_AnnoDirectory_Auto}" HorizontalAlignment="Left" Margin="8,25.96,0,0" VerticalAlignment="Top" x:Name="radio_AnnoDirectory_Auto" />
+    						<RadioButton Content="{lng:LanguageMarkup Dictionary=UserInterface, Key=Startup_GroupBox_AnnoDirectory_Choose}" HorizontalAlignment="Left" Margin="8,45.92,0,0" VerticalAlignment="Top" x:Name="radio_AnnoDirectory_Choose" />
+    					</Grid>
+    				</GroupBox>
+    				<GroupBox Header="Anno 1404 Version" >
+    					<StackPanel>
+    						<RadioButton x:Name="radio_Version_Retail" Content="Retail" IsChecked="True" Margin="0,3,0,0"/>
+    						<RadioButton x:Name="radio_Version_Patch1" Content="Patch 1" Margin="0,3,0,0"/>
+    						<RadioButton x:Name="radio_Version_Patch2" Content="Patch 2" Margin="0,3,0,0"/>
+                            <RadioButton x:Name="radio_Version_Patch3" Content="Patch 3" Margin="0,3,0,0"/>
+                            <RadioButton x:Name="radio_Version_Mod_IAAM" Content="IAAM Mod" Margin="0,3,0,0"/>
+    						<Separator Margin="0,5" HorizontalAlignment="Left" Width="100"/>
+    						<RadioButton x:Name="radio_Version_Addon1" Content="Addon 1"/>
+                            <RadioButton x:Name="radio_Version_Addon1_Patch1" Content="Addon 1, Patch 1"/>
+    					</StackPanel>
+    				</GroupBox>
+                    <GroupBox Header="Backup">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="30"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox Height="22" MaxLines="1" IsReadOnly="True" x:Name="txb_Backup_Folder"/>
+                            <Button Grid.Column="1" Content="..." Width="22" Name="txb_Backup_SetFolder" Click="txb_Backup_SetFolder_Click"/>
+                        </Grid>
+                    </GroupBox>
+    			</StackPanel>
+    		</TabItem>     		
+    	</TabControl>
+        
+    </Grid>
+</Window>
