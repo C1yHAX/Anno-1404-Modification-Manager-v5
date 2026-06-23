@@ -106,8 +106,9 @@ namespace AnnoModificationManager5.Components
             MessageWindow.Show(LanguageDictionary.Get("Initialization", "AnnoFolder_NoFoundMessage"));
 
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
-            dlg.Filter = "Anno 1404 Executable|Anno4.exe;Anno1404.exe;Addon.exe;Anno1404Addon.exe";
-            dlg.Title = "Bitte Anno 1404 (History Edition oder Klassik) .exe auswählen";
+            dlg.Filter = LanguageDictionary.Get("Initialization", "AnnoFolder_SelectExeFilter")
+                + "|Anno4.exe;Anno1404.exe;Addon.exe;Anno1404Addon.exe";
+            dlg.Title = LanguageDictionary.Get("Initialization", "AnnoFolder_SelectExeTitle");
 
             if (dlg.ShowDialog() == true)
             {

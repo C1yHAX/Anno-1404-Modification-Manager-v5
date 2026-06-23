@@ -10,4 +10,10 @@
   <Label Key="AnnoVersion_DialogMessage"
              German="Die Version von Anno 1404 konnte nicht ermittelt werden.\nWählen Sie die zutreffende Version aus."
              English="" />
+  <Label Key="AnnoFolder_SelectExeTitle"
+         German="Bitte Anno 1404 (History Edition oder Klassik) .exe auswählen"
+         English="Please select the Anno 1404 (History Edition or Classic) .exe" />
+  <Label Key="AnnoFolder_SelectExeFilter"
+         German="Anno 1404 Programmdatei"
+         English="Anno 1404 executable" />
 </LanguageDictionary>
