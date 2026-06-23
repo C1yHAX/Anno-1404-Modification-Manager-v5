@@ -1,0 +1,36 @@
+Installer für den Anno 1404 Modification Manager 5
+==================================================
+
+Der alte 4.2 wurde per Installer verteilt; hier ist das Gegenstück für v5
+als Inno-Setup-Skript (AnnoModificationManager5.iss).
+
+Voraussetzungen
+---------------
+- Inno Setup 6 (kostenlos): https://jrsoftware.org/isdl.php
+
+Setup erzeugen
+--------------
+1. Solution bauen (Debug oder Release) in Visual Studio.
+   Alle Projekte landen in:
+     a1404mm-code-r23\AnnoModificationManager5\AnnoModificationManager5\bin\Debug
+   Genau dorthin zeigt das Skript (SourceDir).
+2. AnnoModificationManager5.iss mit Inno Setup öffnen und auf "Compile" klicken
+   ODER per Kommandozeile:
+     "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" AnnoModificationManager5.iss
+3. Ergebnis: Installer\Output\AMM5_Setup_<Version>.exe
+
+Was der Installer macht
+-----------------------
+- Installiert nach: Program Files (x86)\Anno 1404 Modification Manager 5
+- Bündelt EXEs/DLLs, data_restore.zip, Help\*.chm, Language\Dictionaries\*.xml,
+  Editors\* — OHNE Debug-Artefakte (.pdb, .vshost.*, .rar).
+- Startmenü-Verknüpfungen: Manager, Development Tools, RDA Explorer + Uninstaller.
+- Optional Desktop-Icon.
+- Prüft auf .NET Framework 4.7.2 (warnt, falls nicht vorhanden).
+- Die Version wird automatisch aus AnnoModificationManager5.exe gelesen.
+
+Hinweis
+-------
+Für eine echte Release-Auslieferung idealerweise in der Release-Konfiguration
+bauen (optimiert). Die Projekte legen ihre Ausgabe aktuell unabhängig von der
+Konfiguration in bin\Debug ab — das Skript nimmt daher diesen Ordner.

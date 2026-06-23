@@ -26,6 +26,10 @@ _ReSharper*/
 packages/
 *.nupkg
 
+# Inno Setup compiled installers
+Installer/Output/
+**/Installer/Output/
+
 # Misc
 *.log
 *.tmp
