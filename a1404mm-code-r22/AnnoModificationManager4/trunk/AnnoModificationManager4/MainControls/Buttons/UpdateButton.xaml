@@ -1,0 +1,11 @@
+﻿<Button x:Class="AnnoModificationManager4.MainControls.Buttons.UpdateButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        
+        xmlns:lng="clr-namespace:AnnoModificationManager4.Language.DictionarySystem"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300" Loaded="Button_Loaded" Click="Button_Click" Style="{DynamicResource ButtonStyle_Button_NoBorder}">     
+  
+</Button>

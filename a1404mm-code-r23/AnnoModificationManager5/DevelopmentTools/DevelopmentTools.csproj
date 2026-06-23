@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DevelopmentTools</RootNamespace>
     <AssemblyName>DevelopmentTools</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -548,10 +548,31 @@
       <Project>{F050E07F-C124-4FD0-B0D6-C61AFC3367D8}</Project>
       <Name>AnnoModificationManager5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AnnoModificationManager\AnnoModificationManager.csproj">
-      <Project>{F9A0D4E1-3166-439F-A4B7-D8B55ACE6868}</Project>
-      <Name>AnnoModificationManager</Name>
-    </ProjectReference>
+  </ItemGroup>
+  <!-- Legacy AMM (v3.x) DTO classes, compiled directly into DevelopmentTools instead of
+       referencing the separate AnnoModificationManager project. This avoids a WPF
+       markup-compile (_wpftmp) project-reference resolution failure and removes a
+       fragile cross-project dependency. Namespace stays "AnnoModificationManager"
+       so the converter's "using oldamm = AnnoModificationManager;" keeps working. -->
+  <ItemGroup>
+    <Compile Include="..\AnnoModificationManager\ProbatioPropriaeVilis.cs">
+      <Link>Tools\Converter\Legacy\ProbatioPropriaeVilis.cs</Link>
+    </Compile>
+    <Compile Include="..\AnnoModificationManager\PropriaVilis.cs">
+      <Link>Tools\Converter\Legacy\PropriaVilis.cs</Link>
+    </Compile>
+    <Compile Include="..\AnnoModificationManager\PropriaVilisMath.cs">
+      <Link>Tools\Converter\Legacy\PropriaVilisMath.cs</Link>
+    </Compile>
+    <Compile Include="..\AnnoModificationManager\TextModule.cs">
+      <Link>Tools\Converter\Legacy\TextModule.cs</Link>
+    </Compile>
+    <Compile Include="..\AnnoModificationManager\TextmoduleDummy.cs">
+      <Link>Tools\Converter\Legacy\TextmoduleDummy.cs</Link>
+    </Compile>
+    <Compile Include="..\AnnoModificationManager\Tripair.cs">
+      <Link>Tools\Converter\Legacy\Tripair.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Icons\asterisk_yellow.png" />

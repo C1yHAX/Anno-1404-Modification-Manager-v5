@@ -1,6 +1,0 @@
-C:\Users\VanDER\Documents\GitHub\Anno-1404-Modification-Manager-v5\a1404mm-code-r23\AnnoModificationManager5\AnnoModificationManager\bin\Release\AnnoModificationManager.dll
-C:\Users\VanDER\Documents\GitHub\Anno-1404-Modification-Manager-v5\a1404mm-code-r23\AnnoModificationManager5\AnnoModificationManager\bin\Release\AnnoModificationManager.pdb
-C:\Users\VanDER\Documents\GitHub\Anno-1404-Modification-Manager-v5\a1404mm-code-r23\AnnoModificationManager5\AnnoModificationManager\obj\Release\AnnoModificationManager.csproj.AssemblyReference.cache
-C:\Users\VanDER\Documents\GitHub\Anno-1404-Modification-Manager-v5\a1404mm-code-r23\AnnoModificationManager5\AnnoModificationManager\obj\Release\AnnoModificationManager.csproj.CoreCompileInputs.cache
-C:\Users\VanDER\Documents\GitHub\Anno-1404-Modification-Manager-v5\a1404mm-code-r23\AnnoModificationManager5\AnnoModificationManager\obj\Release\AnnoModificationManager.dll
-C:\Users\VanDER\Documents\GitHub\Anno-1404-Modification-Manager-v5\a1404mm-code-r23\AnnoModificationManager5\AnnoModificationManager\obj\Release\AnnoModificationManager.pdb

@@ -1,0 +1,18 @@
+﻿<Button x:Class="AnnoModificationManager4.MainControls.Buttons.DownloadPackagesButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:lng="clr-namespace:AnnoModificationManager4.Language.DictionarySystem"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" Click="Button_Click" d:DesignWidth="300" Loaded="Button_Loaded" Style="{DynamicResource ButtonStyle_Button_NoBorder}">
+    <Button.ContextMenu>
+        <ContextMenu>
+            <MenuItem Click="menuItem_OpenWindow_Click" Header="{lng:LanguageMarkup Dictionary=MainUI,Key=ToolBar_PackageService_Open}" Name="menuItem_OpenWindow">
+                <MenuItem.Icon>
+                    <Image Source="/AnnoModificationManager4;component/Images/Icons/asterisk_yellow.png" />
+                </MenuItem.Icon>
+            </MenuItem>
+        </ContextMenu>
+    </Button.ContextMenu>
+</Button>

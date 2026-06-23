@@ -1,0 +1,10 @@
+﻿<Window x:Class="DevelopmentTools.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Development Tools Version " Height="600" Width="800"
+        xmlns:my="clr-namespace:DevelopmentTools" xmlns:my1="clr-namespace:DevelopmentTools.Editors.XmlModule.Controls"
+        Icon="/DevelopmentTools;component/Images/Logo/Version3_Comet20.ico"
+        Focusable="True">
+    <Grid>        
+    </Grid>
+</Window>

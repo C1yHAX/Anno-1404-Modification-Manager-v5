@@ -52,6 +52,9 @@
     						<Separator Margin="0,5" HorizontalAlignment="Left" Width="100"/>
     						<RadioButton x:Name="radio_Version_Addon1" Content="Addon 1"/>
                             <RadioButton x:Name="radio_Version_Addon1_Patch1" Content="Addon 1, Patch 1"/>
+    						<Separator Margin="0,5" HorizontalAlignment="Left" Width="100"/>
+                            <RadioButton x:Name="radio_Version_HistoryEdition" Content="History Edition" Margin="0,3,0,0"/>
+                            <RadioButton x:Name="radio_Version_HistoryEdition_Addon" Content="History Edition Addon" Margin="0,3,0,0"/>
     					</StackPanel>
     				</GroupBox>
                     <GroupBox Header="Backup">

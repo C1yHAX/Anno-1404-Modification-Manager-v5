@@ -1,0 +1,3 @@
+[submodule "lib/AnnoRDA"]
+	path = lib/AnnoRDA
+	url = https://github.com/lysannschlegel/AnnoRDA.git

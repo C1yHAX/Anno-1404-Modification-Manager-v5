@@ -1,0 +1,51 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    x:Class="DevelopmentTools.Tools.Global.PatchTool"
+    xmlns:devctrls="clr-namespace:DevelopmentTools.Controls"
+        Title="PatchTool" Height="600" Width="810" WindowStartupLocation="CenterScreen">
+    <Grid Background="White">
+        <Image Margin="0" Source="/DevelopmentTools;component/Images/Header/headerImage_n05.jpg" Stretch="Fill" Height="80" VerticalAlignment="Top"/>
+        <DockPanel Height="30" Margin="8,0,8,8" VerticalAlignment="Bottom" LastChildFill="False">
+            <Button x:Name="button_Patch" Content="Patch" Width="100" DockPanel.Dock="Right" Background="{DynamicResource Brush_UI_White}" Margin="0,0,5,0" Click="button_Patch_Click" />
+        </DockPanel>
+        <Grid Margin="8,84,8,0" VerticalAlignment="Top">
+        	<Grid HorizontalAlignment="Left" Width="100">
+        		<TextBlock Text="New Project File" d:LayoutOverrides="Width, Height" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+        	</Grid>
+        	<TextBox TextWrapping="NoWrap" d:LayoutOverrides="Height" Margin="100,0,29,0" IsEnabled="False" Name="Field_NewProject" />
+        	<Button Click="Field_NewProject_Open_Click" Content="..." HorizontalAlignment="Right" Width="25" d:LayoutOverrides="Height" Margin="0" Background="{DynamicResource Brush_UI_White}" Name="Field_NewProject_Open" />
+        </Grid>
+        <Grid Margin="8,109.96,8,42">
+        	<Grid HorizontalAlignment="Left" Width="100" Height="21.96" VerticalAlignment="Top">
+        		<TextBlock Text="Files" d:LayoutOverrides="Width, Height" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+        	</Grid>
+        	<ListView Foreground="Black" Margin="100,0,0,0" Name="Files_List">
+        		<ListView.View>
+        			<GridView>
+        				<GridViewColumn Header="Destination" Width="300" DisplayMemberBinding="{Binding DestinationFile}"/>
+                        <GridViewColumn Header="New Source" Width="300" DisplayMemberBinding="{Binding NewSourceFile}"/>
+                        <GridViewColumn Width="Auto">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <devctrls:ContentButton Binding="{Binding}" Click="Files_AssignNewSourceFile_Click" Width="22" Height="22">
+                                            <Image Source="/DevelopmentTools;component/Images/Icons/folder.png" />
+                                        </devctrls:ContentButton>
+                                        <devctrls:ContentButton Binding="{Binding}" Click="Files_DeleteNewSourceFile_Click" Width="22" Height="22"
+                                                Margin="3,0,0,0">
+                                            <Image Source="/DevelopmentTools;component/Images/Icons/delete.png" />
+                                        </devctrls:ContentButton>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>                             
+        			</GridView>
+        		</ListView.View>
+        	</ListView>
+        </Grid>
+    </Grid>
+</Window>

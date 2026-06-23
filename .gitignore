@@ -1,0 +1,32 @@
+# Visual Studio / MSBuild build output and caches
+[Bb]in/
+[Oo]bj/
+.vs/
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.vsidx
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+[Xx]86/
+[Xx]64/
+*.dll.config
+*.cache
+
+# ReSharper / Rider
+_ReSharper*/
+*.DotSettings.user
+
+# NuGet
+packages/
+*.nupkg
+
+# Misc
+*.log
+*.tmp
+Thumbs.db
