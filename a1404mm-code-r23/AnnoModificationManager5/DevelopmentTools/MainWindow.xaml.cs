@@ -31,6 +31,9 @@ namespace DevelopmentTools
             CurrentMainWindow = this;
             InitializeComponent();
 
+            // Fenstertitel mit tatsächlicher Version (statt leerem "Version ").
+            Title = "Development Tools Version " + Assembly.GetExecutingAssembly().GetName().Version;
+
             #region Load settings
             //Properties.Settings.Default.Upgrade();
 
