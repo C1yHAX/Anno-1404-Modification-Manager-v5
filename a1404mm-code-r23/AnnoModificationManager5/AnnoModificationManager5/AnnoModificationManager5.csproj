@@ -32,8 +32,8 @@
     <PlatformTarget>x86</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;RDA_SAVEATHP</DefineConstants>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;RDA_SAVEATHP</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -45,20 +45,20 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ICSharpCode.AvalonEdit">
-      <HintPath>..\..\..\..\..\..\source\repos\Anno-1404-Modification-Manager-v5\libs\ICSharpCode.AvalonEdit.dll</HintPath>
+      <HintPath>..\..\..\libs\ICSharpCode.AvalonEdit.dll</HintPath>
     </Reference>
     <Reference Include="Ionic.Zip">
-      <HintPath>..\..\..\..\..\..\source\repos\Anno-1404-Modification-Manager-v5\libs\Ionic.Zip.dll</HintPath>
+      <HintPath>..\..\..\libs\Ionic.Zip.dll</HintPath>
     </Reference>
     <Reference Include="Itenso.Windows.Controls.ListViewLayout">
-      <HintPath>..\..\..\..\..\..\source\repos\Anno-1404-Modification-Manager-v5\libs\Itenso.Windows.Controls.ListViewLayout.dll</HintPath>
+      <HintPath>..\..\..\libs\Itenso.Windows.Controls.ListViewLayout.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="PixelLab.Common">
-      <HintPath>..\..\..\..\..\..\source\repos\Anno-1404-Modification-Manager-v5\libs\PixelLab.Common.dll</HintPath>
+      <HintPath>..\..\..\libs\PixelLab.Common.dll</HintPath>
     </Reference>
     <Reference Include="PixelLab.Wpf">
-      <HintPath>..\..\..\..\..\..\source\repos\Anno-1404-Modification-Manager-v5\libs\PixelLab.Wpf.dll</HintPath>
+      <HintPath>..\..\..\libs\PixelLab.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework.Aero" />
     <Reference Include="System" />

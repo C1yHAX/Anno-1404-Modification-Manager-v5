@@ -12,7 +12,7 @@
 #define Publisher "Anno 1404 Modding Community"
 #define ExeName "AnnoModificationManager5.exe"
 ; Folder that contains the built files (relative to this .iss):
-#define SourceDir "..\AnnoModificationManager5\bin\Debug"
+#define SourceDir "..\AnnoModificationManager5\bin\Release"
 ; Read the product version straight from the built exe:
 #define AppVersion GetFileVersion(SourceDir + "\" + ExeName)
 
