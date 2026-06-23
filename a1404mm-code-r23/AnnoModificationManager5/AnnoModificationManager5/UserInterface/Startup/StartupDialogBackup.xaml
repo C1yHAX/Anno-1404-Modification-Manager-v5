@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:lng="clr-namespace:AnnoModificationManager5.Language.DictionarySystem"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        Title="Anno 1404 Modification Manager 4.2" Height="480" Width="640" Icon="/AnnoModificationManager5;component/Images/Logo/Version3_Comet20.ico" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="Anno 1404 Modification Manager 5.0" Height="480" Width="640" Icon="/AnnoModificationManager5;component/Images/Logo/Version3_Comet20.ico" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
         <Grid Height="30" Margin="8,0,8,8" VerticalAlignment="Bottom">
             <Button x:Name="button_OK" Content="OK" HorizontalAlignment="Right" Margin="0" Width="100"  Background="{DynamicResource Brush_UI_White}" Click="button_OK_Click" />
