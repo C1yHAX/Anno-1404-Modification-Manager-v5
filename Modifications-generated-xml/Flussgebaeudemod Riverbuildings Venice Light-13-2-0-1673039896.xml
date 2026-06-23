@@ -1,0 +1,20 @@
+<ModificationInfo>
+  <Version Major="2" Minor="0" Build="0" Revision="0" />
+  <InternalName>Flussgebaeudemod Riverbuildings Venice Light</InternalName>
+  <InternalCategory>Allgemein</InternalCategory>
+  <Author>C1yHAX</Author>
+  <Website></Website>
+  <Documentation></Documentation>
+  <DownloadUrl></DownloadUrl>
+  <ImageUrl></ImageUrl>
+  <RDASupport>True</RDASupport>
+  <AnnoVersions>
+    <AnnoVersion>All</AnnoVersion>
+  </AnnoVersions>
+  <Images></Images>
+  <Labels>
+    <Label Name="Name"><German>Flussgebaeudemod Riverbuildings Venice Light</German><English>Flussgebaeudemod Riverbuildings Venice Light</English></Label>
+    <Label Name="Description"><German></German><English></English></Label>
+    <Label Name="Category"><German>Allgemein</German><English>General</English></Label>
+  </Labels>
+</ModificationInfo>

@@ -1,83 +1,76 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using RDAExplorer.Misc;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace RDAExplorer
 {
     public class RDAFolder
     {
+        public FileHeader.Version Version = FileHeader.Version.Invalid;
         public string FullPath = "";
         public string Name = "";
         public List<RDAFile> Files = new List<RDAFile>();
         public List<RDAFolder> Folders = new List<RDAFolder>();
+        public bool? RDABlockCreator_FileType_IsCompressable = new bool?();
+        public RDAFolder Parent = null;
 
-        public RDAFolder Parent;
-
-        /// <summary>
-        /// Used by BlockCreator
-        /// </summary>
-        public bool? RDABlockCreator_FileType_IsCompressable = null;
-
-        public RDAFolder()
+        // Shim: parameterloser Konstruktor wie in der alten Lib.
+        public RDAFolder() : this(FileHeader.Version.Version_2_2)
         {
+        }
+
+        public RDAFolder(FileHeader.Version version)
+        {
+            this.Version = version;
+        }
+        public RDAFolder(RDAFolder parent)
+        {
+            this.Parent = parent;
+            this.Version = parent.Version;
         }
 
         public List<RDAFile> GetAllFiles()
         {
-            List<RDAFile> u = new List<RDAFile>();
-            u.AddRange(Files);
-
-            foreach (RDAFolder f in Folders)
-                u.AddRange(f.GetAllFiles());
-
-            return u;
+            List<RDAFile> list = new List<RDAFile>();
+            list.AddRange(Files);
+            foreach (RDAFolder rdaFolder in this.Folders)
+                list.AddRange(rdaFolder.GetAllFiles());
+            return list;
         }
 
         public List<RDAFolder> GetAllFolders()
         {
-            List<RDAFolder> u = new List<RDAFolder>();
-            u.AddRange(Folders);
-
-            foreach (RDAFolder f in Folders)
-                u.AddRange(f.GetAllFolders());
-
-            return u;
+            List<RDAFolder> list = new List<RDAFolder>();
+            list.AddRange(Folders);
+            foreach (RDAFolder rdaFolder in this.Folders)
+                list.AddRange(rdaFolder.GetAllFolders());
+            return list;
         }
 
         public List<string> GetAllExtensions()
         {
-            List<string> u = new List<string>();
-            foreach (RDAFile file in Files)
+            List<string> list = new List<string>();
+            foreach (RDAFile rdaFile in this.Files)
             {
-                string ext = Path.GetExtension(file.FileName);
-
-                if (!u.Contains(ext))
-                    u.Add(ext);
+                string extension = Path.GetExtension(rdaFile.FileName);
+                if (!list.Contains(extension))
+                    list.Add(extension);
             }
-
-            foreach (RDAFolder f in Folders)
-                u.AddRange(f.GetAllExtensions());
-
-            return u.Distinct().ToList();
+            foreach (RDAFolder rdaFolder in this.Folders)
+                list.AddRange(rdaFolder.GetAllExtensions());
+            return Enumerable.ToList(Enumerable.Distinct(list));
         }
 
         public void AddFiles(List<RDAFile> files)
         {
-            foreach (RDAFile f in files)
+            foreach (RDAFile rdaFile in files)
             {
-                if (f.FileName.Contains("/"))
-                {
-                    RDAFolder fold = NavigateTo(GetRoot(), Path.GetDirectoryName(f.FileName), "");
-                    fold.Files.Add(f);
-                }
+                if (rdaFile.FileName.Contains("/"))
+                    NavigateTo(GetRoot(), Path.GetDirectoryName(rdaFile.FileName), "").Files.Add(rdaFile);
                 else
-                {
-                    Files.Add(f);
-                }
+                    Files.Add(rdaFile);
             }
         }
 
@@ -85,20 +78,32 @@ namespace RDAExplorer
         {
             if (FullPath == "")
                 return this;
-            return Parent.GetRoot();
+            return this.Parent.GetRoot();
         }
 
+        // Shim (wie alte Lib): 1-Argument-Variante. Die Version wird aus den vorhandenen
+        // Dateien abgeleitet (jede aus einem Archiv gelesene RDAFile trägt ihre Version);
+        // neue, im Speicher erzeugte Dateien sind 'Invalid' und werden übersprungen.
         public static RDAFolder GenerateFrom(List<RDAFile> file)
         {
-            RDAFolder root = new RDAFolder();
-            root.Files.AddRange(file.FindAll(f => !f.FileName.Contains("/")));
-
-            foreach (RDAFile f in file.FindAll(f => f.FileName.Contains("/")))
+            FileHeader.Version version = FileHeader.Version.Version_2_2;
+            foreach (RDAFile f in file)
             {
-                RDAFolder container = NavigateTo(root, Path.GetDirectoryName(f.FileName), "");
-                container.Files.Add(f);
+                if (f.Version != FileHeader.Version.Invalid)
+                {
+                    version = f.Version;
+                    break;
+                }
             }
+            return GenerateFrom(file, version);
+        }
 
+        public static RDAFolder GenerateFrom(List<RDAFile> file, FileHeader.Version version)
+        {
+            RDAFolder root = new RDAFolder(version);
+            root.Files.AddRange(file.FindAll(f => !f.FileName.Contains("/")));
+            foreach (RDAFile rdaFile in file.FindAll(f => f.FileName.Contains("/")))
+                NavigateTo(root, Path.GetDirectoryName(rdaFile.FileName), "").Files.Add(rdaFile);
             return root;
         }
 
@@ -106,62 +111,31 @@ namespace RDAExplorer
         {
             FullPath = FullPath.Replace("\\", "/");
             CurrentPos = CurrentPos.Replace("\\", "/");
-
             FullPath = FullPath.Trim('/');
             CurrentPos = CurrentPos.Trim('/');
-
-            List<string> segments = FullPath.Split('/').ToList();
-            string currentSegment = segments[0];
-
-            RDAFolder foundFolder = null;
-            foreach (RDAFolder f in root.Folders)
+            List<string> list = Enumerable.ToList(FullPath.Split('/'));
+            string str = list[0];
+            RDAFolder root1 = null;
+            foreach (RDAFolder rdaFolder in root.Folders)
             {
-                if (f.Name == currentSegment)
+                if (rdaFolder.Name == str)
                 {
-                    foundFolder = f;
+                    root1 = rdaFolder;
                     break;
                 }
             }
-
-            //Gen
-            if (foundFolder == null)
+            if (root1 == null)
             {
-                RDAFolder fd = new RDAFolder();
-                fd.Parent = root;
-                fd.Name = currentSegment;
-                fd.FullPath = CurrentPos + "/" + currentSegment;
-
-                root.Folders.Add(fd);
-
-                foundFolder = fd;
+                RDAFolder rdaFolder = new RDAFolder(root);
+                rdaFolder.Name = str;
+                rdaFolder.FullPath = CurrentPos + "/" + str;
+                root.Folders.Add(rdaFolder);
+                root1 = rdaFolder;
             }
-
-            //Nav
-            if (segments.Count == 1)
-                return foundFolder;
-            else
-            {
-                segments.RemoveAt(0);
-                return NavigateTo(foundFolder,
-                    StringExtension.PutTogether(segments, '/')
-                    , CurrentPos + "/" + currentSegment);
-            }
+            if (list.Count == 1)
+                return root1;
+            list.RemoveAt(0);
+            return NavigateTo(root1, string.Join("/", list), CurrentPos + "/" + str);
         }
-
-        #region Marshal
-        public int GetDataSize()
-        {
-            int i = 0;
-            foreach (RDAFile file in Files)
-                i += file.GetData().Length;
-
-            return i;
-        }
-
-        public int GetDirEntryBlockSize()
-        {
-            return Files.Count * Marshal.SizeOf(new DirEntry());
-        }
-        #endregion
     }
 }

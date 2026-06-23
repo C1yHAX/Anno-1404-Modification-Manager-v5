@@ -1,0 +1,29 @@
+Generierte ModificationInfo-Metadaten für die vorhandenen Mods im Repo
+=====================================================================
+
+Diese 11 .xml-Dateien wurden automatisch aus den ZIP-Dateinamen im Repository
+https://github.com/C1yHAX/Modifications erzeugt, damit der Mod-Browser des
+Anno 1404 Modification Manager die vorhandenen Mods anzeigt.
+
+So machst du sie online sichtbar:
+1. Kopiere ALLE .xml-Dateien aus diesem Ordner in die Wurzel deines lokalen
+   Klons des Repos "Modifications" – direkt NEBEN die gleichnamigen .zip-Dateien.
+   (Der Browser paart jede <name>.xml mit der <name>.zip über den identischen Namen.)
+2. git add . && git commit -m "Add mod metadata (.xml)" && git push
+3. Im Manager den Online-Browser aktualisieren – die Mods erscheinen.
+
+Hinweise:
+- Die Felder Autor (C1yHAX), Beschreibung (leer) und Version (aus dem Dateinamen)
+  sind Platzhalter. Du kannst sie jederzeit bearbeiten – am einfachsten über das
+  DevelopmentTool (Package Publisher) oder direkt im XML.
+- AnnoVersions steht auf "All" und RDASupport auf "True", damit die Mods unter
+  jeder erkannten Version (inkl. History Edition) sichtbar und nutzbar sind.
+- WICHTIG: Die Dateien enthalten bewusst KEINE <?xml ?>-Deklaration und KEIN BOM –
+  beides ist für den Parser des Managers erforderlich. Beim manuellen Bearbeiten
+  bitte so belassen (UTF-8 ohne BOM, kein <?xml?>-Kopf).
+- Die DownloadUrl ist absichtlich leer; der Manager bildet sie automatisch aus der
+  gleichnamigen .zip im selben Repo-Ordner.
+
+Neue Mods veröffentlichst du künftig direkt über das DevelopmentTool: Es schreibt
+<stem>.xml in den von dir gewählten lokalen Repo-Ordner; du legst die <stem>.zip
+dazu und committest/pushst.

@@ -1,0 +1,40 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="DevelopmentTools.Tools.PackagePublisher.ModificationInfoEditor"
+        Title="ModificationInfoEditor" Height="480" Width="640"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <DockPanel Height="30" Margin="8,0,8,8" VerticalAlignment="Bottom" LastChildFill="False">
+            <Button Click="button_OK_Click"  x:Name="button_OK" Content="OK" Width="100" DockPanel.Dock="Right" Background="{DynamicResource Brush_UI_White}" Margin="0" />
+            <Button Click="button_Cancel_Click" x:Name="button_Cancel" Content="Cancel" Width="100" DockPanel.Dock="Right" Background="{DynamicResource Brush_UI_White}" Margin="0,0,5,0" />
+        </DockPanel>
+        <StackPanel Margin="8,8,8,42">
+        	<Grid Margin="0">
+        		<Grid HorizontalAlignment="Left" Width="100">
+        			<TextBlock Text="Project" VerticalAlignment="Center" d:LayoutOverrides="Width"/>
+        		</Grid>
+        		<TextBox x:Name="Field_Project" TextWrapping="NoWrap" d:LayoutOverrides="Height" Margin="100,0,27,0" IsEnabled="False"/>
+        		<Button x:Name="Field_Project_Open" Content="..." HorizontalAlignment="Right" Width="23" d:LayoutOverrides="Height" Background="{DynamicResource Brush_UI_White}" Click="Field_Project_Open_Click" />
+        	</Grid>
+        	<Grid Margin="0,5,0,0">
+        		<Grid HorizontalAlignment="Left" Width="100">
+        			<TextBlock Text="Identifier" VerticalAlignment="Center" d:LayoutOverrides="Width"/>
+        		</Grid>
+        		<TextBox x:Name="Field_Identifier" TextWrapping="NoWrap" d:LayoutOverrides="Height" Margin="100,0,27,0" IsEnabled="False"/>
+        	</Grid>
+        	<Grid Margin="0,8,0,0">
+        		<Grid HorizontalAlignment="Left" Width="100">
+        			<TextBlock Text="Download Link" VerticalAlignment="Center" d:LayoutOverrides="Width"/>
+        		</Grid>
+        		<ComboBox DropDownOpened="Field_Download_DropDownOpened" IsEditable="True" x:Name="Field_Download" d:LayoutOverrides="Height" Margin="100,0,27,0"/>
+        	</Grid>
+        	<Grid Margin="0,5,0,0">
+        		<Grid HorizontalAlignment="Left" Width="100">
+        			<TextBlock Text="Preview Image" VerticalAlignment="Center" d:LayoutOverrides="Width"/>
+        		</Grid>
+        		<TextBox x:Name="Field_Image" TextWrapping="NoWrap" d:LayoutOverrides="Height" Margin="100,0,27,0"/>
+        	</Grid>
+        </StackPanel>
+    </Grid>
+</Window>

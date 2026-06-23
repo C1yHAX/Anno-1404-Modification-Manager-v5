@@ -77,27 +77,18 @@ namespace AnnoModificationManager5.Components
                 string anno1404exe = Path.Combine(baseDir, "Anno1404.exe");
                 string anno1404addonexe = Path.Combine(baseDir, "Anno1404Addon.exe");
 
-                // History Edition Addon
+                // History Edition (Ubisoft Connect):
+                // Erkennung über den EXE-NAMEN statt der Dateigröße. Die History Edition
+                // wird über Ubisoft Connect gepatcht, wodurch sich die Dateigröße ändert –
+                // der Dateiname (Anno1404.exe / Anno1404Addon.exe) bleibt dagegen stabil.
                 if (File.Exists(anno1404addonexe))
-                {
-                    switch ((new FileInfo(anno1404addonexe)).Length)
-                    {
-                        case 18440192: // Anno1404Addon.exe History Edition (Stand: Mai 2025)
-                            return AnnoVersion.HistoryEdition_Addon;
-                    }
-                }
-
-                // History Edition Hauptspiel
+                    return AnnoVersion.HistoryEdition_Addon;
                 if (File.Exists(anno1404exe))
-                {
-                    switch ((new FileInfo(anno1404exe)).Length)
-                    {
-                        case 17829888: // Anno1404.exe History Edition (Stand: Mai 2025)
-                            return AnnoVersion.HistoryEdition;
-                    }
-                }
+                    return AnnoVersion.HistoryEdition;
 
-                // Klassische Addon-Erkennung
+                // Klassische Addon-Erkennung (Venedig).
+                // Bytegröße nur zur Unterscheidung der Patch-Stufen; unbekannte Größe
+                // (z. B. künftiger Patch) fällt auf die neueste bekannte Stufe zurück.
                 if (File.Exists(addonexe))
                 {
                     switch ((new FileInfo(addonexe)).Length)
@@ -106,10 +97,12 @@ namespace AnnoModificationManager5.Components
                             return AnnoVersion.Addon1;
                         case 16385440:
                             return AnnoVersion.Addon1_Patch1;
+                        default:
+                            return AnnoVersion.Addon1_Patch1;
                     }
                 }
 
-                // Klassische Hauptspiel-Erkennung
+                // Klassische Hauptspiel-Erkennung.
                 if (File.Exists(annoexe))
                 {
                     switch ((new FileInfo(annoexe)).Length)
@@ -121,6 +114,8 @@ namespace AnnoModificationManager5.Components
                         case 14943648:
                             return AnnoVersion.Patch2;
                         case 14951840:
+                            return AnnoVersion.Patch3;
+                        default:
                             return AnnoVersion.Patch3;
                     }
                 }
@@ -159,6 +154,18 @@ namespace AnnoModificationManager5.Components
                 return true;
             if (input.Contains("HistoryEdition_Addon") && GetCurrent() == AnnoVersion.HistoryEdition_Addon)
                 return true;
+
+            // Die History Edition basiert auf demselben Spielstand wie die klassische
+            // Version (Hauptspiel bzw. Venedig-Addon). Damit für die klassischen Versionen
+            // erstellte Mods auch unter der History Edition angezeigt und angewendet werden
+            // können, ordnen wir diese hier zu.
+            if (GetCurrent() == AnnoVersion.HistoryEdition_Addon &&
+                (input.Contains("Addon1_Patch1") || input.Contains("Addon1") || input.Contains("IAAM")))
+                return true;
+            if (GetCurrent() == AnnoVersion.HistoryEdition &&
+                (input.Contains("Retail") || input.Contains("Patch1") || input.Contains("Patch2") || input.Contains("Patch3")))
+                return true;
+
             return input.Contains(GetCurrent().ToString());
         }
     }

@@ -64,6 +64,12 @@ namespace AnnoModificationManager5.UserInterface.Startup
                 case AnnoVersionHandler.AnnoVersion.Addon1_Patch1:
                     radio_Version_Addon1_Patch1.IsChecked = true;
                     break;
+                case AnnoVersionHandler.AnnoVersion.HistoryEdition:
+                    radio_Version_HistoryEdition.IsChecked = true;
+                    break;
+                case AnnoVersionHandler.AnnoVersion.HistoryEdition_Addon:
+                    radio_Version_HistoryEdition_Addon.IsChecked = true;
+                    break;
                 default:
                     radio_Version_Retail.IsChecked = true;
                     break;
@@ -81,6 +87,8 @@ namespace AnnoModificationManager5.UserInterface.Startup
             radio_Version_Mod_IAAM.FontWeight = FontWeights.Normal;
             radio_Version_Addon1.FontWeight = FontWeights.Normal;
             radio_Version_Addon1_Patch1.FontWeight = FontWeights.Normal;
+            radio_Version_HistoryEdition.FontWeight = FontWeights.Normal;
+            radio_Version_HistoryEdition_Addon.FontWeight = FontWeights.Normal;
 
             switch (AnnoVersionHandler.GetCurrentViaFilesize())
             {
@@ -98,6 +106,12 @@ namespace AnnoModificationManager5.UserInterface.Startup
                     break;
                 case AnnoVersionHandler.AnnoVersion.Addon1_Patch1:
                     radio_Version_Addon1_Patch1.FontWeight = FontWeights.Bold;
+                    break;
+                case AnnoVersionHandler.AnnoVersion.HistoryEdition:
+                    radio_Version_HistoryEdition.FontWeight = FontWeights.Bold;
+                    break;
+                case AnnoVersionHandler.AnnoVersion.HistoryEdition_Addon:
+                    radio_Version_HistoryEdition_Addon.FontWeight = FontWeights.Bold;
                     break;
                 default:
                     radio_Version_Retail.FontWeight = FontWeights.Bold;
@@ -158,6 +172,10 @@ namespace AnnoModificationManager5.UserInterface.Startup
                 checkedversion = AnnoVersionHandler.AnnoVersion.Addon1;
             else if (radio_Version_Addon1_Patch1.IsChecked == true)
                 checkedversion = AnnoVersionHandler.AnnoVersion.Addon1_Patch1;
+            else if (radio_Version_HistoryEdition.IsChecked == true)
+                checkedversion = AnnoVersionHandler.AnnoVersion.HistoryEdition;
+            else if (radio_Version_HistoryEdition_Addon.IsChecked == true)
+                checkedversion = AnnoVersionHandler.AnnoVersion.HistoryEdition_Addon;
 
             if (!checkedversion.Equals(AnnoVersionHandler.GetCurrentViaFilesize()))
             {

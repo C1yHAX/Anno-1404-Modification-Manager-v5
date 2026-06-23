@@ -1014,7 +1014,7 @@ namespace AnnoModificationManager5.ModificationTypes
                         {
                             FileInfo fi = new FileInfo(absfile);
 
-                            if (fi.Length == existing.UncompressedSize)
+                            if ((ulong)fi.Length == existing.UncompressedSize)
                             {
                                 try
                                 {

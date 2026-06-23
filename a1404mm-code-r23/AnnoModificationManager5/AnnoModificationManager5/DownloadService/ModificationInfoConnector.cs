@@ -1,11 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Net;
 using System.IO;
-using System.Threading;
-using System.Web;
+using System.Web.Script.Serialization;
 using AnnoModificationManager5.UserInterface.Misc;
 using AnnoModificationManager5.Misc;
 using AnnoModificationManager5.Components;
@@ -13,8 +12,44 @@ using System.ComponentModel;
 
 namespace AnnoModificationManager5.DownloadService
 {
+    /// <summary>
+    /// Online-Paketquelle. Der frühere Server (tilegame.bplaced.net/AMM5Modifications)
+    /// existiert nicht mehr; die Pakete liegen jetzt in einem GitHub-Repository:
+    /// flache ZIP-Dateien im Repo-Root, dazu jeweils eine gleichnamige .xml
+    /// (ModificationInfo), die das DevelopmentTool erzeugt.
+    ///
+    /// Auflistung über die Git-Trees-API (1 Request für das ganze Repo), Inhalte über
+    /// raw.githubusercontent.com (nicht ratenlimitiert). Gecacht wird per Blob-SHA.
+    /// </summary>
     public class ModificationInfoConnector
     {
+        #region GitHub-Konfiguration
+        private const string GitHubOwner = "C1yHAX";
+        private const string GitHubRepo = "Modifications";
+        private const string GitHubBranch = "main";
+        // Optionales (Read-only) Personal Access Token, um das anonyme API-Limit
+        // (60 Anfragen/Stunde/IP) anzuheben. Leer lassen = anonym.
+        private const string GitHubToken = "";
+
+        private static string ApiTreeUrl
+        {
+            get
+            {
+                return "https://api.github.com/repos/" + GitHubOwner + "/" + GitHubRepo
+                    + "/git/trees/" + GitHubBranch + "?recursive=1";
+            }
+        }
+
+        private static string RawBaseUrl
+        {
+            get
+            {
+                return "https://raw.githubusercontent.com/" + GitHubOwner + "/" + GitHubRepo
+                    + "/" + GitHubBranch + "/";
+            }
+        }
+        #endregion
+
         #region Singleton
         private static ModificationInfoConnector _Instance;
         public static ModificationInfoConnector Instance
@@ -35,14 +70,22 @@ namespace AnnoModificationManager5.DownloadService
             LoadFromFolder();
         }
 
+        private static string CacheFolder
+        {
+            get
+            {
+                string folder = DirectoryExtension.GetAMM4ApplicationDataFolder() + "\\OnlinePackageCache";
+                if (!Directory.Exists(folder))
+                    Directory.CreateDirectory(folder);
+                return folder;
+            }
+        }
+
         public void LoadFromFolder()
         {
             AvailablePackages.Clear();
 
-            string folder = DirectoryExtension.GetAMM4ApplicationDataFolder() + "\\OnlinePackageCache";
-
-            if (!Directory.Exists(folder))
-                Directory.CreateDirectory(folder);
+            string folder = CacheFolder;
 
             foreach (string file in Directory.GetFiles(folder, "*.xml"))
             {
@@ -57,54 +100,73 @@ namespace AnnoModificationManager5.DownloadService
 
         public void SaveToFile(ModificationInfo mod)
         {
-            string folder = DirectoryExtension.GetAMM4ApplicationDataFolder() + "\\OnlinePackageCache";
-
-            if (!Directory.Exists(folder))
-                Directory.CreateDirectory(folder);
+            string folder = CacheFolder;
 
             mod.ToXml(folder + "\\" + mod.GetIdentificationString + ".xml");
             File.SetLastWriteTime(folder + "\\" + mod.GetIdentificationString + ".xml", mod.Date);
         }
 
-        public void Upload(ModificationInfo mod)
+        #region GitHub-Helfer
+        private static string HttpGetString(string url)
         {
-            //Save
-            string folder = Path.GetTempPath().Trim('\\') + "\\DevelopmentTools4\\Temp";
-            if (!Directory.Exists(folder))
-                Directory.CreateDirectory(folder);
+            // GitHub erfordert TLS 1.2+; ab .NET 4.7 ist das der System-Default,
+            // wir setzen es zur Sicherheit dennoch explizit.
+            ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12;
 
-            if (File.Exists(folder + "\\" + mod.GetIdentificationString + ".xml"))
-                File.Delete(folder + "\\" + mod.GetIdentificationString + ".xml");
-
-            mod.ToXml(folder + "\\" + mod.GetIdentificationString + ".xml");
-
-            //Upload             
-            System.Net.WebClient Client = new System.Net.WebClient();
-            Client.Headers.Add("Content-Type", "binary/octet-stream");
-            byte[] result = Client.UploadFile("http://tilegame.bplaced.net/AMM4.2Modifications/uploadFile.php", "POST", folder + "\\" + mod.GetIdentificationString + ".xml");
-            string s = System.Text.Encoding.UTF8.GetString(result, 0, result.Length);
-
-            MessageWindow.Show(s);
+            using (TimeoutWebClient client = new TimeoutWebClient())
+            {
+                client.Encoding = Encoding.UTF8;
+                // GitHub-API verlangt einen User-Agent, sonst 403.
+                client.Headers.Add(HttpRequestHeader.UserAgent, "AnnoModificationManager5");
+                if (!string.IsNullOrEmpty(GitHubToken))
+                    client.Headers.Add(HttpRequestHeader.Authorization, "token " + GitHubToken);
+                return client.DownloadString(url);
+            }
         }
 
-        public void Delete(ModificationInfo mod)
+        /// <summary>Baut aus einem Repo-Pfad eine raw-URL (Segmente einzeln URL-kodiert).</summary>
+        private static string RawUrl(string repoPath)
         {
-            WebRequest req = WebRequest.Create("http://tilegame.bplaced.net/AMM4.2Modifications/deleteFile.php?file=" + mod.GetIdentificationString + ".xml");
-
-            req.Credentials = CredentialCache.DefaultCredentials;
-            HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
-
-            Stream resp_stream = resp.GetResponseStream();
-            StreamReader resp_strem_reader = new StreamReader(resp_stream);
-
-            string resp_output = resp_strem_reader.ReadToEnd();
-
-            resp_strem_reader.Close();
-            resp_stream.Close();
-            resp.Close();
-
-            MessageWindow.Show(resp_output);
+            string[] parts = repoPath.Replace('\\', '/').Split('/');
+            for (int i = 0; i < parts.Length; i++)
+                parts[i] = Uri.EscapeDataString(parts[i]);
+            return RawBaseUrl + string.Join("/", parts);
         }
+
+        private static string CombineRepoDir(string repoFilePath, string relative)
+        {
+            string dir = repoFilePath.Replace('\\', '/');
+            int idx = dir.LastIndexOf('/');
+            dir = idx >= 0 ? dir.Substring(0, idx) : "";
+            relative = relative.Replace('\\', '/').TrimStart('/');
+            return string.IsNullOrEmpty(dir) ? relative : dir + "/" + relative;
+        }
+
+        /// <summary>
+        /// Setzt DownloadUrl und Bild-URLs auf absolute raw-URLs. Fehlt/relativ die
+        /// DownloadUrl, wird die gleichnamige .zip neben der .xml angenommen.
+        /// </summary>
+        private static void ResolveUrls(ModificationInfo info, string xmlPath)
+        {
+            if (string.IsNullOrEmpty(info.DownloadUrl) ||
+                !info.DownloadUrl.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+            {
+                string siblingZip = xmlPath.Substring(0, xmlPath.Length - 4) + ".zip";
+                info.DownloadUrl = RawUrl(siblingZip);
+            }
+
+            if (!string.IsNullOrEmpty(info.ImageUrl) &&
+                !info.ImageUrl.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+                info.ImageUrl = RawUrl(CombineRepoDir(xmlPath, info.ImageUrl));
+
+            for (int i = 0; i < info.Images.Count; i++)
+            {
+                if (!string.IsNullOrEmpty(info.Images[i]) &&
+                    !info.Images[i].StartsWith("http", StringComparison.OrdinalIgnoreCase))
+                    info.Images[i] = RawUrl(CombineRepoDir(xmlPath, info.Images[i]));
+            }
+        }
+        #endregion
 
         public void RefreshAsync(BackgroundWorker wrk, bool errormessages)
         {
@@ -117,70 +179,97 @@ namespace AnnoModificationManager5.DownloadService
 
         public void Refresh(BackgroundWorker wrk, bool errormessages)
         {
-            LoadFromFolder();
             List<ModificationInfo> loadedPackages = new List<ModificationInfo>();
+            HashSet<string> liveShas = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
             try
             {
-                WebRequest req = WebRequest.Create("http://tilegame.bplaced.net/AMM4.2Modifications/listFiles.php");
-                req.Timeout = 2500;
-                req.Credentials = CredentialCache.DefaultCredentials;
-                HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
+                string json = HttpGetString(ApiTreeUrl);
 
-                Stream resp_stream = resp.GetResponseStream();
-                StreamReader resp_strem_reader = new StreamReader(resp_stream);
+                JavaScriptSerializer ser = new JavaScriptSerializer();
+                ser.MaxJsonLength = int.MaxValue;
+                Dictionary<string, object> root = ser.DeserializeObject(json) as Dictionary<string, object>;
+                if (root == null || !root.ContainsKey("tree"))
+                    throw new Exception("Unerwartete GitHub-Antwort (kein 'tree').");
 
-                string resp_output = resp_strem_reader.ReadToEnd();
+                object[] tree = (object[])root["tree"];
 
-                resp_strem_reader.Close();
-                resp_stream.Close();
-                resp.Close();
+                // Alle .xml-Metadaten (path + sha) einsammeln.
+                List<KeyValuePair<string, string>> xmlBlobs = new List<KeyValuePair<string, string>>();
+                foreach (object item in tree)
+                {
+                    Dictionary<string, object> entry = item as Dictionary<string, object>;
+                    if (entry == null)
+                        continue;
 
-                int progress_count = resp_output.Split('\n').Length;
+                    string type = entry.ContainsKey("type") ? entry["type"] as string : null;
+                    string path = entry.ContainsKey("path") ? entry["path"] as string : null;
+                    string sha = entry.ContainsKey("sha") ? entry["sha"] as string : null;
+
+                    if (type != "blob" || string.IsNullOrEmpty(path))
+                        continue;
+                    if (path.EndsWith(".xml", StringComparison.OrdinalIgnoreCase))
+                        xmlBlobs.Add(new KeyValuePair<string, string>(path, sha));
+                }
+
+                int progress_count = Math.Max(1, xmlBlobs.Count);
                 int progress_current = 0;
                 if (wrk != null)
                     wrk.ReportProgress(0);
 
-                foreach (string file in resp_output.Split('\n'))
+                foreach (KeyValuePair<string, string> blob in xmlBlobs)
                 {
                     progress_current++;
                     if (wrk != null)
                         wrk.ReportProgress(ProgressBarExtension.Calculate(progress_current, progress_count));
 
+                    string path = blob.Key;
+                    string sha = blob.Value;
+                    if (!string.IsNullOrEmpty(sha))
+                        liveShas.Add(sha);
+
                     try
                     {
-                        if (Path.GetExtension(file.Split('|')[0]).ToLower() == ".xml")
+                        string cacheFile = string.IsNullOrEmpty(sha)
+                            ? null
+                            : CacheFolder + "\\" + sha + ".xml";
+
+                        ModificationInfo info;
+                        if (cacheFile != null && File.Exists(cacheFile))
                         {
-                            string fileName = file.Split('|')[0];
-                            DateTime date = DateTime.Parse(file.Split('|')[1]);
-
-                            ModificationInfo info = AvailablePackages.Find(av =>
-                            {
-                                return av.GetIdentificationString == Path.GetFileNameWithoutExtension(fileName)
-                                    && av.Date.Equals(date);
-                            });
+                            // Unverändert (gleiche SHA) -> aus dem Cache laden.
+                            info = ModificationInfo.FromXml(cacheFile);
                             if (info == null)
-                            {
-                                TimeoutWebClient web = new TimeoutWebClient();
-                                web.Encoding = Encoding.UTF8;
-                                string xml = web.DownloadString("http://tilegame.bplaced.net/AMM4.2Modifications/" + fileName);
-
-                                ModificationInfo loaded = ModificationInfo.FromXmlData(xml);
-                                if (loaded != null)
-                                {
-                                    loaded.Date = date;
-                                    AvailablePackages.Add(loaded);
-                                    loadedPackages.Add(loaded);
-                                }
-
-                                SaveToFile(loaded);
-                            }
-                            else
-                                loadedPackages.Add(info);
+                                continue;
+                            info.Date = File.GetLastWriteTime(cacheFile);
                         }
+                        else
+                        {
+                            string xml = HttpGetString(RawUrl(path));
+                            info = ModificationInfo.FromXmlData(xml);
+                            if (info == null)
+                                continue;
+                            ResolveUrls(info, path);
+                            info.Date = DateTime.Now;
+                            if (cacheFile != null)
+                                info.ToXml(cacheFile);
+                        }
+
+                        loadedPackages.Add(info);
                     }
                     catch (Exception)
                     {
+                    }
+                }
+
+                // Veraltete Cache-Dateien (SHA nicht mehr im Repo) entfernen.
+                foreach (string f in Directory.GetFiles(CacheFolder, "*.xml"))
+                {
+                    string stem = Path.GetFileNameWithoutExtension(f);
+                    if (!liveShas.Contains(stem))
+                    {
+                        try { File.Delete(f); }
+                        catch (Exception) { }
                     }
                 }
             }
@@ -188,18 +277,119 @@ namespace AnnoModificationManager5.DownloadService
             {
                 if (errormessages)
                 {
-                    App.Current.Dispatch(app => MessageWindow.Show("Error: " + ex.Message));
+                    App.Current.Dispatch(app => MessageWindow.Show(
+                        "Fehler beim Laden der Online-Pakete (GitHub): " + ex.Message));
                 }
+
+                // Auf den lokalen Cache zurückfallen, damit offline weiter Pakete da sind.
+                LoadFromFolder();
+                return;
             }
 
-            AvailablePackages.RemoveAll(z => !loadedPackages.Contains(z));
-
-            //Get FileSizes
-            //foreach (ModificationInfo info in AvailablePackages)
-            //{
-            //    info.DownloadUrlFileSize = WebExtension.GetFileSize(info.DownloadUrl);
-            //}
+            // Nach Identifikation deduplizieren, neuestes Datum gewinnt.
+            AvailablePackages = loadedPackages
+                .GroupBy(m => m.GetIdentificationString)
+                .Select(g => g.OrderByDescending(m => m.Date).First())
+                .ToList();
         }
+
+        #region Veröffentlichen (lokaler GitHub-Repo-Ordner – Nutzer committet/pusht selbst)
+        // Der frühere bplaced-Upload entfällt. Stattdessen schreibt das DevelopmentTool die
+        // Metadaten (<stem>.xml) in einen lokalen Klon des GitHub-Repositorys. Der Nutzer
+        // legt die gleichnamige <stem>.zip dazu und committet/pusht das Repo selbst.
+        private static string RepoFolderConfigFile
+        {
+            get { return DirectoryExtension.GetAMM4ApplicationDataFolder() + "\\GitHubRepoFolder.txt"; }
+        }
+
+        /// <summary>Liefert den lokalen Repo-Ordner; fragt ihn bei Bedarf einmalig per Dialog ab und merkt ihn.</summary>
+        public static string GetLocalRepoFolder(bool askIfMissing)
+        {
+            string path = null;
+            try
+            {
+                if (File.Exists(RepoFolderConfigFile))
+                    path = File.ReadAllText(RepoFolderConfigFile).Trim();
+            }
+            catch (Exception) { }
+
+            if (!string.IsNullOrEmpty(path) && Directory.Exists(path))
+                return path;
+
+            if (!askIfMissing)
+                return null;
+
+            using (System.Windows.Forms.FolderBrowserDialog dlg = new System.Windows.Forms.FolderBrowserDialog())
+            {
+                dlg.Description = "Lokalen Klon des GitHub-Repositorys 'Modifications' wählen " +
+                                  "(hier werden .xml/.zip abgelegt).";
+                if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    path = dlg.SelectedPath;
+                    try { File.WriteAllText(RepoFolderConfigFile, path); }
+                    catch (Exception) { }
+                    return path;
+                }
+            }
+            return null;
+        }
+
+        private static string SanitizeFileName(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+                return "modification";
+            foreach (char c in Path.GetInvalidFileNameChars())
+                name = name.Replace(c, '_');
+            return name;
+        }
+
+        public void Upload(ModificationInfo mod)
+        {
+            string folder = GetLocalRepoFolder(true);
+            if (string.IsNullOrEmpty(folder))
+            {
+                MessageWindow.Show("Veröffentlichung abgebrochen: kein Repo-Ordner gewählt.");
+                return;
+            }
+
+            string stem = SanitizeFileName(mod.GetShortIdentificationString);
+            string xmlPath = folder + "\\" + stem + ".xml";
+
+            // DownloadUrl leer lassen – der Browser leitet sie aus der gleichnamigen .zip ab.
+            mod.DownloadUrl = "";
+            mod.ToXml(xmlPath);
+
+            MessageWindow.Show(
+                "Metadaten gespeichert:\n" + xmlPath + "\n\n" +
+                "Lege die zugehörige Datei \"" + stem + ".zip\" in denselben Ordner und committe/pushe " +
+                "das Repository, damit die Modifikation im Online-Browser erscheint.");
+        }
+
+        public void Delete(ModificationInfo mod)
+        {
+            string folder = GetLocalRepoFolder(true);
+            if (string.IsNullOrEmpty(folder))
+                return;
+
+            string stem = SanitizeFileName(mod.GetShortIdentificationString);
+            string xmlPath = folder + "\\" + stem + ".xml";
+
+            try
+            {
+                if (File.Exists(xmlPath))
+                    File.Delete(xmlPath);
+            }
+            catch (Exception ex)
+            {
+                MessageWindow.Show(ex.Message);
+                return;
+            }
+
+            MessageWindow.Show(
+                "Metadaten entfernt:\n" + xmlPath + "\n\n" +
+                "Entferne ggf. auch \"" + stem + ".zip\" und committe/pushe das Repository.");
+        }
+        #endregion
 
         public List<ModificationInfo> Filter(bool showhidden)
         {

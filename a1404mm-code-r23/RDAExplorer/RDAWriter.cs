@@ -1,145 +1,204 @@
-﻿using System;
+﻿using RDAExplorer.Misc;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using System.Runtime.InteropServices;
-using RDAExplorer.Misc;
-using RDAExplorer.Misc;
 using System.ComponentModel;
+using System.IO;
+using System.Text;
 
 namespace RDAExplorer
 {
     public class RDAWriter
     {
-        public RDAFolder Folder;
         public string UI_LastMessage = "";
+        public RDAFolder Folder;
 
         public RDAWriter(RDAFolder folder)
         {
             Folder = folder;
         }
 
-        public RDAWriter(List<RDAFile> files)
-        {
-            Folder = RDAFolder.GenerateFrom(files);
-        }
-
+        // Shim (wie alte Lib): 3-Argument-Variante. Version stammt aus der RDAFolder
+        // (von GenerateFrom gesetzt), originalReader entfällt (keine übersprungenen
+        // verschlüsselten Blöcke bei Anno 1404).
         public void Write(string Filename, bool compress, BackgroundWorker wrk)
         {
-            FileStream writer = new FileStream(Filename, FileMode.Create);
+            Write(Filename, Folder.Version, compress, null, wrk);
+        }
 
-            //First, write File header
-            FileHeader fileHeader = FileHeader.Create();
-            writer.Write(MarshalExtension.WriteToByte(fileHeader), 0);
+        public void Write(string Filename, FileHeader.Version version, bool compress, RDAReader originalReader, BackgroundWorker wrk)
+        {
+            FileStream fileStream = new FileStream(Filename, FileMode.Create);
+            BinaryWriter writer = new BinaryWriter(fileStream);
 
-            // --- Write Blocks 
-            List<RDAFolder> folders = RDABlockCreator.GenerateOf(Folder);
+            // we'll write the header at the end, when we know the offset to the first block
+            writer.BaseStream.Position = FileHeader.GetSize(version);
+            
+            // blocks are organized by file type. there is one RDAFolder per block
+            List<RDAFolder> blockFolders = RDABlockCreator.GenerateOf(Folder);
+            // Shim: originalReader darf null sein (kein bestehendes Archiv -> keine übersprungenen Blöcke).
+            int numSkippedBlocks = originalReader != null ? (int)originalReader.NumSkippedBlocks : 0;
+            int numBlocks = numSkippedBlocks + blockFolders.Count;
+            BlockInfo[] blockInfos = new BlockInfo[numBlocks];
+            ulong[] blockInfoOffsets = new ulong[numBlocks];
+            int writeBlockIndex = 0;
 
-            BlockInfo[] BlockInfoOffsets_BlockInfos = new BlockInfo[folders.Count];
-            int[] BlockInfoOffsets_Offsets = new int[folders.Count];
-
-            for (int i = 0; i < folders.Count; i++)
+            // Write blocks skipped when reading. They have to appear at exactly the place where they came
+            // from, because the file data offsets are encrypted and can therefore not be changed.
+            for (int skippedBlockIndex = 0; skippedBlockIndex < numSkippedBlocks; ++skippedBlockIndex)
             {
-                RDAFolder folder = folders[i];
+                RDASkippedDataSection skippedBlock = originalReader.SkippedDataSections[skippedBlockIndex];
 
-                bool folder_compressfiles = compress && (folder.RDABlockCreator_FileType_IsCompressable == null |
-                    folder.RDABlockCreator_FileType_IsCompressable == true);
-
-                //Update UI
                 if (wrk != null)
                 {
-                    UI_LastMessage = "Writing Block " + (i + 1) + "/" + folders.Count + " => " + folder.Files.Count + " files";
-                    wrk.ReportProgress((int)((float)i / (float)folders.Count * 100f));
+                    UI_LastMessage = "Writing  Block " + (writeBlockIndex + 1) + "/" + numBlocks + " => ??? files (encrypted)";
+                    wrk.ReportProgress((int)((double)writeBlockIndex / numBlocks * 100.0));
                 }
 
-                //Write FileData and collect
-                Dictionary<RDAFile, int> FileOffsets = new Dictionary<RDAFile, int>();
-                Dictionary<RDAFile, int> FileCompressedSizes = new Dictionary<RDAFile, int>();
-                foreach (RDAFile file in folder.Files)
+                // Skip ahead to the correct position.
+                // This will create "holes" in the file if the skipped sections are not contiguous or 
+                // don't start at the beginning of the file, but we'll have to live with it to some extent
+                // anyway (we won't fit our "own" data in perfectly). And I'm just too afraid to get the
+                // bin-packing wrong.
+                writer.BaseStream.WriteBytes((skippedBlock.offset - (ulong)writer.BaseStream.Position), 0);
+                
+                // write the data
+                originalReader.CopySkippedDataSextion(skippedBlock.offset, skippedBlock.size, writer.BaseStream);
+
+                // generate the new block info
+                BlockInfo blockInfo = skippedBlock.blockInfo.Clone();
+                blockInfos[writeBlockIndex] = blockInfo;
+                blockInfoOffsets[writeBlockIndex] = (ulong)writer.BaseStream.Position;
+
+                if (writeBlockIndex > 0)
                 {
-                    byte[] buffer = file.GetData();
-
-                    //Compress
-                    if (folder_compressfiles)
-                    {
-                        buffer = ZLib.ZLib.Compress(buffer);
-                    }
-
-                    FileOffsets.Add(file, (int)writer.Position); //Collect
-                    FileCompressedSizes.Add(file, buffer.Length); // -""-
-
-                    writer.Write(buffer); //Write
+                    blockInfos[writeBlockIndex - 1].nextBlock = blockInfoOffsets[writeBlockIndex];
                 }
 
-                //Write DirEntries
-                List<byte> WrittenDirectories = new List<byte>(); //Save dir
-                foreach (RDAFile file in folder.Files)
-                {
-                    DirEntry entry = new DirEntry();
-                    entry.compressed = FileCompressedSizes[file]; //Only write uncompressed!
-                    entry.filesize = file.UncompressedSize;
-                    entry.filename = file.FileName.Extend('\0', 260).ToCharArray();
-                    entry.timestamp = (int)file.TimeStamp.ToFileTime();
-                    entry.uk = 0;
-                    entry.offset = FileOffsets[file];
-
-                    WrittenDirectories.AddRange(MarshalExtension.WriteToByte(entry));
-                }
-
-                //Compress
-                if (folder_compressfiles)
-                {
-                    WrittenDirectories = ZLib.ZLib.Compress(WrittenDirectories.ToArray()).ToList();
-                }
-                //Write
-                writer.Write(WrittenDirectories.ToArray());
-
-                //Write BlockInfo
-                BlockInfo blockinfo = new BlockInfo();
-                blockinfo.decompressedSize = folder.GetDirEntryBlockSize();
-                blockinfo.directorySize = WrittenDirectories.Count;
-                blockinfo.fileCount = folder.Files.Count;
-                blockinfo.flags = 0;
-
-                if (folder_compressfiles)
-                {
-                    blockinfo.flags = 1;
-                }
-
-                BlockInfoOffsets_BlockInfos[i] = blockinfo;
-                BlockInfoOffsets_Offsets[i] = (int)writer.Position;
-
-                //First Assign
-                if (i == 0)
-                {
-                    fileHeader.firstBlock = (int)writer.Position;
-                }
-                else
-                {
-                    BlockInfoOffsets_BlockInfos[i - 1].nextBlock =
-                        (int)writer.Position;
-                }
-
-                //Then write dummy data (Will be written later)
-                writer.Write(MarshalExtension.WriteToByte(blockinfo));
+                // we'll write the block info at the end, once we know the next block offset
+                writer.BaseStream.Position += BlockInfo.GetSize(version);
+                ++writeBlockIndex;
             }
 
-            //Edit last BlockInfo
-            BlockInfoOffsets_BlockInfos[BlockInfoOffsets_BlockInfos.Length - 1].nextBlock =
-                (int)writer.Length;
-
-            //Finally, refresh blockInfos
-            writer.Write(MarshalExtension.WriteToByte(fileHeader), 0);
-
-            for (int i = 0; i < BlockInfoOffsets_BlockInfos.Length; i++)
+            // write regular blocks
+            for (int blockFolderIndex = 0; blockFolderIndex < blockFolders.Count; ++blockFolderIndex)
             {
-                writer.Write(MarshalExtension.WriteToByte(
-                    BlockInfoOffsets_BlockInfos[i]),
-                    BlockInfoOffsets_Offsets[i]);
-            }
+                RDAFolder blockFolder = blockFolders[blockFolderIndex];
 
-            writer.Close();
+                bool compressBlock = compress && blockFolder.RDABlockCreator_FileType_IsCompressable.GetValueOrDefault(false);
+
+                if (wrk != null)
+                {
+                    UI_LastMessage = "Writing Block " + (writeBlockIndex + 1) + "/" + numBlocks + " => " + blockFolder.Files.Count + " files";
+                    wrk.ReportProgress((int)((double)writeBlockIndex / numBlocks * 100.0));
+                }
+
+                Dictionary<RDAFile, ulong> dirEntryOffsets = new Dictionary<RDAFile, ulong>();
+                Dictionary<RDAFile, ulong> dirEntryCompressedSizes = new Dictionary<RDAFile, ulong>();
+                foreach (RDAFile file in blockFolder.Files)
+                {
+                    byte[] dataToWrite = file.GetData();
+                    if (compressBlock)
+                        dataToWrite = ZLib.ZLib.Compress(dataToWrite);
+                    dirEntryOffsets.Add(file, (ulong)writer.BaseStream.Position);
+                    dirEntryCompressedSizes.Add(file, (ulong)dataToWrite.Length);
+                    writer.Write(dataToWrite);
+                }
+
+                int dirEntrySize = (int)DirEntry.GetSize(version);
+                int decompressedDirEntriesSize = blockFolder.Files.Count * dirEntrySize;
+                byte[] decompressedDirEntries = new byte[decompressedDirEntriesSize];
+                for (int dirEntryIndex = 0; dirEntryIndex < blockFolder.Files.Count; ++dirEntryIndex)
+                {
+                    RDAFile file = blockFolder.Files[dirEntryIndex];
+                    DirEntry dirEntry = new DirEntry() {
+                        compressed = dirEntryCompressedSizes[file],
+                        filesize = file.UncompressedSize,
+                        filename = file.FileName,
+                        timestamp = file.TimeStamp.ToTimeStamp(),
+                        unknown = 0,
+                        offset = dirEntryOffsets[file],
+                    };
+                    byte[] dirEntryBytes = CreateDirEntryBytes(dirEntry, version);
+                    Buffer.BlockCopy(dirEntryBytes, 0, decompressedDirEntries, dirEntryIndex * dirEntrySize, dirEntrySize);
+                }
+                byte[] compressedDirEntries = compressBlock ? ZLib.ZLib.Compress(decompressedDirEntries) : decompressedDirEntries;
+                writer.Write(compressedDirEntries);
+
+                BlockInfo blockInfo = new BlockInfo()
+                {
+                    flags = compressBlock ? 1u : 0u,
+                    fileCount = (uint)blockFolder.Files.Count,
+                    directorySize = (ulong)compressedDirEntries.Length,
+                    decompressedSize = (ulong)decompressedDirEntriesSize,
+                    nextBlock = 0, // will set this at the end of the next block
+                };
+                blockInfos[writeBlockIndex] = blockInfo;
+                blockInfoOffsets[writeBlockIndex] = (ulong)writer.BaseStream.Position;
+
+                if (writeBlockIndex > 0)
+                {
+                    blockInfos[writeBlockIndex - 1].nextBlock = blockInfoOffsets[writeBlockIndex];
+                }
+
+                // we'll write the block info at the end, once we know the next block offset
+                writer.BaseStream.Position += BlockInfo.GetSize(version);
+                ++writeBlockIndex;
+            }
+            // the last block gets nextBlockOffset after end of file
+            blockInfos[blockInfos.Length - 1].nextBlock = blockInfoOffsets[blockInfos.Length - 1] + BlockInfo.GetSize(version);
+
+            // now write all block infos
+            for (int index = 0; index < blockInfos.Length; ++index)
+                WriteBlockInfo(writer, blockInfoOffsets[index], blockInfos[index], version);
+
+            // now write the header
+            FileHeader fileHeader = FileHeader.Create(version);
+            fileHeader.firstBlockOffset = blockInfoOffsets[0];
+            WriteHeader(writer, 0, fileHeader, version);
+
+            fileStream.Close();
+        }
+
+        private static void WriteHeader(BinaryWriter writer, ulong offset, FileHeader fileHeader, FileHeader.Version version)
+        {
+            writer.BaseStream.Position = (long)offset;
+
+            byte[] magic = FileHeader.GetMagicBytes(fileHeader.version);
+            writer.Write(magic);
+
+            writer.Write(fileHeader.unkown);
+
+            FileHeader.WriteUIntVersionAware(writer, fileHeader.firstBlockOffset, version);
+        }
+
+        private static void WriteBlockInfo(BinaryWriter writer, ulong offset, BlockInfo blockInfo, FileHeader.Version version)
+        {
+            writer.BaseStream.Position = (long)offset;
+
+            writer.Write((System.UInt32)blockInfo.flags);
+            writer.Write((System.UInt32)blockInfo.fileCount);
+            FileHeader.WriteUIntVersionAware(writer, blockInfo.directorySize, version);
+            FileHeader.WriteUIntVersionAware(writer, blockInfo.decompressedSize, version);
+            FileHeader.WriteUIntVersionAware(writer, blockInfo.nextBlock, version);
+        }
+
+        private static byte[] CreateDirEntryBytes(DirEntry dirEntry, FileHeader.Version version)
+        {
+            byte[] result = new byte[DirEntry.GetSize(version)];
+            MemoryStream memoryStream = new MemoryStream(result);
+            BinaryWriter writer = new BinaryWriter(memoryStream);
+
+            byte[] filenameBytes = Encoding.Unicode.GetBytes(dirEntry.filename);
+            writer.Write(filenameBytes, 0, (int)Math.Min(DirEntry.GetFilenameSize(), filenameBytes.Length));
+            writer.BaseStream.Position = DirEntry.GetFilenameSize();
+
+            FileHeader.WriteUIntVersionAware(writer, dirEntry.offset, version);
+            FileHeader.WriteUIntVersionAware(writer, dirEntry.compressed, version);
+            FileHeader.WriteUIntVersionAware(writer, dirEntry.filesize, version);
+            FileHeader.WriteUIntVersionAware(writer, dirEntry.timestamp, version);
+            FileHeader.WriteUIntVersionAware(writer, dirEntry.unknown, version);
+
+            return result;
         }
     }
 }
