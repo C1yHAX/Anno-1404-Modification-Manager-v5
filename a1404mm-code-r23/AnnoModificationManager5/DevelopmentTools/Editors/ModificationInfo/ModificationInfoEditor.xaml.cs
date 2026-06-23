@@ -146,7 +146,7 @@ namespace DevelopmentTools.Editors.ModificationInfo
         {
             Field_Documentation_Remove_Click(null, null);
             RichTextBox tempTextbox = new RichTextBox();
-            tempTextbox.AppendText("Anno 1404 Modification Manager Development Tools Version 4");
+            tempTextbox.AppendText("Anno 1404 Modification Manager Development Tools Version 5");
 
             using (StreamWriter w = new StreamWriter(Modification.Development_CurrentModification.Folder + "\\Documentation.rtf"))
             {
