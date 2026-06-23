@@ -1,8 +1,0 @@
-﻿<Window x:Class="DevelopmentTools.InfoDialog"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="" Height="480" Width="600" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
-    <Grid>
-        <Image Stretch="Uniform" Source="/DevelopmentTools;component/Images/Dev4_AboutDlgImage.jpg" />
-    </Grid>
-</Window>

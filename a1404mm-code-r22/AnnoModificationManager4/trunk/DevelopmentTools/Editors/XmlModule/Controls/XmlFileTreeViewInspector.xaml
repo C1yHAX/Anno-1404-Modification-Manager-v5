@@ -1,9 +1,0 @@
-﻿<Window x:Class="DevelopmentTools.Editors.XmlModule.Controls.XmlFileTreeViewInspector"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Inspect selection" Height="480" Width="640" WindowStartupLocation="CenterScreen"
-        xmlns:my="clr-namespace:DevelopmentTools.Editors.XmlModule.Controls">
-    <Grid>
-        <my:XmlFileTreeview x:Name="xmlFileTreeview"/>
-    </Grid>
-</Window>
