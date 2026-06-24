@@ -14,12 +14,9 @@ namespace AnnoModificationManager5.Nexus
             {
                 NxmUrl link = NxmUrl.Parse(nxmUrl);
 
-                string apiKey = NexusApiKeyStore.Get();
-                if (string.IsNullOrEmpty(apiKey))
-                {
-                    MessageWindow.Show("Kein Nexus-API-Key hinterlegt. Bitte in den Einstellungen einen API-Key eintragen (nexusmods.com → Account → API).");
+                if (!NexusLoginWindow.EnsureLogin())
                     return;
-                }
+                string apiKey = NexusApiKeyStore.Get();
 
                 NexusApiClient api = new NexusApiClient(apiKey);
                 string uri = api.GetDownloadUri(link.Game, link.ModId, link.FileId, link.Key, link.Expires);

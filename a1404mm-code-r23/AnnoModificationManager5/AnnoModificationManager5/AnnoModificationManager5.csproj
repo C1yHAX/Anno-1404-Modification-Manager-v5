@@ -157,6 +157,9 @@
     <Compile Include="Nexus\NexusDownloadHandler.cs" />
     <Compile Include="Nexus\NxmProtocolHandler.cs" />
     <Compile Include="Nexus\NxmUrl.cs" />
+    <Compile Include="Nexus\NexusLoginWindow.xaml.cs">
+      <DependentUpon>NexusLoginWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserInterface\Group\ModificationGroupDescription.cs" />
     <Compile Include="UserInterface\Group\PipeStringConverter.cs" />
     <Compile Include="UserInterface\MainUI\AboutDialog.xaml.cs">
@@ -355,6 +358,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserInterface\Misc\MessageWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Nexus\NexusLoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
