@@ -63,9 +63,7 @@ namespace AnnoModificationManager5.Components
                 // Registry nicht gefunden oder kein Zugriff
             }
 
-            // 3. Registry: Ubisoft Connect – alle installierten Spiele durchsuchen.
-            //    Die Spiel-ID variiert je Installation (z. B. 16232, nicht fest 13504),
-            //    daher nehmen wir den Eintrag, dessen Ordner eine Anno-1404-EXE enthält.
+            // 3. Registry: Ubisoft Connect
             try
             {
                 string found = FindUbisoftAnnoInstall();
@@ -108,19 +106,12 @@ namespace AnnoModificationManager5.Components
                 }
             }
 
-            // Keine gültige Auswahl getroffen -> Anwendung beenden.
             Application.Current.Shutdown();
             return "";
         }
 
-        /// <summary>
-        /// Durchsucht die in Ubisoft Connect registrierten Spiele und liefert das
-        /// Installationsverzeichnis zurück, das eine Anno-1404-EXE (Klassik oder
-        /// History Edition) enthält. Die Spiel-ID ist nicht fest, daher Enumeration.
-        /// </summary>
         private static string FindUbisoftAnnoInstall()
         {
-            // 32-Bit-Prozess sieht Wow6432Node transparent unter SOFTWARE\...
             string installsPath = IntPtr.Size == 4
                 ? @"SOFTWARE\Ubisoft\Launcher\Installs"
                 : @"SOFTWARE\Wow6432Node\Ubisoft\Launcher\Installs";
@@ -147,7 +138,6 @@ namespace AnnoModificationManager5.Components
                     }
                     catch (Exception)
                     {
-                        // Diesen Eintrag überspringen
                     }
                 }
             }
@@ -155,7 +145,6 @@ namespace AnnoModificationManager5.Components
             return null;
         }
 
-        /// <summary>Prüft, ob ein Ordner eine Anno-1404-EXE (Klassik oder History Edition) enthält.</summary>
         private static bool DirectoryContainsAnno1404(string dir)
         {
             return File.Exists(Path.Combine(dir, "Anno1404.exe"))

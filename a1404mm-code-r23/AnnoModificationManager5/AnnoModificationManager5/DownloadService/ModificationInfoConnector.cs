@@ -12,23 +12,12 @@ using System.ComponentModel;
 
 namespace AnnoModificationManager5.DownloadService
 {
-    /// <summary>
-    /// Online-Paketquelle. Der frühere Server (tilegame.bplaced.net/AMM5Modifications)
-    /// existiert nicht mehr; die Pakete liegen jetzt in einem GitHub-Repository:
-    /// flache ZIP-Dateien im Repo-Root, dazu jeweils eine gleichnamige .xml
-    /// (ModificationInfo), die das DevelopmentTool erzeugt.
-    ///
-    /// Auflistung über die Git-Trees-API (1 Request für das ganze Repo), Inhalte über
-    /// raw.githubusercontent.com (nicht ratenlimitiert). Gecacht wird per Blob-SHA.
-    /// </summary>
     public class ModificationInfoConnector
     {
         #region GitHub-Konfiguration
         private const string GitHubOwner = "C1yHAX";
         private const string GitHubRepo = "Modifications";
         private const string GitHubBranch = "main";
-        // Optionales (Read-only) Personal Access Token, um das anonyme API-Limit
-        // (60 Anfragen/Stunde/IP) anzuheben. Leer lassen = anonym.
         private const string GitHubToken = "";
 
         private static string ApiTreeUrl
@@ -109,14 +98,11 @@ namespace AnnoModificationManager5.DownloadService
         #region GitHub-Helfer
         private static string HttpGetString(string url)
         {
-            // GitHub erfordert TLS 1.2+; ab .NET 4.7 ist das der System-Default,
-            // wir setzen es zur Sicherheit dennoch explizit.
             ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12;
 
             using (TimeoutWebClient client = new TimeoutWebClient())
             {
                 client.Encoding = Encoding.UTF8;
-                // GitHub-API verlangt einen User-Agent, sonst 403.
                 client.Headers.Add(HttpRequestHeader.UserAgent, "AnnoModificationManager5");
                 if (!string.IsNullOrEmpty(GitHubToken))
                     client.Headers.Add(HttpRequestHeader.Authorization, "token " + GitHubToken);
@@ -124,7 +110,6 @@ namespace AnnoModificationManager5.DownloadService
             }
         }
 
-        /// <summary>Baut aus einem Repo-Pfad eine raw-URL (Segmente einzeln URL-kodiert).</summary>
         private static string RawUrl(string repoPath)
         {
             string[] parts = repoPath.Replace('\\', '/').Split('/');
@@ -142,10 +127,6 @@ namespace AnnoModificationManager5.DownloadService
             return string.IsNullOrEmpty(dir) ? relative : dir + "/" + relative;
         }
 
-        /// <summary>
-        /// Setzt DownloadUrl und Bild-URLs auf absolute raw-URLs. Fehlt/relativ die
-        /// DownloadUrl, wird die gleichnamige .zip neben der .xml angenommen.
-        /// </summary>
         private static void ResolveUrls(ModificationInfo info, string xmlPath)
         {
             if (string.IsNullOrEmpty(info.DownloadUrl) ||
@@ -194,7 +175,6 @@ namespace AnnoModificationManager5.DownloadService
 
                 object[] tree = (object[])root["tree"];
 
-                // Alle .xml-Metadaten (path + sha) einsammeln.
                 List<KeyValuePair<string, string>> xmlBlobs = new List<KeyValuePair<string, string>>();
                 foreach (object item in tree)
                 {
@@ -237,7 +217,6 @@ namespace AnnoModificationManager5.DownloadService
                         ModificationInfo info;
                         if (cacheFile != null && File.Exists(cacheFile))
                         {
-                            // Unverändert (gleiche SHA) -> aus dem Cache laden.
                             info = ModificationInfo.FromXml(cacheFile);
                             if (info == null)
                                 continue;
@@ -262,7 +241,6 @@ namespace AnnoModificationManager5.DownloadService
                     }
                 }
 
-                // Veraltete Cache-Dateien (SHA nicht mehr im Repo) entfernen.
                 foreach (string f in Directory.GetFiles(CacheFolder, "*.xml"))
                 {
                     string stem = Path.GetFileNameWithoutExtension(f);
@@ -281,28 +259,22 @@ namespace AnnoModificationManager5.DownloadService
                         "Fehler beim Laden der Online-Pakete (GitHub): " + ex.Message));
                 }
 
-                // Auf den lokalen Cache zurückfallen, damit offline weiter Pakete da sind.
                 LoadFromFolder();
                 return;
             }
 
-            // Nach Identifikation deduplizieren, neuestes Datum gewinnt.
             AvailablePackages = loadedPackages
                 .GroupBy(m => m.GetIdentificationString)
                 .Select(g => g.OrderByDescending(m => m.Date).First())
                 .ToList();
         }
 
-        #region Veröffentlichen (lokaler GitHub-Repo-Ordner – Nutzer committet/pusht selbst)
-        // Der frühere bplaced-Upload entfällt. Stattdessen schreibt das DevelopmentTool die
-        // Metadaten (<stem>.xml) in einen lokalen Klon des GitHub-Repositorys. Der Nutzer
-        // legt die gleichnamige <stem>.zip dazu und committet/pusht das Repo selbst.
+        #region Veröffentlichen
         private static string RepoFolderConfigFile
         {
             get { return DirectoryExtension.GetAMM4ApplicationDataFolder() + "\\GitHubRepoFolder.txt"; }
         }
 
-        /// <summary>Liefert den lokalen Repo-Ordner; fragt ihn bei Bedarf einmalig per Dialog ab und merkt ihn.</summary>
         public static string GetLocalRepoFolder(bool askIfMissing)
         {
             string path = null;
@@ -355,7 +327,6 @@ namespace AnnoModificationManager5.DownloadService
             string stem = SanitizeFileName(mod.GetShortIdentificationString);
             string xmlPath = folder + "\\" + stem + ".xml";
 
-            // DownloadUrl leer lassen – der Browser leitet sie aus der gleichnamigen .zip ab.
             mod.DownloadUrl = "";
             mod.ToXml(xmlPath);
 

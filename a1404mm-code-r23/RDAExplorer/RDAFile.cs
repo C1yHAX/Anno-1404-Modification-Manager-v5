@@ -16,13 +16,8 @@ namespace RDAExplorer
         public DateTime TimeStamp;
         public BinaryReader BinaryFile;
 
-        // Shim: In-Memory-Daten, gesetzt über SetData(). Hat Vorrang vor BinaryFile.
         private byte[] _memoryData;
 
-        /// <summary>
-        /// Shim (wie alte Lib): setzt unkomprimierte Rohdaten im Speicher. GetData()
-        /// liefert sie unverändert zurück; der Writer komprimiert bei Bedarf neu.
-        /// </summary>
         public void SetData(byte[] data)
         {
             _memoryData = data;
@@ -51,7 +46,6 @@ namespace RDAExplorer
 
         public byte[] GetData()
         {
-            // Shim: im Speicher gesetzte Daten haben Vorrang.
             if (_memoryData != null)
                 return _memoryData;
             BinaryFile.BaseStream.Position = (long)Offset;
@@ -107,7 +101,6 @@ namespace RDAExplorer
             return rdaFile;
         }
 
-        // Shim: 2-Argument-Variante wie in der alten Lib (Standard-Version 2.2).
         public static RDAFile Create(string file, string folderpath)
         {
             return Create(FileHeader.Version.Version_2_2, file, folderpath);

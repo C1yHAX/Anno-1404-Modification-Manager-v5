@@ -16,7 +16,6 @@ namespace RDAExplorer
         public bool? RDABlockCreator_FileType_IsCompressable = new bool?();
         public RDAFolder Parent = null;
 
-        // Shim: parameterloser Konstruktor wie in der alten Lib.
         public RDAFolder() : this(FileHeader.Version.Version_2_2)
         {
         }
@@ -81,9 +80,6 @@ namespace RDAExplorer
             return this.Parent.GetRoot();
         }
 
-        // Shim (wie alte Lib): 1-Argument-Variante. Die Version wird aus den vorhandenen
-        // Dateien abgeleitet (jede aus einem Archiv gelesene RDAFile trägt ihre Version);
-        // neue, im Speicher erzeugte Dateien sind 'Invalid' und werden übersprungen.
         public static RDAFolder GenerateFrom(List<RDAFile> file)
         {
             FileHeader.Version version = FileHeader.Version.Version_2_2;

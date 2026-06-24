@@ -549,11 +549,6 @@
       <Name>AnnoModificationManager5</Name>
     </ProjectReference>
   </ItemGroup>
-  <!-- Legacy AMM (v3.x) DTO classes, compiled directly into DevelopmentTools instead of
-       referencing the separate AnnoModificationManager project. This avoids a WPF
-       markup-compile (_wpftmp) project-reference resolution failure and removes a
-       fragile cross-project dependency. Namespace stays "AnnoModificationManager"
-       so the converter's "using oldamm = AnnoModificationManager;" keeps working. -->
   <ItemGroup>
     <Compile Include="..\AnnoModificationManager\ProbatioPropriaeVilis.cs">
       <Link>Tools\Converter\Legacy\ProbatioPropriaeVilis.cs</Link>

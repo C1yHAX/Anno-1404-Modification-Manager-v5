@@ -17,9 +17,6 @@ namespace RDAExplorer
             Folder = folder;
         }
 
-        // Shim (wie alte Lib): 3-Argument-Variante. Version stammt aus der RDAFolder
-        // (von GenerateFrom gesetzt), originalReader entfällt (keine übersprungenen
-        // verschlüsselten Blöcke bei Anno 1404).
         public void Write(string Filename, bool compress, BackgroundWorker wrk)
         {
             Write(Filename, Folder.Version, compress, null, wrk);
@@ -35,7 +32,6 @@ namespace RDAExplorer
             
             // blocks are organized by file type. there is one RDAFolder per block
             List<RDAFolder> blockFolders = RDABlockCreator.GenerateOf(Folder);
-            // Shim: originalReader darf null sein (kein bestehendes Archiv -> keine übersprungenen Blöcke).
             int numSkippedBlocks = originalReader != null ? (int)originalReader.NumSkippedBlocks : 0;
             int numBlocks = numSkippedBlocks + blockFolders.Count;
             BlockInfo[] blockInfos = new BlockInfo[numBlocks];
