@@ -1,0 +1,29 @@
+{
+  "$schema": "https://www.schemastore.org/package.json",
+  "name": "@vortex/preload",
+  "version": "1.0.0",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "build": "node ./build.mjs",
+    "typecheck": "pnpm tsc",
+    "lint": "pnpm exec oxlint --quiet",
+    "lint:verbose": "pnpm exec oxlint"
+  },
+  "nx": {
+    "targets": {
+      "build": {
+        "outputs": [
+          "{workspaceRoot}/src/main/build/preload.cjs",
+          "{workspaceRoot}/src/main/build/preload.cjs.map"
+        ]
+      }
+    }
+  },
+  "devDependencies": {
+    "electron": "catalog:"
+  },
+  "dependencies": {
+    "@vortex/shared": "workspace:*"
+  }
+}

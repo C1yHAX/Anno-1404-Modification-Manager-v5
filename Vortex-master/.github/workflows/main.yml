@@ -1,0 +1,149 @@
+name: Main
+
+on:
+  push:
+    branches: [master, release/*]
+  pull_request:
+    branches: [master, release/*]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          submodules: "recursive"
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Install volta, Node.js and Yarn
+        uses: volta-cli/action@v5
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          cache: true
+
+      - name: Fix pnpm node-gyp permissions
+        if: runner.os == 'Linux'
+        run: find "$PNPM_HOME" -path '*/node-gyp/gyp/gyp_main.py' -exec chmod +x {} \;
+
+      # NOTE(erri120): fontconfig required by font-scanner required by theme-switcher
+      - name: Install fontconfig
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y libfontconfig1-dev
+
+      - name: Install dependencies
+        run: pnpm install
+        env:
+          VORTEX_ELECTRON_REBUILD: "defer"
+
+      - name: Cache native build headers
+        uses: actions/cache@v5
+        with:
+          path: |
+            ~/.electron-gyp
+            ~/.cache/node-gyp
+          key: native-headers-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('package.json', 'pnpm-lock.yaml') }}
+
+      - name: Cache Electron native rebuild outputs
+        id: electron-native-cache
+        uses: actions/cache@v5
+        with:
+          path: |
+            node_modules/.pnpm/@nexusmods+fomod-installer-native@*/node_modules/@nexusmods/fomod-installer-native/build
+            node_modules/.pnpm/@nexusmods+fomod-installer-native@*/node_modules/@nexusmods/fomod-installer-native/bin
+            node_modules/.pnpm/drivelist@*/node_modules/drivelist/build
+            node_modules/.pnpm/drivelist@*/node_modules/drivelist/bin
+            node_modules/.pnpm/leveldown@*/node_modules/leveldown/build
+            node_modules/.pnpm/leveldown@*/node_modules/leveldown/bin
+            node_modules/.pnpm/winapi-bindings@*/node_modules/winapi-bindings/build
+            node_modules/.pnpm/winapi-bindings@*/node_modules/winapi-bindings/bin
+            node_modules/.pnpm/xxhash-addon@*/node_modules/xxhash-addon/build
+            node_modules/.pnpm/xxhash-addon@*/node_modules/xxhash-addon/bin
+            node_modules/.pnpm/@parcel+watcher@*/node_modules/@parcel/watcher/build
+            node_modules/.pnpm/@parcel+watcher@*/node_modules/@parcel/watcher/bin
+          key: electron-native-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('pnpm-lock.yaml', 'pnpm-workspace.yaml', 'src/main/postinstall.mjs') }}
+
+      - name: Rebuild Electron native modules
+        run: |
+          echo "Electron native cache hit: ${{ steps.electron-native-cache.outputs.cache-hit }}"
+          pnpm --filter @vortex/main exec electron-rebuild
+
+      - name: Build
+        run: pnpm run build
+
+      - name: Test
+        run: pnpm run test
+
+      - name: Upload API artifacts
+        if: github.ref == 'refs/heads/master' && github.event_name == 'push' && runner.os == 'Linux'
+        uses: actions/upload-artifact@v7
+        with:
+          name: api-artifacts
+          retention-days: 1
+          path: |
+            etc/vortex.api.md
+            packages/vortex-api/lib
+
+  api:
+    needs: build
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          submodules: "recursive"
+
+      - name: Download API artifacts
+        uses: actions/download-artifact@v8
+        with:
+          name: api-artifacts
+
+      - name: Install volta, Node.js
+        uses: volta-cli/action@v5
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          cache: false
+
+      - name: Generate GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          owner: Nexus-Mods
+          repositories: vortex-api
+
+      - name: Get GitHub App User ID
+        id: get-user-id
+        run: echo "user-id=$(gh api "/users/${{ steps.app-token.outputs.app-slug }}[bot]" --jq .id)" >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+
+      - name: Configure Git
+        run: |
+          git config --global user.name '${{ steps.app-token.outputs.app-slug }}[bot]'
+          git config --global user.email '${{ steps.get-user-id.outputs.user-id }}+${{ steps.app-token.outputs.app-slug }}[bot]@users.noreply.github.com'
+
+      - name: Run update script
+        env:
+          MAIN_REPO: Nexus-Mods/Vortex
+          API_REPO: https://x-access-token:${{ steps.app-token.outputs.token }}@github.com/Nexus-Mods/vortex-api.git
+          PUSH_BRANCH: master
+        run: node packages/vortex-api/update-repo.mjs

@@ -19,6 +19,15 @@ namespace AnnoModificationManager5
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
+            Nexus.NxmProtocolHandler.Register();
+
+            if (e.Args != null && e.Args.Length > 0 && e.Args[0].StartsWith("nxm://", StringComparison.OrdinalIgnoreCase))
+            {
+                Nexus.NexusDownloadHandler.HandleNxm(e.Args[0]);
+                Shutdown();
+                return;
+            }
+
             if (!AnnoModificationManager5.Properties.Settings.Default.StartupShown)
                 AnnoModificationManager5.Properties.Settings.Default.Upgrade();
 
