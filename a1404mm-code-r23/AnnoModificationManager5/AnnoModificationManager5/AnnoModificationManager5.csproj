@@ -152,6 +152,11 @@
     <Compile Include="ModificationTypes\Userdefined\UserdefinedValueGroup.cs" />
     <Compile Include="ModificationTypes\Userdefined\UserdefinedValue_ComboBoxItem.cs" />
     <Compile Include="RDA\AMMRDAManager.cs" />
+    <Compile Include="Nexus\NexusApiClient.cs" />
+    <Compile Include="Nexus\NexusApiKeyStore.cs" />
+    <Compile Include="Nexus\NexusDownloadHandler.cs" />
+    <Compile Include="Nexus\NxmProtocolHandler.cs" />
+    <Compile Include="Nexus\NxmUrl.cs" />
     <Compile Include="UserInterface\Group\ModificationGroupDescription.cs" />
     <Compile Include="UserInterface\Group\PipeStringConverter.cs" />
     <Compile Include="UserInterface\MainUI\AboutDialog.xaml.cs">
