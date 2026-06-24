@@ -27,11 +27,14 @@ namespace AnnoModificationManager5.Nexus
                 }
 
                 string extension = Path.GetExtension(new Uri(uri).AbsolutePath);
-                if (string.IsNullOrEmpty(extension))
-                    extension = ".zip";
+                if (!string.Equals(extension, ".zip", StringComparison.OrdinalIgnoreCase))
+                {
+                    MessageWindow.Show("Diese Nexus-Mod ist kein .zip im AMM-Format und kann nicht automatisch installiert werden. Es werden nur .zip-Mods unterstützt.");
+                    return;
+                }
 
                 string destination = Path.Combine(Path.GetTempPath(),
-                    "nexus_" + link.ModId + "_" + link.FileId + extension);
+                    "nexus_" + link.ModId + "_" + link.FileId + ".zip");
 
                 ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12;
                 using (WebClient client = new WebClient())
