@@ -51,10 +51,6 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
-  <!-- Dateiliste auf RDAExplorer 1.4.0.0 umgestellt. Alte, ersetzte Dateien
-       (ManagedRDA.cs, RDAStructs.cs, RDAHelpers.cs, Program.cs, Misc\MarshalExtension.cs)
-       bleiben auf der Platte, werden aber nicht mehr kompiliert. RDAManager.cs und
-       Misc\StringExtension.cs bleiben als Kompatibilitäts-Shim erhalten. -->
   <ItemGroup>
     <Compile Include="BlockInfo.cs" />
     <Compile Include="DirEntry.cs" />

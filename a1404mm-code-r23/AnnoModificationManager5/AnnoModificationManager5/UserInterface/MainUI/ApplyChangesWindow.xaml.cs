@@ -87,8 +87,6 @@ namespace AnnoModificationManager5.UserInterface.MainUI
                     var folder = RDAFolder.GenerateFrom(rdafile.rdaFileEntries);
                     RDAWriter wr = new RDAWriter(folder);
                     _LastRDAWriter = wr;
-                    // compress=true: komprimiert komprimierbare Blöcke (wie die Original-RDAs)
-                    // und verhindert das Aufblähen großer Archive (z. B. History Edition maindata).
                     wr.Write(dstfile, true, wrk);
 
                     //Add couple

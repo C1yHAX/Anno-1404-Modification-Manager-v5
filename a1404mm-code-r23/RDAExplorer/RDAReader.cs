@@ -11,8 +11,6 @@ namespace RDAExplorer
 {
     public class RDAReader : IDisposable
     {
-        // Shim: öffentlich, damit der Manager (RDAManager/RDAManagerExtension/Modification)
-        // wie bei der alten Lib direkt auf die Dateiliste zugreifen kann.
         public List<RDAFile> rdaFileEntries = new List<RDAFile>();
         public RDAFolder rdaFolder = new RDAFolder(FileHeader.Version.Version_2_2);
         public string FileName;
@@ -51,7 +49,6 @@ namespace RDAExplorer
         {
         }
 
-        // Shim: Konstruktor wie in der alten Lib – Datei direkt öffnen und einlesen.
         public RDAReader(string filename)
         {
             FileName = filename;
