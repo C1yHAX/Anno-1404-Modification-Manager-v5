@@ -1,0 +1,44 @@
+<Window x:Class="AnnoModificationManager5.Nexus.NexusBrowseWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Nexus Mods – Anno 1404 History Edition" Height="520" Width="640"
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Row="0" LastChildFill="False" Margin="0,0,0,8">
+            <TextBlock Text="Kategorie:" VerticalAlignment="Center" Margin="0,0,6,0"/>
+            <ComboBox x:Name="cmb_Category" Width="200" SelectionChanged="cmb_Category_SelectionChanged">
+                <ComboBoxItem Content="Neueste hinzugefügt" Tag="latest_added" IsSelected="True"/>
+                <ComboBoxItem Content="Zuletzt aktualisiert" Tag="latest_updated"/>
+                <ComboBoxItem Content="Beliebt (Trending)" Tag="trending"/>
+            </ComboBox>
+            <Button x:Name="btn_Refresh" Content="Aktualisieren" Margin="8,0,0,0" Width="110" Click="btn_Refresh_Click"/>
+            <TextBlock x:Name="lbl_Login" DockPanel.Dock="Right" VerticalAlignment="Center" Foreground="Gray"/>
+        </DockPanel>
+
+        <ListBox Grid.Row="1" x:Name="lst_Mods" HorizontalContentAlignment="Stretch">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Margin="2,4">
+                        <TextBlock Text="{Binding Name}" FontWeight="Bold" TextWrapping="Wrap"/>
+                        <TextBlock Foreground="Gray">
+                            <Run Text="von "/><Run Text="{Binding Author}"/><Run Text="   v"/><Run Text="{Binding Version}"/>
+                        </TextBlock>
+                        <TextBlock Text="{Binding Summary}" TextWrapping="Wrap" Margin="0,2,0,0"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <DockPanel Grid.Row="2" LastChildFill="False" Margin="0,8,0,0">
+            <TextBlock x:Name="lbl_Status" VerticalAlignment="Center" Foreground="Gray"/>
+            <Button x:Name="btn_Close" DockPanel.Dock="Right" Content="Schließen" Width="100" Click="btn_Close_Click"/>
+            <Button x:Name="btn_Action" DockPanel.Dock="Right" Content="Herunterladen" Width="180" Margin="0,0,8,0" Click="btn_Action_Click"/>
+        </DockPanel>
+    </Grid>
+</Window>

@@ -76,6 +76,58 @@ namespace AnnoModificationManager5.Nexus
             }
             return null;
         }
+
+        public List<NexusMod> GetModList(string game, string category)
+        {
+            object[] arr = (object[])Deserialize(
+                GetJson(BaseUrl + "/v1/games/" + game + "/mods/" + category + ".json"));
+            List<NexusMod> result = new List<NexusMod>();
+            foreach (object o in arr)
+            {
+                var d = o as Dictionary<string, object>;
+                if (d == null)
+                    continue;
+                if (d.ContainsKey("status") && (d["status"] as string) != "published")
+                    continue;
+                NexusMod mod = new NexusMod();
+                mod.ModId = d.ContainsKey("mod_id") ? Convert.ToInt32(d["mod_id"]) : 0;
+                mod.Name = d.ContainsKey("name") ? d["name"] as string : "";
+                mod.Author = d.ContainsKey("author") ? d["author"] as string : "";
+                mod.Summary = d.ContainsKey("summary") ? d["summary"] as string : "";
+                mod.Version = d.ContainsKey("version") ? d["version"] as string : "";
+                mod.PictureUrl = d.ContainsKey("picture_url") ? d["picture_url"] as string : "";
+                if (mod.ModId > 0 && !string.IsNullOrEmpty(mod.Name))
+                    result.Add(mod);
+            }
+            return result;
+        }
+
+        public NexusFile GetPrimaryFile(string game, int modId)
+        {
+            var data = (Dictionary<string, object>)Deserialize(
+                GetJson(BaseUrl + "/v1/games/" + game + "/mods/" + modId + "/files.json"));
+            if (!data.ContainsKey("files"))
+                return null;
+            object[] files = (object[])data["files"];
+            NexusFile primary = null, mainCategory = null, first = null;
+            foreach (object o in files)
+            {
+                var d = o as Dictionary<string, object>;
+                if (d == null)
+                    continue;
+                NexusFile file = new NexusFile();
+                file.FileId = d.ContainsKey("file_id") ? Convert.ToInt32(d["file_id"]) : 0;
+                file.FileName = d.ContainsKey("file_name") ? d["file_name"] as string : "";
+                file.Category = d.ContainsKey("category_name") ? d["category_name"] as string : "";
+                if (first == null)
+                    first = file;
+                if (mainCategory == null && file.Category == "MAIN")
+                    mainCategory = file;
+                if (primary == null && d.ContainsKey("is_primary") && Convert.ToBoolean(d["is_primary"]))
+                    primary = file;
+            }
+            return primary ?? mainCategory ?? first;
+        }
     }
 
     public class NexusUser
@@ -83,5 +135,22 @@ namespace AnnoModificationManager5.Nexus
         public string Name;
         public int UserId;
         public bool IsPremium;
+    }
+
+    public class NexusMod
+    {
+        public int ModId;
+        public string Name;
+        public string Author;
+        public string Summary;
+        public string Version;
+        public string PictureUrl;
+    }
+
+    public class NexusFile
+    {
+        public int FileId;
+        public string FileName;
+        public string Category;
     }
 }

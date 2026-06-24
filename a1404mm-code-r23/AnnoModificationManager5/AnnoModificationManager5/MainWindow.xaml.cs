@@ -173,6 +173,15 @@ namespace AnnoModificationManager5
             //}
         }
         #endregion
+
+        private void nexusBrowseButton_Click(object sender, RoutedEventArgs e)
+        {
+            Nexus.NexusBrowseWindow window = new Nexus.NexusBrowseWindow();
+            window.ShowDialog();
+            if (window.HasDownloaded)
+                ReloadModifications(true);
+        }
+
         #region Loading Modifications
         #region Reload Modifications
         public void ReloadModifications(bool searchonline)
