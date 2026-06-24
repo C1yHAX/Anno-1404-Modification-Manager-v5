@@ -39,6 +39,15 @@ namespace AnnoModificationManager5.Nexus
             return ser.DeserializeObject(json);
         }
 
+        private static string StripHtml(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+                return "";
+            text = System.Text.RegularExpressions.Regex.Replace(text, "<[^>]+>", " ");
+            text = System.Net.WebUtility.HtmlDecode(text);
+            return System.Text.RegularExpressions.Regex.Replace(text, "\\s+", " ").Trim();
+        }
+
         public NexusUser ValidateUser()
         {
             var data = (Dictionary<string, object>)Deserialize(GetJson(BaseUrl + "/v1/users/validate.json"));
@@ -93,7 +102,7 @@ namespace AnnoModificationManager5.Nexus
                 mod.ModId = d.ContainsKey("mod_id") ? Convert.ToInt32(d["mod_id"]) : 0;
                 mod.Name = d.ContainsKey("name") ? d["name"] as string : "";
                 mod.Author = d.ContainsKey("author") ? d["author"] as string : "";
-                mod.Summary = d.ContainsKey("summary") ? d["summary"] as string : "";
+                mod.Summary = StripHtml(d.ContainsKey("summary") ? d["summary"] as string : "");
                 mod.Version = d.ContainsKey("version") ? d["version"] as string : "";
                 mod.PictureUrl = d.ContainsKey("picture_url") ? d["picture_url"] as string : "";
                 if (mod.ModId > 0 && !string.IsNullOrEmpty(mod.Name))
@@ -139,12 +148,12 @@ namespace AnnoModificationManager5.Nexus
 
     public class NexusMod
     {
-        public int ModId;
-        public string Name;
-        public string Author;
-        public string Summary;
-        public string Version;
-        public string PictureUrl;
+        public int ModId { get; set; }
+        public string Name { get; set; }
+        public string Author { get; set; }
+        public string Summary { get; set; }
+        public string Version { get; set; }
+        public string PictureUrl { get; set; }
     }
 
     public class NexusFile
