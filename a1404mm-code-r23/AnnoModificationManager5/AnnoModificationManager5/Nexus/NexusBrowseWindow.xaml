@@ -16,6 +16,7 @@
                 <ComboBoxItem Content="Neueste hinzugefügt" Tag="latest_added" IsSelected="True"/>
                 <ComboBoxItem Content="Zuletzt aktualisiert" Tag="latest_updated"/>
                 <ComboBoxItem Content="Beliebt (Trending)" Tag="trending"/>
+                <ComboBoxItem Content="Alle Mods" Tag="all"/>
             </ComboBox>
             <Button x:Name="btn_Refresh" Content="Aktualisieren" Margin="8,0,0,0" Width="110" Click="btn_Refresh_Click"/>
             <TextBlock x:Name="lbl_Login" DockPanel.Dock="Right" VerticalAlignment="Center" Foreground="Gray"/>

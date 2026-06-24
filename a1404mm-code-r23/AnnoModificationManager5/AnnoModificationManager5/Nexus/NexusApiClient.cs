@@ -98,17 +98,36 @@ namespace AnnoModificationManager5.Nexus
                     continue;
                 if (d.ContainsKey("status") && (d["status"] as string) != "published")
                     continue;
-                NexusMod mod = new NexusMod();
-                mod.ModId = d.ContainsKey("mod_id") ? Convert.ToInt32(d["mod_id"]) : 0;
-                mod.Name = d.ContainsKey("name") ? d["name"] as string : "";
-                mod.Author = d.ContainsKey("author") ? d["author"] as string : "";
-                mod.Summary = StripHtml(d.ContainsKey("summary") ? d["summary"] as string : "");
-                mod.Version = d.ContainsKey("version") ? d["version"] as string : "";
-                mod.PictureUrl = d.ContainsKey("picture_url") ? d["picture_url"] as string : "";
+                NexusMod mod = ParseMod(d);
                 if (mod.ModId > 0 && !string.IsNullOrEmpty(mod.Name))
                     result.Add(mod);
             }
             return result;
+        }
+
+        public NexusMod GetMod(string game, int modId)
+        {
+            var d = GetModInfo(game, modId);
+            if (d == null)
+                return null;
+            if (d.ContainsKey("available") && !Convert.ToBoolean(d["available"]))
+                return null;
+            if (d.ContainsKey("status") && (d["status"] as string) != "published")
+                return null;
+            NexusMod mod = ParseMod(d);
+            return (mod.ModId > 0 && !string.IsNullOrEmpty(mod.Name)) ? mod : null;
+        }
+
+        private static NexusMod ParseMod(Dictionary<string, object> d)
+        {
+            NexusMod mod = new NexusMod();
+            mod.ModId = d.ContainsKey("mod_id") ? Convert.ToInt32(d["mod_id"]) : 0;
+            mod.Name = d.ContainsKey("name") ? d["name"] as string : "";
+            mod.Author = d.ContainsKey("author") ? d["author"] as string : "";
+            mod.Summary = StripHtml(d.ContainsKey("summary") ? d["summary"] as string : "");
+            mod.Version = d.ContainsKey("version") ? d["version"] as string : "";
+            mod.PictureUrl = d.ContainsKey("picture_url") ? d["picture_url"] as string : "";
+            return mod;
         }
 
         public NexusFile GetPrimaryFile(string game, int modId)
