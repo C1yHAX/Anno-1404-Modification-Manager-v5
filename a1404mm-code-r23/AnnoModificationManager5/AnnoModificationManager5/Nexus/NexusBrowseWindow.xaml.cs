@@ -58,6 +58,12 @@ namespace AnnoModificationManager5.Nexus
             if (_api == null)
                 return;
 
+            if (SelectedCategory() == "all")
+            {
+                LoadAll();
+                return;
+            }
+
             lbl_Status.Text = "Lade Mod-Liste …";
             Cursor = System.Windows.Input.Cursors.Wait;
             try
@@ -74,6 +80,55 @@ namespace AnnoModificationManager5.Nexus
             {
                 Cursor = System.Windows.Input.Cursors.Arrow;
             }
+        }
+
+        private void LoadAll()
+        {
+            lbl_Status.Text = "Lade alle Mods …";
+            btn_Refresh.IsEnabled = false;
+            cmb_Category.IsEnabled = false;
+            Cursor = System.Windows.Input.Cursors.Wait;
+
+            System.Threading.Tasks.Task.Factory.StartNew((Action)delegate
+            {
+                List<NexusMod> all = new List<NexusMod>();
+                try
+                {
+                    int maxId = 0;
+                    foreach (NexusMod m in _api.GetModList(Game, "latest_added"))
+                        if (m.ModId > maxId)
+                            maxId = m.ModId;
+                    if (maxId <= 0)
+                        maxId = 40;
+
+                    for (int id = 1; id <= maxId; id++)
+                    {
+                        NexusMod mod = null;
+                        try { mod = _api.GetMod(Game, id); }
+                        catch (Exception) { mod = null; }
+                        if (mod != null)
+                            all.Add(mod);
+
+                        int done = id;
+                        int total = maxId;
+                        Dispatcher.Invoke((Action)delegate
+                        {
+                            lbl_Status.Text = "Lade alle Mods … " + done + "/" + total;
+                        });
+                    }
+                }
+                catch (Exception) { }
+
+                Dispatcher.Invoke((Action)delegate
+                {
+                    all.Sort(delegate (NexusMod a, NexusMod b) { return b.ModId.CompareTo(a.ModId); });
+                    lst_Mods.ItemsSource = all;
+                    lbl_Status.Text = all.Count + " Mods.";
+                    btn_Refresh.IsEnabled = true;
+                    cmb_Category.IsEnabled = true;
+                    Cursor = System.Windows.Input.Cursors.Arrow;
+                });
+            });
         }
 
         private void cmb_Category_SelectionChanged(object sender, SelectionChangedEventArgs e)
