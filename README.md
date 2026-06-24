@@ -9,7 +9,7 @@
 ![.NET](https://img.shields.io/badge/.NET%20Framework-4.7.2-512BD4)
 ![Language](https://img.shields.io/badge/C%23-WPF-178600?logo=csharp&logoColor=white)
 ![Game](https://img.shields.io/badge/game-Anno%201404%20·%20History%20Edition-c9a227)
-![License](https://img.shields.io/badge/license-see%20LICENSE-blue)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 **[What &amp; why](#-what-is-this)** ·
 **[Features](#-features)** ·
@@ -180,8 +180,8 @@ local cache.
 
 ## ⚖️ License &amp; disclaimer
 
-See [`LICENSE`](LICENSE). Bundled third-party components (RDAExplorer and the libraries in
-`libs/`) keep their own licenses.
+Released under the **[MIT License](LICENSE)**. Bundled third-party components (RDAExplorer
+and the libraries in `libs/`) keep their own licenses.
 
 Provided as-is, no warranty. Game mods can break with updates — if something misbehaves,
 deactivate the mod, restore the backup, and verify your game files.
@@ -218,4 +218,4 @@ mit `Strg+F5` ohne Debugger starten.)*
 manuell wählen.
 
 **Credits:** Basiert auf dem Open-Source-**RDAExplorer** und der Arbeit der Anno-Modding-
-Community. Lizenz: siehe [`LICENSE`](LICENSE). Ohne Gewähr.
+Community. Lizenz: **MIT** (siehe [`LICENSE`](LICENSE)). Ohne Gewähr.
