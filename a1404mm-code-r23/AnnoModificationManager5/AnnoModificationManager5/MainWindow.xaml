@@ -136,7 +136,6 @@
 				<Border BorderBrush="{DynamicResource Brush_UI_Border}" BorderThickness="1,0,0,0" Margin="5,3"/>
 				<AnnoModificationManager5_MainControls_Buttons:DownloadPackagesButton Content="DownloadPackagesButton" x:Name="downloadPackageButton" />
                 <Button Content="Nexus Mods" Margin="5,0,0,0" x:Name="nexusBrowseButton" Click="nexusBrowseButton_Click" Style="{DynamicResource ButtonStyle_Button_NoBorder}" />
-                <Button Content="✨ Neues Design" Margin="5,0,0,0" x:Name="modernUiButton" Click="modernUiButton_Click" Style="{DynamicResource ButtonStyle_Button_NoBorder}" />
                 <AnnoModificationManager5_MainControls_Buttons:UpdateButton Content="UpdateButton" Margin="5,0,0,0" x:Name="updateButton" />
                 <AnnoModificationManager5_MainControls_Buttons:RDAChangesButton DockPanel.Dock="Right" Margin="0,0,5,0" x:Name="rdaChangesButton" />
             </DockPanel>

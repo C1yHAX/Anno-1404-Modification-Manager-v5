@@ -89,6 +89,9 @@ namespace AnnoModificationManager5
             Top = Properties.Settings.Default.Window_Y;
             WindowState = Properties.Settings.Default.Window_IsMaximized ? WindowState.Maximized : WindowState.Normal;
             #endregion
+
+            ShowInTaskbar = false;
+            Opacity = 0;
         }
 
         #region Loading saving
@@ -144,6 +147,11 @@ namespace AnnoModificationManager5
 
             //Startup
             StartupHandler.Run();
+
+            UserInterface.Modern.ModernMainWindow modern = new UserInterface.Modern.ModernMainWindow();
+            modern.Closed += delegate { try { Close(); } catch (Exception) { } };
+            modern.Show();
+            Hide();
         }
 
         void AnnoRunningTimer_Tick(object sender, EventArgs e)
@@ -180,11 +188,6 @@ namespace AnnoModificationManager5
             window.ShowDialog();
             if (window.HasDownloaded)
                 ReloadModifications(true);
-        }
-
-        private void modernUiButton_Click(object sender, RoutedEventArgs e)
-        {
-            new UserInterface.Modern.ModernMainWindow().Show();
         }
 
         #region Loading Modifications
@@ -254,6 +257,9 @@ namespace AnnoModificationManager5
                 modificationList.Refresh(false);
                 modificationList.UpdateSelectionUI(this);
                 Organize.IsEnabled = true;
+
+                if (UserInterface.Modern.ModernMainWindow.Current != null)
+                    UserInterface.Modern.ModernMainWindow.Current.RefreshData();
             });
         }
 
