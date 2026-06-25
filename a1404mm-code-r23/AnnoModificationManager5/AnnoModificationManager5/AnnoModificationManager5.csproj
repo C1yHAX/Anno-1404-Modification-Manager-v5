@@ -53,6 +53,16 @@
     <Reference Include="Itenso.Windows.Controls.ListViewLayout">
       <HintPath>..\..\..\libs\Itenso.Windows.Controls.ListViewLayout.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Web.WebView2.Core">
+      <HintPath>..\..\..\libs\Microsoft.Web.WebView2.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.WebView2.Wpf">
+      <HintPath>..\..\..\libs\Microsoft.Web.WebView2.Wpf.dll</HintPath>
+    </Reference>
+    <Content Include="..\..\..\libs\WebView2Loader.dll">
+      <Link>WebView2Loader.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="PixelLab.Common">
       <HintPath>..\..\..\libs\PixelLab.Common.dll</HintPath>
@@ -162,6 +172,9 @@
     </Compile>
     <Compile Include="Nexus\NexusBrowseWindow.xaml.cs">
       <DependentUpon>NexusBrowseWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Nexus\NexusWebWindow.xaml.cs">
+      <DependentUpon>NexusWebWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserInterface\Group\ModificationGroupDescription.cs" />
     <Compile Include="UserInterface\Group\PipeStringConverter.cs" />
@@ -369,6 +382,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Nexus\NexusBrowseWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Nexus\NexusWebWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -37,7 +37,7 @@ namespace AnnoModificationManager5.Nexus
                 NexusUser user = _api.ValidateUser();
                 _isPremium = user.IsPremium;
                 lbl_Login.Text = "Angemeldet: " + user.Name + (_isPremium ? " (Premium)" : " (free)");
-                btn_Action.Content = _isPremium ? "Herunterladen" : "Auf Nexus öffnen";
+                btn_Action.Content = _isPremium ? "Herunterladen" : "Öffnen / Herunterladen";
             }
             catch (Exception ex)
             {
@@ -153,8 +153,7 @@ namespace AnnoModificationManager5.Nexus
 
             if (!_isPremium)
             {
-                try { Process.Start("https://www.nexusmods.com/" + Game + "/mods/" + mod.ModId + "?tab=files"); }
-                catch (Exception ex) { lbl_Status.Text = "Konnte den Browser nicht öffnen: " + ex.Message; }
+                OpenEmbeddedBrowser("https://www.nexusmods.com/" + Game + "/mods/" + mod.ModId + "?tab=files");
                 return;
             }
 
@@ -211,38 +210,20 @@ namespace AnnoModificationManager5.Nexus
             }
         }
 
-        private void btn_Import_Click(object sender, RoutedEventArgs e)
+        private void btn_Browse_Click(object sender, RoutedEventArgs e)
         {
-            Microsoft.Win32.OpenFileDialog dialog = new Microsoft.Win32.OpenFileDialog();
-            dialog.Filter = "Mod-Paket (*.zip)|*.zip";
-            dialog.Multiselect = true;
-            try
-            {
-                string downloads = Path.Combine(
-                    Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
-                if (Directory.Exists(downloads))
-                    dialog.InitialDirectory = downloads;
-            }
-            catch (Exception) { }
+            OpenEmbeddedBrowser(null);
+        }
 
-            if (dialog.ShowDialog() != true)
-                return;
-
-            int imported = 0;
-            foreach (string file in dialog.FileNames)
-            {
-                try { if (ModificationHandler.Instance.AddModification(file)) imported++; }
-                catch (Exception) { }
-            }
-
-            if (imported > 0)
+        private void OpenEmbeddedBrowser(string url)
+        {
+            NexusWebWindow window = new NexusWebWindow(url);
+            window.Owner = this;
+            window.ShowDialog();
+            if (window.HasDownloaded)
             {
                 HasDownloaded = true;
-                lbl_Status.Text = imported + " Mod(s) importiert.";
-            }
-            else
-            {
-                lbl_Status.Text = "Nichts importiert.";
+                lbl_Status.Text = "Mod von Nexus importiert.";
             }
         }
 
