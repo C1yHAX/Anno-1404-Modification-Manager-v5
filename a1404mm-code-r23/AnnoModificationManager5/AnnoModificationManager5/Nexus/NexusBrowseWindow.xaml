@@ -40,6 +40,7 @@
             <TextBlock x:Name="lbl_Status" VerticalAlignment="Center" Foreground="Gray"/>
             <Button x:Name="btn_Close" DockPanel.Dock="Right" Content="Schließen" Width="100" Click="btn_Close_Click"/>
             <Button x:Name="btn_Action" DockPanel.Dock="Right" Content="Herunterladen" Width="180" Margin="0,0,8,0" Click="btn_Action_Click"/>
+            <Button x:Name="btn_Import" DockPanel.Dock="Right" Content="ZIP importieren…" Width="150" Margin="0,0,8,0" Click="btn_Import_Click"/>
         </DockPanel>
     </Grid>
 </Window>
