@@ -1,0 +1,91 @@
+[center]
+[size=6][b]Anno 1404 Modification Manager 5[/b][/size]
+[size=4][i]Install, manage & build mods for Anno 1404 — Classic and History Edition — without ever touching an .rda archive by hand.[/i][/size]
+[/center]
+
+[line]
+
+[size=5][b]🏰 What is this?[/b][/size]
+Anno 1404 ships its game data inside packed [b].rda archives[/b] (maindata/, addon/). Installing a mod by hand means unpacking those archives, dropping files in the right place, repacking, and hoping you kept a backup. One typo and the game won't start.
+
+[b]Anno 1404 Modification Manager[/b] does all of that for you. Browse mods, click [i]Activate[/i], play. It detects your installation, patches the right archives, and [b]always makes a backup first[/b] so a single click puts everything back.
+
+It works with both the [b]classic[/b] retail/Venice version and the [b]History Edition[/b] on Ubisoft Connect, and it ships with a full [b]mod-authoring toolkit[/b] and an [b]RDA archive explorer[/b] built in.
+
+[b]Nothing is cracked or pirated[/b] — the manager edits the game's own data archives the same way the game reads them, and keeps a restore point for every change.
+
+[size=5][b]✨ Features[/b][/size]
+[list]
+[*][b]One-click mod management[/b] — activate, deactivate and remove mods from a single list.
+[*][b]Safe by default[/b] — automatic backup of original archives, full restore anytime.
+[*][b]Online mod browser[/b] — discover and download community mods from a GitHub-hosted repository.
+[*][b]Nexus Mods built in[/b] — browse Anno 1404 mods on Nexus in an embedded browser; downloads are caught and imported automatically.
+[*][b]Classic AND History Edition[/b] — auto-detects the game (Ubisoft Connect / registry / common paths) and picks the right archives.
+[*][b]Integrated RDA Explorer[/b] — open, browse, extract and repack .rda archives (RDA v2.0 and v2.2).
+[*][b]Development Tools[/b] — author, edit, package and publish your own mods.
+[*][b]Bilingual UI[/b] — German & English.
+[/list]
+
+[size=5][b]🟧 Nexus Mods integration[/b][/size]
+Anno 1404 History Edition has no registered mod manager on Nexus, so its mod pages show no [i]"Mod Manager Download"[/i] button and the Nexus API blocks direct downloads for free accounts. The manager works around this with a [b]built-in browser[/b]:
+[list]
+[*][b]Browse the catalogue[/b] — an in-app list of the newest / recently updated / trending / all Anno 1404 mods (via the Nexus API). Needs a free personal [b]API key[/b] once.
+[*][b]Download inside the app[/b] — Nexus opens [b]inside the manager[/b]; log in once (the session is remembered), download a mod the normal way, and the manager [b]intercepts the file and imports it automatically[/b], straight into your mod list.
+[/list]
+[i]Downloads are only intercepted inside the in-app browser, and only .zip (AMM-format) mods are imported automatically. After import a mod shows with a ❌ until you click Activate.[/i]
+
+[size=5][b]🧰 Three tools, one suite[/b][/size]
+[list]
+[*][b]Modification Manager[/b] — the main app: browse, install, activate/deactivate mods, manage backups.
+[*][b]RDA Explorer[/b] — open Anno's .rda archives directly: inspect, extract, and repack files.
+[*][b]Development Tools[/b] — build mods: edit ModificationInfo, XML/List modules, convert old projects, package and publish.
+[/list]
+
+[size=5][b]🧠 How it works[/b][/size]
+[list=1]
+[*][b]Detect[/b] — finds your Anno 1404 install (Ubisoft Connect game registry, classic registry, or by picking the .exe) and identifies the version.
+[*][b]Browse & download[/b] — get mods from the GitHub repository or from Nexus (in-app browser).
+[*][b]Activate[/b] — applying a mod rewrites only the affected .rda archives, [b]after[/b] copying the originals to a backup. Deactivating or restoring puts them back byte-for-byte.
+[/list]
+
+[size=5][b]📦 Installation[/b][/size]
+[b]You need Anno 1404 installed[/b] — classic (Anno4.exe / Addon.exe) or the History Edition (Anno1404.exe / Anno1404Addon.exe).
+[list=1]
+[*]Download [b]AMM5_Setup.exe[/b] from the [b]Files[/b] tab above and run it.
+[*]It installs to Program Files and adds Start-menu shortcuts (Manager, Development Tools, RDA Explorer). It checks for [b].NET Framework 4.7.2[/b].
+[*]Launch the manager — it auto-detects your game on first start.
+[/list]
+
+[spoiler][size=4][b]Build from source[/b][/size]
+Open [b]AnnoModificationManager5.sln[/b] in Visual Studio 2022/2026 (".NET desktop development" workload + the .NET Framework 4.7.2 targeting pack), set the configuration to [b]Release | x86[/b], and Rebuild. Full source and build notes on [url=https://github.com/C1yHAX/Anno-1404-Modification-Manager-v5]GitHub[/url].[/spoiler]
+
+[size=5][b]❓ Troubleshooting[/b][/size]
+[list]
+[*][b]Game not detected?[/b] Open Settings and pick your Anno 1404 folder (or the .exe) manually — it's remembered.
+[*][b]A mod broke the game?[/b] Deactivate it or use [b]Restore[/b] to roll back to the automatic backup.
+[*][b]A Nexus mod didn't import?[/b] Download it inside the app's Nexus browser (not your normal browser), make sure you're logged in to Nexus there, and note that only .zip mods import automatically.
+[/list]
+
+[size=5][b]⚖️ Credits & license[/b][/size]
+Built on the long-running [b]Anno 1404 Modification Manager[/b] project and the work of the Anno modding community. Reading and writing of Anno's .rda archives is powered by the open-source [url=https://github.com/lysannschlegel/RDAExplorer]RDAExplorer[/url]. Released under the [b]MIT License[/b]. Provided as-is, no warranty.
+
+[line]
+
+[center][size=5][b]🇩🇪 Deutsch[/b][/size][/center]
+[b]Anno 1404 Modification Manager[/b] installiert und verwaltet Mods für [b]Anno 1404[/b] – [b]Klassik[/b] und [b]History Edition[/b] – ohne dass du je ein .rda-Archiv von Hand anfassen musst. Mod aussuchen, auf [i]Aktivieren[/i] klicken, spielen. Vor jeder Änderung wird automatisch ein [b]Backup[/b] gemacht, jederzeit wiederherstellbar.
+
+[b]Funktionen[/b]
+[list]
+[*]Mods mit einem Klick aktivieren/deaktivieren/entfernen.
+[*]Automatisches Backup vor jeder Änderung, jederzeit wiederherstellbar.
+[*]Online-Mod-Browser (GitHub) [b]und[/b] [b]Nexus Mods[/b] im eingebauten Browser – Downloads werden [b]automatisch abgefangen und importiert[/b].
+[*]Erkennt Klassik [b]und[/b] History Edition automatisch; klassische Mods bleiben unter HE nutzbar.
+[*]Integrierter [b]RDA Explorer[/b] (RDA v2.0 und v2.2) und [b]Development Tools[/b] zum Erstellen eigener Mods.
+[*]Deutsch & Englisch.
+[/list]
+
+[b]Nexus Mods:[/b] Anno 1404 HE hat auf Nexus keinen "Mod Manager Download"-Knopf, und die API erlaubt free-Accounts keinen Direkt-Download. Deshalb gibt es einen [b]eingebauten Browser[/b]: Über [i]Nexus Mods → Nexus durchsuchen[/i] öffnet sich Nexus in der App – einmal anmelden, dann eine Mod normal herunterladen; AMM fängt den Download ab und importiert ihn automatisch. (Nur im eingebauten Browser und nur .zip-Mods; nach dem Import steht die Mod mit ❌ da, bis du auf [i]Aktivieren[/i] klickst.)
+
+[b]Voraussetzung:[/b] Anno 1404 installiert (Klassik oder History Edition).
+[b]Installation:[/b] [b]AMM5_Setup.exe[/b] aus dem [b]Files[/b]-Reiter herunterladen und ausführen (installiert nach Programme, prüft auf [b].NET Framework 4.7.2[/b]).
+[b]Lizenz:[/b] MIT. Ohne Gewähr.
