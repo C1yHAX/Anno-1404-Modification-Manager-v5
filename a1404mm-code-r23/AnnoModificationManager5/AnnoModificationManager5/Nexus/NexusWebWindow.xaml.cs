@@ -34,6 +34,7 @@ namespace AnnoModificationManager5.Nexus
                 await web.EnsureCoreWebView2Async(env);
 
                 web.CoreWebView2.DownloadStarting += CoreWebView2_DownloadStarting;
+                web.CoreWebView2.NewWindowRequested += CoreWebView2_NewWindowRequested;
                 web.CoreWebView2.SourceChanged += CoreWebView2_SourceChanged;
 
                 web.Source = new Uri(_startUrl);
@@ -54,14 +55,18 @@ namespace AnnoModificationManager5.Nexus
         {
             try
             {
+                string fileName = Path.GetFileName(e.ResultFilePath);
                 string extension = Path.GetExtension(e.ResultFilePath);
                 if (!string.Equals(extension, ".zip", StringComparison.OrdinalIgnoreCase))
+                {
+                    lbl_Status.Text = "Download '" + fileName + "': keine .zip – nicht automatisch importierbar.";
                     return;
+                }
 
                 string destination = Path.Combine(Path.GetTempPath(),
                     "nexus_dl_" + Guid.NewGuid().ToString("N") + ".zip");
                 e.ResultFilePath = destination;
-                lbl_Status.Text = "Lade herunter …";
+                lbl_Status.Text = "Lade '" + fileName + "' …";
 
                 CoreWebView2DownloadOperation operation = e.DownloadOperation;
                 operation.StateChanged += delegate
@@ -71,6 +76,19 @@ namespace AnnoModificationManager5.Nexus
                     else if (operation.State == CoreWebView2DownloadState.Interrupted)
                         Dispatcher.Invoke((Action)delegate { lbl_Status.Text = "Download unterbrochen."; });
                 };
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        private void CoreWebView2_NewWindowRequested(object sender, CoreWebView2NewWindowRequestedEventArgs e)
+        {
+            try
+            {
+                e.Handled = true;
+                if (web.CoreWebView2 != null && !string.IsNullOrEmpty(e.Uri))
+                    web.CoreWebView2.Navigate(e.Uri);
             }
             catch (Exception)
             {
