@@ -13,6 +13,7 @@
 
 **[What &amp; why](#-what-is-this)** ·
 **[Features](#-features)** ·
+**[Nexus Mods](#-nexus-mods)** ·
 **[The three tools](#-three-tools-one-suite)** ·
 **[How it works](#-how-it-works)** ·
 **[Install](#-installation)** ·
@@ -49,6 +50,9 @@ explorer** built in.
 - ♻️ **Safe by default** — automatic backup of original archives, full restore anytime.
 - 🌐 **Online mod browser** — discover and download community mods straight from a
   GitHub-hosted repository, no separate downloads or extraction.
+- 🟧 **Nexus Mods built in** — browse the [Anno 1404 mods on Nexus](https://www.nexusmods.com/anno1404historyedition/mods)
+  in an embedded browser; mod downloads are **caught and imported automatically**, with no
+  `nxm://` handler and no manual file picking.
 - 🎮 **Classic *and* History Edition** — auto-detects the game (Ubisoft Connect / registry /
   common paths) and picks the right archives; existing classic mods stay usable on HE.
 - 🗜️ **Integrated RDA Explorer** — open, browse, extract and repack `.rda` archives
@@ -72,6 +76,7 @@ flowchart TD
     U["You"] --> M["Anno 1404<br/>Modification Manager"]
     M -->|"auto-detect"| G["Anno 1404<br/>Classic / History Edition"]
     O["Online mod repository<br/>(GitHub)"] -->|"browse &amp; download"| M
+    N["Nexus Mods<br/>(built-in browser)"] -->|"download caught &amp; imported"| M
     M -->|"backup first, then patch"| R["maindata / addon<br/>*.rda archives"]
     M -->|"restore anytime"| BK["Backup"]
     BK --> R
@@ -85,6 +90,25 @@ flowchart TD
    fetches the ones you want.
 3. **Activate** — applying a mod rewrites only the affected `.rda` archives, **after** copying
    the originals to a backup. Deactivating or restoring puts them back byte-for-byte.
+
+## 🟧 Nexus Mods
+
+Anno 1404 History Edition has **no registered mod manager on Nexus**, so its mod pages show
+no *"Mod Manager Download"* (`nxm://`) button, and the Nexus API blocks direct downloads for
+free accounts. The manager works around this with a **built-in browser**:
+
+- **Browse the catalogue** — *Nexus Mods* opens an in-app list of the **newest / recently
+  updated / trending / all** Anno 1404 mods (via the Nexus API). This needs a free personal
+  **API key** once — a login window opens the Nexus API page and validates the key.
+- **Download inside the app** — *Nexus durchsuchen* (or *Öffnen / Herunterladen* on a mod)
+  opens Nexus **inside the manager**. Log in to Nexus once (the session is remembered), then
+  download a mod the normal way — the manager **intercepts the file and imports it**
+  automatically, so it appears straight in your mod list.
+
+> [!IMPORTANT]
+> Downloads are only intercepted **inside the in-app browser** (not your normal browser),
+> and only **`.zip`** (AMM-format) mods are imported automatically. After import a mod shows
+> with a ❌ until you click **Activate**.
 
 ## 📦 Installation
 
@@ -171,6 +195,15 @@ published packages yet, or there's no internet connection — the manager falls 
 local cache.
 </details>
 
+<details>
+<summary><b>A Nexus mod didn't import</b></summary>
+
+Download the mod **inside the app's Nexus browser** (*Nexus Mods → Nexus durchsuchen*), not
+your normal browser — only the built-in browser can catch the download. Make sure you're
+logged in to Nexus there. Only **`.zip`** (AMM-format) mods are imported automatically
+(`.7z`/`.rar` aren't). Imported mods appear with a ❌ until you click *Activate*.
+</details>
+
 ## 🙏 Credits
 
 - 🗜️ **[RDAExplorer](https://github.com/lysannschlegel/RDAExplorer)** — the open-source RDA
@@ -198,10 +231,20 @@ musst. Mod aussuchen, auf *Aktivieren* klicken, spielen.
 - 🧭 Mods mit einem Klick aktivieren/deaktivieren/entfernen.
 - ♻️ Automatisches Backup vor jeder Änderung, jederzeit wiederherstellbar.
 - 🌐 Online-Mod-Browser (Pakete aus einem GitHub-Repository laden).
+- 🟧 **Nexus Mods** im eingebauten Browser durchstöbern; Downloads werden **automatisch abgefangen und importiert** (kein `nxm://` nötig).
 - 🎮 Erkennt Klassik **und** History Edition automatisch; klassische Mods bleiben unter HE nutzbar.
 - 🗜️ Integrierter **RDA Explorer** (RDA v2.0 und v2.2 lesen/schreiben).
 - 🛠️ **Development Tools** zum Erstellen, Paketieren und Veröffentlichen eigener Mods.
 - 🌍 Deutsch &amp; Englisch.
+
+**Nexus Mods:** Anno 1404 HE hat auf Nexus keinen *„Mod Manager Download"*-Knopf, und die
+Nexus-API erlaubt free-Accounts keinen Direkt-Download. Deshalb gibt es einen **eingebauten
+Browser**: Über *Nexus Mods → Nexus durchsuchen* öffnet sich Nexus **in der App** – einmal
+anmelden, dann eine Mod ganz normal herunterladen. AMM **fängt den Download ab und
+importiert ihn automatisch**. (Abgefangen wird nur **im eingebauten Browser** und nur
+**`.zip`**-Mods; nach dem Import steht die Mod mit ❌ da, bis du auf *Aktivieren* klickst.
+Eine In-App-Liste neuer/aktueller/aller Mods gibt es zusätzlich – dafür einmal einen
+persönlichen Nexus-**API-Key** eintragen.)
 
 **Voraussetzung:** Anno 1404 muss installiert sein (Klassik oder History Edition).
 
