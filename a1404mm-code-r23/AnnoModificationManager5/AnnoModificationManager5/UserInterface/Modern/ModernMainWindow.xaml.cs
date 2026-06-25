@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using AnnoModificationManager5.Components;
 using AnnoModificationManager5.ModificationTypes;
 using AnnoModificationManager5.Misc;
@@ -19,21 +21,35 @@ namespace AnnoModificationManager5.UserInterface.Modern
 
         private readonly List<ModRow> _rows = new List<ModRow>();
         private Modification _selected;
+        private string _filterCategory;
 
         public ModernMainWindow()
         {
             InitializeComponent();
             Current = this;
+
+            try
+            {
+                BitmapImage bmp = new BitmapImage();
+                bmp.BeginInit();
+                bmp.UriSource = new Uri("pack://application:,,,/Images/Header/headerImage_n05.jpg");
+                bmp.CacheOption = BitmapCacheOption.OnLoad;
+                bmp.EndInit();
+                img_Backdrop.Source = bmp;
+            }
+            catch (Exception) { }
+
+            try { lbl_Version.Text = "Version " + Assembly.GetExecutingAssembly().GetName().Version; }
+            catch (Exception) { }
+
             Loaded += delegate { Populate(); SetActiveNav(nav_Overview); };
             Closed += delegate { Current = null; };
         }
 
         public void RefreshData()
         {
-            if (Dispatcher.CheckAccess())
-                Populate();
-            else
-                Dispatcher.Invoke((Action)Populate);
+            if (Dispatcher.CheckAccess()) Populate();
+            else Dispatcher.Invoke((Action)Populate);
         }
 
         private void Populate()
@@ -51,50 +67,110 @@ namespace AnnoModificationManager5.UserInterface.Modern
                     Source = mod
                 });
             }
-            lst_Mods.ItemsSource = null;
-            lst_Mods.ItemsSource = _rows;
 
-            var groups = _rows
+            List<CategoryCard> cards = _rows
                 .GroupBy(r => string.IsNullOrEmpty(r.Category) ? "Sonstige" : r.Category)
-                .OrderByDescending(g => g.Count());
-
-            List<CategoryCard> cards = new List<CategoryCard>();
-            foreach (var g in groups)
-            {
-                cards.Add(new CategoryCard
+                .OrderByDescending(g => g.Count())
+                .Select(g => new CategoryCard
                 {
                     Title = g.Key,
                     Subtitle = SubtitleFor(g.Key),
                     Glyph = GlyphFor(g.Key),
                     CountText = g.Count() + (g.Count() == 1 ? " Mod" : " Mods")
-                });
-            }
+                }).ToList();
             ic_Categories.ItemsSource = cards;
+            ic_CategoriesFull.ItemsSource = cards;
 
             if (_selected == null && _rows.Count > 0)
                 _selected = _rows[0].Source;
 
-            ShowCard(_selected);
+            ShowOverviewCard();
+            RefreshList();
+            UpdateDetail(_selected);
         }
 
-        private void ShowCard(Modification mod)
+        private void RefreshList()
+        {
+            IEnumerable<ModRow> rows = _rows;
+
+            if (!string.IsNullOrEmpty(_filterCategory))
+                rows = rows.Where(r => CatKey(r.Category) == _filterCategory);
+
+            string q = (txt_Search.Text ?? "").Trim();
+            if (!string.IsNullOrEmpty(q))
+                rows = rows.Where(r =>
+                    (r.Name ?? "").IndexOf(q, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    (r.Category ?? "").IndexOf(q, StringComparison.OrdinalIgnoreCase) >= 0);
+
+            List<ModRow> list = rows.ToList();
+            lst_Mods.ItemsSource = list;
+            lbl_Filter.Text = string.IsNullOrEmpty(_filterCategory)
+                ? list.Count + (list.Count == 1 ? " Mod" : " Mods")
+                : "Kategorie: " + _filterCategory + "  (" + list.Count + ")";
+        }
+
+        private static string CatKey(string category)
+        {
+            return string.IsNullOrEmpty(category) ? "Sonstige" : category;
+        }
+
+        private void ShowOverviewCard()
+        {
+            if (_selected == null)
+            {
+                lbl_ModName.Text = "Keine Mods installiert";
+                lbl_ModMeta.Text = "Lade Mods über Nexus oder den GitHub-Browser.";
+                return;
+            }
+            lbl_ModName.Text = Safe(_selected.UICollector.Name);
+            lbl_ModMeta.Text = Safe(_selected.UICollector.VersionString) + "   •   Erstellt von " + Safe(_selected.UICollector.Author);
+        }
+
+        private void UpdateDetail(Modification mod)
         {
             if (mod == null)
             {
-                lbl_ModName.Text = "Keine Mods installiert";
-                lbl_ModMeta.Text = "Lade Mods über Nexus oder den Browser.";
+                d_Name.Text = "Keine Mod ausgewählt";
+                d_Meta.Text = "";
+                d_Desc.Text = "Wähle links eine Mod aus.";
+                d_StatusChip.Visibility = Visibility.Collapsed;
+                btn_Activate.Content = "✓  Aktivieren";
                 return;
             }
-            lbl_ModName.Text = Safe(mod.UICollector.Name);
-            lbl_ModMeta.Text = Safe(mod.UICollector.VersionString) + "   •   Erstellt von " + Safe(mod.UICollector.Author);
+
+            d_Name.Text = Safe(mod.UICollector.Name);
+            d_Meta.Text = Safe(mod.UICollector.VersionString) + "   ·   " + Safe(mod.UICollector.Author);
+            try { d_Desc.Text = mod.Info.Description.Get; } catch (Exception) { d_Desc.Text = ""; }
+
+            d_StatusChip.Visibility = Visibility.Visible;
+            try
+            {
+                switch (mod.CheckActivation().Result())
+                {
+                    case Enums.Modification_ActivationStatus.Activated:
+                        d_Status.Text = "Aktiv";
+                        btn_Activate.Content = "✕  Deaktivieren";
+                        break;
+                    case Enums.Modification_ActivationStatus.Partially:
+                        d_Status.Text = "Teilweise aktiv";
+                        btn_Activate.Content = "✓  Aktivieren";
+                        break;
+                    default:
+                        d_Status.Text = "Inaktiv";
+                        btn_Activate.Content = "✓  Aktivieren";
+                        break;
+                }
+            }
+            catch (Exception)
+            {
+                d_StatusChip.Visibility = Visibility.Collapsed;
+            }
         }
 
         private Modification SelectedMod()
         {
             ModRow row = lst_Mods.SelectedItem as ModRow;
-            if (row != null)
-                return row.Source;
-            return _selected;
+            return row != null ? row.Source : _selected;
         }
 
         private void lst_Mods_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -103,14 +179,12 @@ namespace AnnoModificationManager5.UserInterface.Modern
             if (row != null)
             {
                 _selected = row.Source;
-                ShowCard(_selected);
+                ShowOverviewCard();
+                UpdateDetail(_selected);
             }
         }
 
-        private static string Safe(string s)
-        {
-            return string.IsNullOrEmpty(s) ? "" : s;
-        }
+        private static string Safe(string s) { return string.IsNullOrEmpty(s) ? "" : s; }
 
         private static string GlyphFor(string category)
         {
@@ -142,67 +216,61 @@ namespace AnnoModificationManager5.UserInterface.Modern
             active.Foreground = (Brush)FindResource("TextMain");
         }
 
-        private void ShowView(bool overview)
+        private void ShowView(UIElement view, Button nav, string title)
         {
-            view_Overview.Visibility = overview ? Visibility.Visible : Visibility.Collapsed;
-            view_Mods.Visibility = overview ? Visibility.Collapsed : Visibility.Visible;
+            view_Overview.Visibility = Visibility.Collapsed;
+            view_Mods.Visibility = Visibility.Collapsed;
+            view_Categories.Visibility = Visibility.Collapsed;
+            view_About.Visibility = Visibility.Collapsed;
+            view.Visibility = Visibility.Visible;
+            SetActiveNav(nav);
+            lbl_Title.Text = title;
         }
 
-        private void nav_Overview_Click(object sender, RoutedEventArgs e)
-        {
-            SetActiveNav(nav_Overview);
-            ShowView(true);
-            lbl_Title.Text = "Übersicht";
-        }
+        private void nav_Overview_Click(object sender, RoutedEventArgs e) { ShowView(view_Overview, nav_Overview, "Übersicht"); }
 
         private void nav_Mods_Click(object sender, RoutedEventArgs e)
         {
-            SetActiveNav(nav_Mods);
-            ShowView(false);
-            lbl_Title.Text = "Mods";
+            _filterCategory = null;
+            RefreshList();
+            ShowView(view_Mods, nav_Mods, "Mods");
         }
 
-        private void nav_Categories_Click(object sender, RoutedEventArgs e)
-        {
-            SetActiveNav(nav_Categories);
-            ShowView(true);
-            lbl_Title.Text = "Kategorien";
-        }
+        private void nav_Categories_Click(object sender, RoutedEventArgs e) { ShowView(view_Categories, nav_Categories, "Kategorien"); }
 
         private void nav_Settings_Click(object sender, RoutedEventArgs e)
         {
-            try { new SettingsDialog().ShowDialog(); }
-            catch (Exception) { }
-            SetActiveNav(nav_Overview);
+            try { new SettingsDialog().ShowDialog(); } catch (Exception) { }
+            SetActiveNav(view_Overview.Visibility == Visibility.Visible ? nav_Overview :
+                         view_Mods.Visibility == Visibility.Visible ? nav_Mods :
+                         view_Categories.Visibility == Visibility.Visible ? nav_Categories : nav_About);
         }
 
-        private void nav_About_Click(object sender, RoutedEventArgs e)
+        private void nav_About_Click(object sender, RoutedEventArgs e) { ShowView(view_About, nav_About, "Über"); }
+
+        private void Category_Click(object sender, RoutedEventArgs e)
         {
-            try { new AboutDialog().ShowDialog(); }
-            catch (Exception) { }
-            SetActiveNav(nav_Overview);
+            Button b = sender as Button;
+            if (b == null) return;
+            _filterCategory = b.Tag as string;
+            txt_Search.Text = "";
+            RefreshList();
+            ShowView(view_Mods, nav_Mods, "Mods");
         }
 
         private void txt_Search_TextChanged(object sender, TextChangedEventArgs e)
         {
             string q = (txt_Search.Text ?? "").Trim();
             lbl_SearchHint.Visibility = string.IsNullOrEmpty(q) ? Visibility.Visible : Visibility.Collapsed;
-
-            if (string.IsNullOrEmpty(q))
-                lst_Mods.ItemsSource = _rows;
-            else
-                lst_Mods.ItemsSource = _rows.Where(r =>
-                    (r.Name ?? "").IndexOf(q, StringComparison.OrdinalIgnoreCase) >= 0 ||
-                    (r.Category ?? "").IndexOf(q, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
-
-            if (!string.IsNullOrEmpty(q) && view_Overview.Visibility == Visibility.Visible)
-                nav_Mods_Click(this, null);
+            RefreshList();
+            if (!string.IsNullOrEmpty(q) && view_Mods.Visibility != Visibility.Visible)
+                ShowView(view_Mods, nav_Mods, "Mods");
         }
 
         private void Activate_Click(object sender, RoutedEventArgs e)
         {
             Modification mod = SelectedMod();
-            if (mod == null) { Hint("Bitte zuerst eine Mod auswählen (links → Mods)."); return; }
+            if (mod == null) { d_Desc.Text = "Bitte zuerst eine Mod auswählen."; return; }
 
             try
             {
@@ -225,19 +293,19 @@ namespace AnnoModificationManager5.UserInterface.Modern
                     if (MainWindow.CurrentMainWindow != null)
                         MainWindow.CurrentMainWindow.UpdateActivationResponses();
                     new RDAChangesButton().ApplyChanges(true);
+                    UpdateDetail(mod);
                 }
             }
             catch (Exception ex)
             {
-                Hint("Fehler: " + ex.Message);
+                d_Desc.Text = "Fehler: " + ex.Message;
             }
         }
 
         private void Uninstall_Click(object sender, RoutedEventArgs e)
         {
             Modification mod = SelectedMod();
-            if (mod == null) { Hint("Bitte zuerst eine Mod auswählen (links → Mods)."); return; }
-
+            if (mod == null) { d_Desc.Text = "Bitte zuerst eine Mod auswählen."; return; }
             try
             {
                 DeleteDialog dlg = new DeleteDialog();
@@ -249,16 +317,13 @@ namespace AnnoModificationManager5.UserInterface.Modern
                         MainWindow.CurrentMainWindow.ReloadModifications(true);
                 }
             }
-            catch (Exception ex)
-            {
-                Hint("Fehler: " + ex.Message);
-            }
+            catch (Exception ex) { d_Desc.Text = "Fehler: " + ex.Message; }
         }
 
         private void Info_Click(object sender, RoutedEventArgs e)
         {
             Modification mod = SelectedMod();
-            if (mod == null) { nav_Mods_Click(this, null); return; }
+            if (mod == null) return;
             try
             {
                 ModificationStatusInformationDialog dlg = new ModificationStatusInformationDialog();
@@ -274,28 +339,49 @@ namespace AnnoModificationManager5.UserInterface.Modern
             string url = mod != null ? mod.Info.Website : null;
             if (string.IsNullOrEmpty(url))
                 url = "https://www.nexusmods.com/anno1404historyedition/mods/";
-            try { System.Diagnostics.Process.Start(url); }
+            Open(url);
+        }
+
+        private void Nexus_Click(object sender, RoutedEventArgs e)
+        {
+            try { new Nexus.NexusBrowseWindow().ShowDialog(); } catch (Exception) { }
+            Refresh_Click(sender, e);
+        }
+
+        private void GitHub_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                DownloadPackagesWindow w = new DownloadPackagesWindow();
+                w.ShowDialog();
+                if (w.HasDownloaded && MainWindow.CurrentMainWindow != null)
+                    MainWindow.CurrentMainWindow.ReloadModifications(true);
+            }
             catch (Exception) { }
         }
 
-        private void Updates_Click(object sender, RoutedEventArgs e)
+        private void Refresh_Click(object sender, RoutedEventArgs e)
         {
-            try { new Nexus.NexusBrowseWindow().ShowDialog(); RefreshData(); }
-            catch (Exception) { }
+            if (MainWindow.CurrentMainWindow != null)
+                MainWindow.CurrentMainWindow.ReloadModifications(true);
         }
 
-        private void Hint(string text)
-        {
-            lbl_ModMeta.Text = text;
-        }
+        private void LinkGitHub_Click(object sender, RoutedEventArgs e) { Open("https://github.com/C1yHAX/Anno-1404-Modification-Manager-v5"); }
+        private void LinkNexus_Click(object sender, RoutedEventArgs e) { Open("https://www.nexusmods.com/anno1404historyedition/mods/"); }
 
-        private void TitleBar_MouseDown(object sender, MouseButtonEventArgs e)
+        private static void Open(string url)
         {
-            if (e.ChangedButton == MouseButton.Left)
-                DragMove();
+            try { System.Diagnostics.Process.Start(url); } catch (Exception) { }
         }
 
         private void Min_Click(object sender, RoutedEventArgs e) { WindowState = WindowState.Minimized; }
+
+        private void Max_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
+            btn_Max.Content = WindowState == WindowState.Maximized ? "❐" : "□";
+        }
+
         private void Close_Click(object sender, RoutedEventArgs e) { Close(); }
     }
 
