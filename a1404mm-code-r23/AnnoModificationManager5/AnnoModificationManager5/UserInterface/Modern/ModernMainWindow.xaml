@@ -158,7 +158,7 @@
                     <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="22,0,0,22">
                         <Ellipse Width="9" Height="9" Fill="{StaticResource Green}" VerticalAlignment="Center"/>
                         <StackPanel Margin="9,0,0,0">
-                            <TextBlock Text="Spiel erkannt" Foreground="{StaticResource TextDim}" FontSize="11"/>
+                            <TextBlock Text="Spiel gefunden" Foreground="{StaticResource TextDim}" FontSize="11"/>
                             <TextBlock x:Name="lbl_Game" Text="Anno 1404" Foreground="{StaticResource TextMain}" FontSize="13" FontWeight="SemiBold"/>
                         </StackPanel>
                     </StackPanel>
