@@ -176,6 +176,9 @@
     <Compile Include="Nexus\NexusWebWindow.xaml.cs">
       <DependentUpon>NexusWebWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserInterface\Modern\ModernMainWindow.xaml.cs">
+      <DependentUpon>ModernMainWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserInterface\Group\ModificationGroupDescription.cs" />
     <Compile Include="UserInterface\Group\PipeStringConverter.cs" />
     <Compile Include="UserInterface\MainUI\AboutDialog.xaml.cs">
@@ -386,6 +389,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Nexus\NexusWebWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserInterface\Modern\ModernMainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

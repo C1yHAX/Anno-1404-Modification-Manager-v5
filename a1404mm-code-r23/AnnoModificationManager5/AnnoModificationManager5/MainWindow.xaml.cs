@@ -182,6 +182,11 @@ namespace AnnoModificationManager5
                 ReloadModifications(true);
         }
 
+        private void modernUiButton_Click(object sender, RoutedEventArgs e)
+        {
+            new UserInterface.Modern.ModernMainWindow().Show();
+        }
+
         #region Loading Modifications
         #region Reload Modifications
         public void ReloadModifications(bool searchonline)
