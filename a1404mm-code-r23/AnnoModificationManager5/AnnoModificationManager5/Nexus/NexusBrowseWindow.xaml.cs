@@ -211,6 +211,41 @@ namespace AnnoModificationManager5.Nexus
             }
         }
 
+        private void btn_Import_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog dialog = new Microsoft.Win32.OpenFileDialog();
+            dialog.Filter = "Mod-Paket (*.zip)|*.zip";
+            dialog.Multiselect = true;
+            try
+            {
+                string downloads = Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
+                if (Directory.Exists(downloads))
+                    dialog.InitialDirectory = downloads;
+            }
+            catch (Exception) { }
+
+            if (dialog.ShowDialog() != true)
+                return;
+
+            int imported = 0;
+            foreach (string file in dialog.FileNames)
+            {
+                try { if (ModificationHandler.Instance.AddModification(file)) imported++; }
+                catch (Exception) { }
+            }
+
+            if (imported > 0)
+            {
+                HasDownloaded = true;
+                lbl_Status.Text = imported + " Mod(s) importiert.";
+            }
+            else
+            {
+                lbl_Status.Text = "Nichts importiert.";
+            }
+        }
+
         private void btn_Close_Click(object sender, RoutedEventArgs e)
         {
             Close();
