@@ -153,7 +153,7 @@ namespace AnnoModificationManager5.Nexus
 
             if (!_isPremium)
             {
-                try { Process.Start("https://www.nexusmods.com/" + Game + "/mods/" + mod.ModId); }
+                try { Process.Start("https://www.nexusmods.com/" + Game + "/mods/" + mod.ModId + "?tab=files"); }
                 catch (Exception ex) { lbl_Status.Text = "Konnte den Browser nicht öffnen: " + ex.Message; }
                 return;
             }
