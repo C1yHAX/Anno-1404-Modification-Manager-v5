@@ -15,7 +15,7 @@
     	</Grid>
     	<TabControl Margin="8,32,8,42" BorderBrush="{DynamicResource Brush_UI_Border}">
     		<TabItem Header="{lng:LanguageMarkup Dictionary=SettingsDialog, Key=Tab_General}">
-    			<Grid Background="White">
+    			<Grid Background="{DynamicResource Brush_UI_White}">
     				<StackPanel>
     					<GroupBox Header="Sprache / Language">
     						<StackPanel>
@@ -34,7 +34,7 @@
     			</Grid>
     		</TabItem>
     		<TabItem Header="Anno 1404" Margin="0">
-    			<StackPanel Background="White">
+    			<StackPanel Background="{DynamicResource Brush_UI_White}">
     				<GroupBox Header="{lng:LanguageMarkup Dictionary=UserInterface, Key=Startup_GroupBox_AnnoDirectory}">
     					<Grid>
     						<TextBox Text="" Height="21.96" VerticalAlignment="Top" BorderBrush="{x:Null}" x:Name="field_AnnoDirectory" />

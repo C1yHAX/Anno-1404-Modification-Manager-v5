@@ -16,7 +16,7 @@
         </Grid>         
         <Grid Margin="8,168,8,42" x:Name="conflictContainer">                
             <TextBlock Text="{lng:LanguageMarkup Dictionary=DeleteDialog, Key=Message}" Margin="0,6,0,0" VerticalAlignment="Top" Name="deleteMessage" />
-            <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" x:Name="list_ConflictMods" Margin="8,42.29,0,27.96" Foreground="Black" BorderBrush="{x:Null}" BorderThickness="0">
+            <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" x:Name="list_ConflictMods" Margin="8,42.29,0,27.96" Foreground="#FFE3ECF6" BorderBrush="{x:Null}" BorderThickness="0">
                 <ListView.View>
                     <GridView>
                         <GridView.ColumnHeaderContainerStyle>
@@ -50,7 +50,7 @@
                 </StackPanel>
             </Border>
         </Grid>
-        <ProgressBar Height="10" Margin="8,0,8,8" VerticalAlignment="Bottom" Background="White" Foreground="{DynamicResource Brush_UI_Blue}" BorderBrush="{DynamicResource Brush_UI_Border}" Visibility="Hidden"
+        <ProgressBar Height="10" Margin="8,0,8,8" VerticalAlignment="Bottom" Background="{DynamicResource Brush_UI_White}" Foreground="{DynamicResource Brush_UI_Blue}" BorderBrush="{DynamicResource Brush_UI_Border}" Visibility="Hidden"
                             x:Name="progress_Activation" />
     	<Grid Height="100" Margin="8,64,34,0" VerticalAlignment="Top">
     		<Image Source="/AnnoModificationManager5;component/Images/Logo/Version3_Comet256.ico" Stretch="Fill" HorizontalAlignment="Left" Width="100" Height="100" d:LayoutOverrides="VerticalAlignment"/>

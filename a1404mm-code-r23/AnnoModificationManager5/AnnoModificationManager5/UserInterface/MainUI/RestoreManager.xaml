@@ -19,7 +19,7 @@
     			<Image Height="16" Source="/AnnoModificationManager5;component/Images/Icons/delete.png" Width="16" Stretch="Fill"/>
     		</Button>
     	</ToolBar>
-    	<ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="0,0,0,27" Foreground="Black" BorderBrush="{x:Null}" BorderThickness="0" Name="list_Restore">
+    	<ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="0,0,0,27" Foreground="#FFE3ECF6" BorderBrush="{x:Null}" BorderThickness="0" Name="list_Restore">
     		<ListView.View>
     			<GridView>
                     <GridView.ColumnHeaderContainerStyle>

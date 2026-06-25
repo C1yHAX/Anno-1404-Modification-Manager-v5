@@ -231,6 +231,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="ControlStyle_DarkGlobal.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="ControlStyle_Button_Global.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -18,7 +18,7 @@
         </Grid>
         <TabControl x:Name="tabControl" Margin="8,32,8,42" BorderBrush="{DynamicResource Brush_UI_Border}">
         	<TabItem Header="{lng:LanguageMarkup Dictionary=ActivationDialog, Key=Tab_Information}" x:Name="tabControl_Information">
-        		<Grid Background="White">
+        		<Grid Background="{DynamicResource Brush_UI_White}">
         			<Image Margin="8,8,0,348.04" Source="/AnnoModificationManager5;component/Images/Logo/Version3_Comet256.ico" Stretch="Fill" HorizontalAlignment="Left" Width="100" Height="100"/>
         			<TextBlock Margin="112,18.04,8,0" Text="Anno 1404 Modification Manager" VerticalAlignment="Top" FontSize="16" x:Name="field_Name" />
         			<TextBlock Margin="112,43.32,8,0" Text="Version 4.0.0.0" VerticalAlignment="Top" x:Name="field_Version" />
@@ -47,7 +47,7 @@
         			<Grid Margin="25,220,8,22" x:Name="conflictContainer">
         				<Separator Margin="0" VerticalAlignment="Top"/>
                         <TextBlock Text="{lng:LanguageMarkup Dictionary=ActivationDialog,Key=Conflict_Message}" Margin="0,6,0,0" VerticalAlignment="Top"/>
-        				<ListView x:Name="list_ConflictMods" Margin="8,24.96,0,27.96" Foreground="Black" BorderBrush="{x:Null}" BorderThickness="0">
+        				<ListView x:Name="list_ConflictMods" Margin="8,24.96,0,27.96" Foreground="#FFE3ECF6" BorderBrush="{x:Null}" BorderThickness="0">
         					<ListView.View>
         						<GridView>
         							<GridView.ColumnHeaderContainerStyle>
@@ -75,13 +75,13 @@
         				</Border>
         				<CheckBox x:Name="conflict_DeactivateIncompatible" Content="{lng:LanguageMarkup Dictionary=ActivationDialog, Key=Conflict_DeactivateIncompatible}" HorizontalAlignment="Left" Margin="8,0,0,8" VerticalAlignment="Bottom" IsChecked="True"/>
         			</Grid>
-        			<ProgressBar Height="10" Margin="25,0,8,8" VerticalAlignment="Bottom" Background="White" Foreground="{DynamicResource Brush_UI_Blue}" BorderBrush="{DynamicResource Brush_UI_Border}" Visibility="Hidden"
+        			<ProgressBar Height="10" Margin="25,0,8,8" VerticalAlignment="Bottom" Background="{DynamicResource Brush_UI_White}" Foreground="{DynamicResource Brush_UI_Blue}" BorderBrush="{DynamicResource Brush_UI_Border}" Visibility="Hidden"
                             x:Name="progress_Activation" />
         			<CheckBox x:Name="features_CreateRestorePoint" Content="{lng:LanguageMarkup Dictionary=ActivationDialog, Key=Feature_CreateRestorePoint}" HorizontalAlignment="Left" Margin="32.58,0,0,8" VerticalAlignment="Bottom" Visibility="Hidden" />
         		</Grid>
         	</TabItem>
         	<TabItem Header="{lng:LanguageMarkup Dictionary=ActivationDialog, Key=Tab_UserdefinedValues}" x:Name="tabItem_UValues">
-        		<ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" Foreground="Black" BorderBrush="{x:Null}" BorderThickness="0" x:Name="list_UserdefinedValues">
+        		<ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" Foreground="#FFE3ECF6" BorderBrush="{x:Null}" BorderThickness="0" x:Name="list_UserdefinedValues">
                     <ListView.GroupStyle>
                         <GroupStyle>
                             <GroupStyle.ContainerStyle>

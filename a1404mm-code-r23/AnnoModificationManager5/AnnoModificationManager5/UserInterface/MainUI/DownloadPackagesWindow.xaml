@@ -68,7 +68,7 @@
 		</ToolBar>
 		<CheckBox Checked="check_ShowHidden_Checked" Unchecked="check_ShowHidden_Checked" Content="{lng:LanguageMarkup Dictionary=DownloadPackagesWindow, Key=check_ShowHidden}" DockPanel.Dock="Bottom" Margin="3" x:Name="check_ShowHidden" />
 		<Grid x:Name="downloadProgressGrid" DockPanel.Dock="Bottom" Visibility="Collapsed" Height="40">
-			<ProgressBar Margin="5,0,110,0" Height="10" Background="White" BorderBrush="{DynamicResource Brush_UI_Border}" Foreground="{DynamicResource Brush_UI_Blue}"  x:Name="progress_Download" VerticalAlignment="Center" />
+			<ProgressBar Margin="5,0,110,0" Height="10" Background="{DynamicResource Brush_UI_White}" BorderBrush="{DynamicResource Brush_UI_Border}" Foreground="{DynamicResource Brush_UI_Blue}"  x:Name="progress_Download" VerticalAlignment="Center" />
 			<Button Content="{lng:LanguageMarkup Dictionary=UserInterface, Key=Cancel}" Background="{StaticResource Brush_UI_White}" HorizontalAlignment="Right" Width="100" Height="30" x:Name="button_ProgressCancel" Click="button_ProgressCancel_Click" Margin="5" /> 
 		</Grid>
 		<ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" BorderThickness="0" x:Name="list_Packages" BorderBrush="{x:Null}">

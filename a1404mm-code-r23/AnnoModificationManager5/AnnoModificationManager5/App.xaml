@@ -20,7 +20,8 @@
                 <ResourceDictionary Source="ControlStyle_Expander_Small.xaml"/>
                 <ResourceDictionary Source="ControlStyle_NumericUpDown_Global.xaml"/>
                 <ResourceDictionary Source="ControlStyle_ScrollBar_Global.xaml"/>
-                <ResourceDictionary Source="ControlStyle_ListView_NoScroll.xaml"/>                                    
+                <ResourceDictionary Source="ControlStyle_ListView_NoScroll.xaml"/>
+                <ResourceDictionary Source="ControlStyle_DarkGlobal.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
          

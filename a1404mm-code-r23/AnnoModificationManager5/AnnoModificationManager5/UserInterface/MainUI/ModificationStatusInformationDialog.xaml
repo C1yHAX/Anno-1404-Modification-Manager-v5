@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:lng="clr-namespace:AnnoModificationManager5.Language.DictionarySystem"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="AnnoModificationManager5.UserInterface.MainUI.ModificationStatusInformationDialog" Height="600" Width="800" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
-    <Grid Background="White">
+    <Grid Background="{DynamicResource Brush_UI_White}">
         <Image Margin="8,8,0,0" Source="/AnnoModificationManager5;component/Images/Logo/Version3_Comet256.ico" Stretch="Fill" HorizontalAlignment="Left" Width="100" Height="100" VerticalAlignment="Top" />
         <TextBlock Margin="112,18.04,8,0" Text="Anno 1404 Modification Manager" VerticalAlignment="Top" FontSize="16" x:Name="field_Name" />
         <TextBlock Margin="112,43.32,8,0" Text="Version 4.0.0.0" VerticalAlignment="Top" x:Name="field_Version" />
@@ -12,7 +12,7 @@
                 <Image Height="16" Source="/AnnoModificationManager5;component/Images/Icons/page_white.png" Stretch="Fill" Width="16"/>
                 <TextBlock Text="20 Dateien im Anno-Verzeichnis" Margin="5,0,0,0" x:Name="field_Files_Anno" />
                 <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
-                	<ProgressBar Height="10" Width="100" VerticalAlignment="Center" Background="White" BorderBrush="{DynamicResource Brush_UI_Border}" Foreground="{DynamicResource Brush_UI_Blue}" Name="field_Files_Anno_Progress" />
+                	<ProgressBar Height="10" Width="100" VerticalAlignment="Center" Background="{DynamicResource Brush_UI_White}" BorderBrush="{DynamicResource Brush_UI_Border}" Foreground="{DynamicResource Brush_UI_Blue}" Name="field_Files_Anno_Progress" />
                 	<TextBlock Text="20/20" Margin="3,0,0,0" Name="field_Files_Anno_Status" />
                 </StackPanel>
             </DockPanel>
@@ -20,7 +20,7 @@
                 <Image Height="16" Source="/AnnoModificationManager5;component/Images/Icons/page_white.png" Stretch="Fill" Width="16"/>
                 <TextBlock Text="20 Dateien im AppData-Verzeichnis" Margin="5,0,0,0" x:Name="field_Files_AppData" />
                 <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
-                	<ProgressBar Height="10" Width="100" VerticalAlignment="Center" Background="White" BorderBrush="{DynamicResource Brush_UI_Border}" Foreground="{DynamicResource Brush_UI_Blue}" Name="field_Files_AppData_Progress" />
+                	<ProgressBar Height="10" Width="100" VerticalAlignment="Center" Background="{DynamicResource Brush_UI_White}" BorderBrush="{DynamicResource Brush_UI_Border}" Foreground="{DynamicResource Brush_UI_Blue}" Name="field_Files_AppData_Progress" />
                 	<TextBlock Text="20/20" Margin="3,0,0,0" Name="field_Files_AppData_Status" />
                 </StackPanel>
             </DockPanel>
@@ -28,7 +28,7 @@
                 <Image Height="16" Source="/AnnoModificationManager5;component/Images/Icons/page_white_code.png" Stretch="Fill" Width="16"/>
                 <TextBlock Text="40 Xml-Module" Margin="5,0,0,0" x:Name="field_XmlModules" />
                 <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
-                	<ProgressBar Height="10" Width="100" VerticalAlignment="Center" Background="White" BorderBrush="{DynamicResource Brush_UI_Border}" Foreground="{DynamicResource Brush_UI_Blue}" Name="field_XmlModules_Progress" />
+                	<ProgressBar Height="10" Width="100" VerticalAlignment="Center" Background="{DynamicResource Brush_UI_White}" BorderBrush="{DynamicResource Brush_UI_Border}" Foreground="{DynamicResource Brush_UI_Blue}" Name="field_XmlModules_Progress" />
                 	<TextBlock Text="20/20" Margin="3,0,0,0" Name="field_XmlModules_Status" />
                 </StackPanel>
             </DockPanel>
@@ -36,7 +36,7 @@
                 <Image Height="16" Source="/AnnoModificationManager5;component/Images/Icons/page_white_text.png" Stretch="Fill" Width="16"/>
                 <TextBlock Text="40 Listen-Module" Margin="5,0,0,0" x:Name="field_ListModules" />
                 <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
-                	<ProgressBar Height="10" Width="100" VerticalAlignment="Center" Background="White" BorderBrush="{DynamicResource Brush_UI_Border}" Foreground="{DynamicResource Brush_UI_Blue}" Name="field_ListModules_Progress" />
+                	<ProgressBar Height="10" Width="100" VerticalAlignment="Center" Background="{DynamicResource Brush_UI_White}" BorderBrush="{DynamicResource Brush_UI_Border}" Foreground="{DynamicResource Brush_UI_Blue}" Name="field_ListModules_Progress" />
                 	<TextBlock Text="20/20" Margin="3,0,0,0" Name="field_ListModules_Status" />
                 </StackPanel>
             </DockPanel>
