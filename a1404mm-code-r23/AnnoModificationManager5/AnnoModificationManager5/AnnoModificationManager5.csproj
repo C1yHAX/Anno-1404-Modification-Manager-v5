@@ -476,6 +476,9 @@
     <Resource Include="Images\Header\headerImage_n05.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Images\Background\harbor.png" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Language\Dictionaries\MainUI.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

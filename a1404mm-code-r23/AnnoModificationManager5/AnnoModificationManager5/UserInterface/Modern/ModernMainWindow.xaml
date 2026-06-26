@@ -125,9 +125,18 @@
         </Style>
     </Window.Resources>
 
-    <Grid Background="{StaticResource Bg}">
-        <Image x:Name="img_Backdrop" Stretch="UniformToFill" Opacity="0.10" HorizontalAlignment="Right" VerticalAlignment="Bottom"
-               Width="760" Height="430" IsHitTestVisible="False"/>
+    <Grid Background="#FF0C2036">
+        <Image Source="pack://application:,,,/Images/Background/harbor.png" Stretch="UniformToFill" IsHitTestVisible="False"/>
+        <Grid IsHitTestVisible="False">
+            <Grid.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0.5">
+                    <GradientStop Color="#F50A1A2B" Offset="0.0"/>
+                    <GradientStop Color="#E00B1E32" Offset="0.32"/>
+                    <GradientStop Color="#9A0C2036" Offset="0.66"/>
+                    <GradientStop Color="#5E0C2036" Offset="1.0"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+        </Grid>
 
         <Grid>
             <Grid.ColumnDefinitions>
@@ -144,9 +153,9 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0" Margin="22,24,0,18">
-                        <TextBlock Text="ANNO" Foreground="{StaticResource Green}" FontSize="26" FontWeight="Bold"/>
-                        <TextBlock Text="1404" Foreground="#E7B84A" FontSize="26" FontWeight="Bold" Margin="0,-6,0,0"/>
-                        <TextBlock Text="MOD MANAGER" Foreground="{StaticResource TextDim}" FontSize="11" FontWeight="SemiBold" Margin="2,2,0,0"/>
+                        <TextBlock Text="ANNO" Foreground="#FFEAC36B" FontFamily="Georgia" FontSize="30" FontWeight="Bold"/>
+                        <TextBlock Text="1404" Foreground="#FFEAC36B" FontFamily="Georgia" FontSize="30" FontWeight="Bold" Margin="0,-8,0,0"/>
+                        <TextBlock Text="MOD MANAGER" Foreground="#FFC9A24A" FontSize="11" FontWeight="SemiBold" Margin="2,4,0,0"/>
                     </StackPanel>
                     <StackPanel Grid.Row="1" Margin="0,6,0,0">
                         <Button x:Name="nav_Overview" Style="{StaticResource NavButton}" Click="nav_Overview_Click" Content="🏠   Übersicht" shell:WindowChrome.IsHitTestVisibleInChrome="True"/>
@@ -155,12 +164,15 @@
                         <Button x:Name="nav_Settings" Style="{StaticResource NavButton}" Click="nav_Settings_Click" Content="⚙   Einstellungen"/>
                         <Button x:Name="nav_About" Style="{StaticResource NavButton}" Click="nav_About_Click" Content="ⓘ   Über"/>
                     </StackPanel>
-                    <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="22,0,0,22">
-                        <Ellipse Width="9" Height="9" Fill="{StaticResource Green}" VerticalAlignment="Center"/>
-                        <StackPanel Margin="9,0,0,0">
-                            <TextBlock Text="Spiel gefunden" Foreground="{StaticResource TextDim}" FontSize="11"/>
-                            <TextBlock x:Name="lbl_Game" Text="Anno 1404" Foreground="{StaticResource TextMain}" FontSize="13" FontWeight="SemiBold"/>
+                    <StackPanel Grid.Row="2" Margin="22,0,0,20">
+                        <StackPanel Orientation="Horizontal">
+                            <Ellipse Width="9" Height="9" Fill="{StaticResource Green}" VerticalAlignment="Center"/>
+                            <StackPanel Margin="9,0,0,0">
+                                <TextBlock Text="Spiel gefunden" Foreground="{StaticResource TextDim}" FontSize="11"/>
+                                <TextBlock x:Name="lbl_Game" Text="Anno 1404" Foreground="{StaticResource TextMain}" FontSize="13" FontWeight="SemiBold"/>
+                            </StackPanel>
                         </StackPanel>
+                        <TextBlock x:Name="lbl_SideVersion" Text="v5.0.0.0" Foreground="{StaticResource TextDim}" FontSize="11" Margin="0,12,0,0"/>
                     </StackPanel>
                 </Grid>
             </Border>
