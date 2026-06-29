@@ -477,6 +477,7 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Background\harbor.png" />
+    <Resource Include="Images\Background\splash.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Language\Dictionaries\MainUI.xml">

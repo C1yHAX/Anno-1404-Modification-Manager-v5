@@ -1,0 +1,19 @@
+<Project Sdk="WixToolset.Sdk/7.0.0">
+
+  <PropertyGroup>
+    <OutputType>Package</OutputType>
+
+    <Platform>x86</Platform>
+
+    <InstallerPlatform>x86</InstallerPlatform>
+
+    <OutputName>AnnoModificationManager5BetaSetup</OutputName>
+  </PropertyGroup>
+
+  <ItemGroup>
+
+    <Content Include="Package.wxs" />
+
+  </ItemGroup>
+
+</Project>

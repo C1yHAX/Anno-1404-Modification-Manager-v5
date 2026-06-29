@@ -275,7 +275,7 @@
                                                                     <GradientStop Color="#16314E" Offset="1"/>
                                                                 </LinearGradientBrush>
                                                             </Border.Background>
-                                                            <TextBlock Text="{Binding Glyph}" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                            <Image Source="{Binding IconPath}" Width="56" Height="56" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                         </Border>
                                                         <StackPanel Grid.Row="1" Margin="16,10,16,14">
                                                             <TextBlock Text="{Binding Title}" Foreground="{StaticResource TextMain}" FontSize="14" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
@@ -393,7 +393,7 @@
                                                                     <GradientStop Color="#16314E" Offset="1"/>
                                                                 </LinearGradientBrush>
                                                             </Border.Background>
-                                                            <TextBlock Text="{Binding Glyph}" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                            <Image Source="{Binding IconPath}" Width="56" Height="56" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                         </Border>
                                                         <StackPanel Grid.Row="1" Margin="16,10,16,14">
                                                             <TextBlock Text="{Binding Title}" Foreground="{StaticResource TextMain}" FontSize="14" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>

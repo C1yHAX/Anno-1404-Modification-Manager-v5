@@ -17,6 +17,8 @@ namespace AnnoModificationManager5
     /// </summary>
     public partial class App : Application
     {
+        public static System.Windows.SplashScreen Splash;
+
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             Nexus.NxmProtocolHandler.Register();
@@ -27,6 +29,9 @@ namespace AnnoModificationManager5
                 Shutdown();
                 return;
             }
+
+            try { Splash = new System.Windows.SplashScreen("Images/Background/splash.png"); Splash.Show(false); }
+            catch (Exception) { }
 
             if (!AnnoModificationManager5.Properties.Settings.Default.StartupShown)
                 AnnoModificationManager5.Properties.Settings.Default.Upgrade();

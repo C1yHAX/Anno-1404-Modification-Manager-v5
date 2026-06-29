@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+
+    <Package
+        Name="Anno 1404 Modification Manager 5 Beta"
+        Manufacturer="Anno Modding Community"
+        Version="5.0.0"
+        UpgradeCode="a2c6bf9c-9f5d-4fee-9cad-18f3b411a5cc">
+
+        <MajorUpgrade />
+
+        <MediaTemplate />
+
+        <StandardDirectory Id="ProgramFilesFolder">
+
+            <Directory Id="INSTALLFOLDER"
+                       Name="Anno 1404 Modification Manager 5 Beta">
+
+            </Directory>
+
+        </StandardDirectory>
+
+    </Package>
+
+</Wix>

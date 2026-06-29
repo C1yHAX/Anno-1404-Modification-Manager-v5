@@ -30,19 +30,18 @@ namespace AnnoModificationManager5.UserInterface.Modern
 
             try
             {
-                BitmapImage bmp = new BitmapImage();
-                bmp.BeginInit();
-                bmp.UriSource = new Uri("pack://application:,,,/Images/Header/headerImage_n05.jpg");
-                bmp.CacheOption = BitmapCacheOption.OnLoad;
-                bmp.EndInit();
-                img_Backdrop.Source = bmp;
+                lbl_Version.Text = "Version " + Assembly.GetExecutingAssembly().GetName().Version;
+                lbl_SideVersion.Text = "v" + Assembly.GetExecutingAssembly().GetName().Version;
             }
             catch (Exception) { }
 
-            try { lbl_Version.Text = "Version " + Assembly.GetExecutingAssembly().GetName().Version; }
-            catch (Exception) { }
-
-            Loaded += delegate { Populate(); SetActiveNav(nav_Overview); };
+            Loaded += delegate
+            {
+                Populate();
+                SetActiveNav(nav_Overview);
+                try { if (App.Splash != null) { App.Splash.Close(TimeSpan.FromMilliseconds(400)); App.Splash = null; } }
+                catch (Exception) { }
+            };
             Closed += delegate { Current = null; };
         }
 
@@ -76,6 +75,7 @@ namespace AnnoModificationManager5.UserInterface.Modern
                     Title = g.Key,
                     Subtitle = SubtitleFor(g.Key),
                     Glyph = GlyphFor(g.Key),
+                    IconPath = IconFor(g.Key),
                     CountText = g.Count() + (g.Count() == 1 ? " Mod" : " Mods")
                 }).ToList();
             ic_Categories.ItemsSource = cards;
@@ -202,6 +202,15 @@ namespace AnnoModificationManager5.UserInterface.Modern
             if (c.Contains("venedig") || c.Contains("venice")) return "Venedig-Erweiterung";
             if (c.Contains("i.a.a.m") || c.Contains("iaam")) return "I.A.A.M.-Erweiterung";
             return "Mods & Erweiterungen";
+        }
+
+        private static string IconFor(string category)
+        {
+            string c = (category ?? "").ToLowerInvariant();
+            string name = "Icon_Retail_50.png";
+            if (c.Contains("venedig") || c.Contains("venice")) name = "Icon_Addon_50.png";
+            else if (c.Contains("i.a.a.m") || c.Contains("iaam")) name = "Icon_IAAM_50.png";
+            return "pack://application:,,,/Images/" + name;
         }
 
         private void SetActiveNav(Button active)
@@ -391,6 +400,7 @@ namespace AnnoModificationManager5.UserInterface.Modern
         public string Subtitle { get; set; }
         public string CountText { get; set; }
         public string Glyph { get; set; }
+        public string IconPath { get; set; }
     }
 
     public class ModRow
