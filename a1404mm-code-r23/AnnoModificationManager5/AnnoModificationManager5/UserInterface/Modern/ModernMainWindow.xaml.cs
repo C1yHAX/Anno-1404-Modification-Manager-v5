@@ -283,6 +283,8 @@ namespace AnnoModificationManager5.UserInterface.Modern
 
             try
             {
+                EnsureActivationResponses();
+
                 bool ok;
                 if (mod.CheckActivation().Result() == Enums.Modification_ActivationStatus.Activated)
                 {
@@ -299,15 +301,24 @@ namespace AnnoModificationManager5.UserInterface.Modern
 
                 if (ok)
                 {
+                    EnsureActivationResponses();
                     if (MainWindow.CurrentMainWindow != null)
-                        MainWindow.CurrentMainWindow.UpdateActivationResponses();
-                    new RDAChangesButton().ApplyChanges(true);
+                        MainWindow.CurrentMainWindow.ApplyPendingChanges();
                     UpdateDetail(mod);
                 }
             }
             catch (Exception ex)
             {
                 d_Desc.Text = "Fehler: " + ex.Message;
+            }
+        }
+
+        private static void EnsureActivationResponses()
+        {
+            foreach (Modification m in ModificationHandler.Modifications)
+            {
+                try { ModificationHandler.ActivationResponses[m] = m.CheckActivation(); }
+                catch (Exception) { }
             }
         }
 

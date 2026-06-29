@@ -625,7 +625,7 @@
     <Resource Include="Images\Icons\bullet_arrow_down.png" />
   </ItemGroup>
   <ItemGroup>
-    <SplashScreen Include="Images\Logo\AMM4_Splash.jpg" />
+    <Resource Include="Images\Logo\AMM4_Splash.jpg" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Language\Dictionaries\Modification.xml">

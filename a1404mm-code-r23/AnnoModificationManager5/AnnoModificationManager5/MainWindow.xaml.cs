@@ -190,6 +190,11 @@ namespace AnnoModificationManager5
                 ReloadModifications(true);
         }
 
+        public void ApplyPendingChanges()
+        {
+            rdaChangesButton.ApplyChanges(true);
+        }
+
         #region Loading Modifications
         #region Reload Modifications
         public void ReloadModifications(bool searchonline)
