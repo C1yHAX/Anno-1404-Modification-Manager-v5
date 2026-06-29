@@ -5,8 +5,7 @@
         xmlns:avalon="clr-namespace:ICSharpCode.AvalonEdit;assembly=ICSharpCode.AvalonEdit"
         Loaded="MessageWindow_Loaded" Title="" Height="375" Width="475" WindowStyle="ToolWindow" WindowStartupLocation="CenterScreen">
     <Grid>
-        <Image Height="80" HorizontalAlignment="Left" Name="image1" Stretch="Fill" VerticalAlignment="Top" Width="459"
-                Source="/AnnoModificationManager5;component/Images/Header/headerImage_n05.jpg" Opacity="0.5" />
+        <Border Height="80" VerticalAlignment="Top"><Border.Background><LinearGradientBrush StartPoint="0,0" EndPoint="0,1"><GradientStop Color="#FF13314E" Offset="0"/><GradientStop Color="#FF0B1B2C" Offset="1"/></LinearGradientBrush></Border.Background></Border>
         <TextBlock x:Name="Message" Margin="8,84,8,42" TextWrapping="Wrap" Text="TextBlock"/>
         <TextBox PreviewKeyDown="TextInput_PreviewKeyDown" AcceptsTab="True" AcceptsReturn="True" x:Name="TextInput" TextWrapping="NoWrap" Margin="8,140,8,42" Visibility="Collapsed"/>
         <!--<avalon:TextEditor WordWrap="False" FontFamily="Courier New" x:Name="XmlInput" Margin="8,140,8,42" Visibility="Collapsed"/>-->
