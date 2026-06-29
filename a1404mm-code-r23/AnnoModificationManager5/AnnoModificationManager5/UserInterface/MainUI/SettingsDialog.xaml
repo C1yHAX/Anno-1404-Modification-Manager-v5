@@ -4,7 +4,7 @@
         xmlns:lng="clr-namespace:AnnoModificationManager5.Language.DictionarySystem" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
         Title="{lng:LanguageMarkup Dictionary=SettingsDialog,Key=Title}" Height="480" Width="640" Loaded="Window_Loaded" >
     <Grid>
-    	<Image Height="60" Margin="0" Source="/AnnoModificationManager5;component/Images/Header/headerImage_n05.jpg" Stretch="Fill" VerticalAlignment="Top"/>
+<Border Height="60" VerticalAlignment="Top"><Border.Background><LinearGradientBrush StartPoint="0,0" EndPoint="0,1"><GradientStop Color="#FF13314E" Offset="0"/><GradientStop Color="#FF0B1B2C" Offset="1"/></LinearGradientBrush></Border.Background></Border>
     	<Grid Height="30" Margin="8,0,8,8" VerticalAlignment="Bottom">
     		<Button Background="{DynamicResource Brush_UI_White}" Content="OK" HorizontalAlignment="Right" Margin="0"
     			x:Name="button_OK" Width="100"
