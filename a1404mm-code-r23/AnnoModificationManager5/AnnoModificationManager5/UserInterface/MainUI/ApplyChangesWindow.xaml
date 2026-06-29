@@ -16,8 +16,6 @@
                     HorizontalAlignment="Right" Margin="0,0,104,0"
                     x:Name="button_Cancel" Width="100" Click="button_Cancel_Click" />
         </Grid>
-        <Image Height="146" HorizontalAlignment="Left" Stretch="Uniform" VerticalAlignment="Top" Width="155"
-                Source="/AnnoModificationManager5;component/Images/Icon.png" />
         <ProgressBar Height="10" Margin="12,0,12,69" Name="prg_AllOperations" VerticalAlignment="Bottom" Background="{DynamicResource Brush_UI_White}" Foreground="{DynamicResource Brush_UI_Blue}" BorderBrush="{DynamicResource Brush_UI_Border}"/>
         <ProgressBar Height="10" Margin="12,0,12,84" Name="prg_CurrentOperation" VerticalAlignment="Bottom" Background="{DynamicResource Brush_UI_White}" Foreground="{DynamicResource Brush_UI_Blue}" BorderBrush="{DynamicResource Brush_UI_Border}"/>
         <Label Content="{lng:LanguageMarkup Dictionary=ApplyChangesDialog,Key=Message}" Height="56" HorizontalAlignment="Left" Margin="161,12,0,0"  VerticalAlignment="Top" Width="605" />

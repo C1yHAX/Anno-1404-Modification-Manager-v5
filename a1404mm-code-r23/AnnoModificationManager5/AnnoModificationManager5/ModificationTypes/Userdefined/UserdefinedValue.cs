@@ -93,16 +93,56 @@ namespace AnnoModificationManager5.ModificationTypes.Userdefined
                 }
                 else if (Type == UserdefinedValueType.Numeric)
                 {
-                    NumericUpDown num = new NumericUpDown();
-                    num.Minimum = Numeric_Min;
-                    num.Maximum = Numeric_Max;
-                    num.Value = int.Parse(Current);
-                    num.ValueChanged += delegate(object sender, System.Windows.RoutedPropertyChangedEventArgs<decimal> e)
+                    int current;
+                    if (!int.TryParse(Current, out current))
+                        current = Numeric_Min == int.MinValue ? 0 : Numeric_Min;
+
+                    long range = (long)Numeric_Max - Numeric_Min;
+                    bool usableRange = Numeric_Min != int.MinValue && Numeric_Max != int.MaxValue && range > 0 && range <= 100000;
+
+                    if (!usableRange)
                     {
-                        Current = num.Value.ToString();
+                        NumericUpDown num = new NumericUpDown();
+                        num.Minimum = Numeric_Min;
+                        num.Maximum = Numeric_Max;
+                        num.Value = current;
+                        num.ValueChanged += delegate(object sender, System.Windows.RoutedPropertyChangedEventArgs<decimal> e)
+                        {
+                            Current = num.Value.ToString();
+                        };
+                        return num;
+                    }
+
+                    win.Slider slider = new win.Slider();
+                    slider.Minimum = Numeric_Min;
+                    slider.Maximum = Numeric_Max;
+                    slider.Value = current;
+                    slider.IsSnapToTickEnabled = true;
+                    slider.TickFrequency = 1;
+                    slider.Width = 168;
+                    slider.VerticalAlignment = System.Windows.VerticalAlignment.Center;
+
+                    win.TextBlock valueLabel = new win.TextBlock();
+                    valueLabel.Text = current.ToString();
+                    valueLabel.MinWidth = 46;
+                    valueLabel.TextAlignment = System.Windows.TextAlignment.Right;
+                    valueLabel.VerticalAlignment = System.Windows.VerticalAlignment.Center;
+                    valueLabel.Margin = new System.Windows.Thickness(8, 0, 0, 0);
+
+                    slider.ValueChanged += delegate(object sender, System.Windows.RoutedPropertyChangedEventArgs<double> e)
+                    {
+                        int v = (int)Math.Round(slider.Value);
+                        Current = v.ToString();
+                        valueLabel.Text = v.ToString();
                     };
 
-                    return num;
+                    win.StackPanel panel = new win.StackPanel();
+                    panel.Orientation = win.Orientation.Horizontal;
+                    panel.HorizontalAlignment = System.Windows.HorizontalAlignment.Right;
+                    panel.Children.Add(slider);
+                    panel.Children.Add(valueLabel);
+
+                    return panel;
                 }
                 else if (Type == UserdefinedValueType.ComboBox)
                 {
