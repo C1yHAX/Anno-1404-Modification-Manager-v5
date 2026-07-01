@@ -15,7 +15,7 @@
     </UserControl.Resources>
     <Grid>
 		<DockPanel Margin="0">
-			<ProgressBar x:Name="progressBar" Height="10" VerticalAlignment="Bottom" Foreground="{DynamicResource Brush_UI_Blue}" BorderBrush="{DynamicResource Brush_UI_Border}" BorderThickness="0" Background="White" DockPanel.Dock="Bottom" Visibility="Collapsed"/>
+			<ProgressBar x:Name="progressBar" Height="10" VerticalAlignment="Bottom" Foreground="{DynamicResource Brush_UI_Blue}" BorderBrush="{DynamicResource Brush_UI_Border}" BorderThickness="0" Background="{DynamicResource Brush_UI_White}" DockPanel.Dock="Bottom" Visibility="Collapsed"/>
             <TreeView SelectedItemChanged="treeView_SelectedItemChanged"  x:Name="treeView" Margin="0" BorderBrush="{DynamicResource Brush_UI_Border}" BorderThickness="0,0,0,1">
                 <TreeView.ContextMenu>
                     <ContextMenu>                        

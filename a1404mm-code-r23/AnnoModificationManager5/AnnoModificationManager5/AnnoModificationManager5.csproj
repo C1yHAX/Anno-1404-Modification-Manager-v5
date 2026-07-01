@@ -211,6 +211,7 @@
     <Compile Include="UserInterface\MainUI\SettingsDialog.xaml.cs">
       <DependentUpon>SettingsDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserInterface\Misc\ChromeButtons.cs" />
     <Compile Include="UserInterface\Misc\FolderBrowser.xaml.cs">
       <DependentUpon>FolderBrowser.xaml</DependentUpon>
     </Compile>

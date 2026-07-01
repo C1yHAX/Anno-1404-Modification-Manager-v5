@@ -6,14 +6,12 @@
              xmlns:ctrls="clr-namespace:AnnoModificationManager5.Controls;assembly=AnnoModificationManager5"
              mc:Ignorable="d" 
              d:DesignHeight="480" d:DesignWidth="640">
-    <Grid Background="White">
-        <Border HorizontalAlignment="Left" Width="190" VerticalAlignment="Stretch" Margin="0,140,0,0" BorderThickness="0,0,1,0" BorderBrush="{DynamicResource Brush_UI_Border}"/>
-        <Image Height="80" HorizontalAlignment="Stretch" Margin="190,0,0,0" Stretch="Fill" VerticalAlignment="Top" Width="Auto"
-                Source="/DevelopmentTools;component/Images/Header/headerImage_n05.jpg" />
-        <TabControl Margin="194,60,8,8" BorderBrush="{DynamicResource Brush_UI_Border}">
+    <Grid Background="{DynamicResource Brush_UI_White}">
+        <Border Width="0" Visibility="Collapsed"/>
+        <TabControl Margin="8,8,8,8" BorderBrush="{DynamicResource Brush_UI_Border}">
         	<TabItem Header="Original Files">
-        		<Grid Background="White">
-        			<ListView BorderBrush="{x:Null}" Foreground="Black" BorderThickness="0" Name="list_OriginalFiles" ScrollViewer.HorizontalScrollBarVisibility="Disabled">               
+        		<Grid Background="{DynamicResource Brush_UI_White}">
+        			<ListView BorderBrush="{x:Null}" Foreground="#FFE8EEF8" BorderThickness="0" Name="list_OriginalFiles" ScrollViewer.HorizontalScrollBarVisibility="Disabled">               
                         <ListView.View>
         					<GridView>
                                 <GridView.ColumnHeaderContainerStyle>

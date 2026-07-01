@@ -17,21 +17,24 @@ namespace DevelopmentTools.Tools.PackagePublisher
     /// <summary>
     /// Interaction logic for PackagePublisher.xaml
     /// </summary>
-    public partial class PackagePublisher : Window
+    public partial class PackagePublisher : UserControl
     {
         public bool AutoAddCurrentProject = false;
+
+        /// <summary>View that was shown before navigating here; restored on "Zurück".</summary>
+        public object PreviousContent { get; set; }
 
         public PackagePublisher()
         {
             InitializeComponent();
+        }
 
-            #region Window settings
-            Width = MainWindow.CurrentMainWindow.Width;
-            Height = MainWindow.CurrentMainWindow.Height;
-            Left = MainWindow.CurrentMainWindow.Left;
-            Top = MainWindow.CurrentMainWindow.Top;
-            WindowState = MainWindow.CurrentMainWindow.WindowState;
-            #endregion
+        private void Back_Click(object sender, RoutedEventArgs e)
+        {
+            if (PreviousContent != null)
+                MainWindow.CurrentMainWindow.Content = PreviousContent;
+            else
+                MainWindow.CurrentMainWindow.MainWindow_Loaded(null, null);
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

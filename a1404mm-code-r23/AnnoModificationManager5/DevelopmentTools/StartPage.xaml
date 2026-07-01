@@ -1,65 +1,227 @@
-﻿<UserControl
+<UserControl
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-			 xmlns:devctrls="clr-namespace:DevelopmentTools.Controls"
-             xmlns:DevelopmentTools_Tools_StartPage="clr-namespace:DevelopmentTools.Tools.StartPage" x:Class="DevelopmentTools.StartPage"
-             mc:Ignorable="d" 
-             d:DesignHeight="480" d:DesignWidth="640" Loaded="StartPage_Loaded">
-    <Grid Background="White">
-    	<Image Source="Images/Header/headerImage_n05.jpg"/>
-    	<Border BorderBrush="{DynamicResource Brush_UI_Border}" BorderThickness="1" HorizontalAlignment="Center" Height="300" VerticalAlignment="Center" Width="400" Background="White" CornerRadius="2">
-    		<Grid>
-    			<Image Margin="8,8,290,0" Source="Images/Logo/Version3_Comet256.ico" Stretch="Fill" Width="100" Height="100" VerticalAlignment="Top"/>
-    			<TextBlock Margin="112,18,8,0" TextWrapping="NoWrap" Text="Development Tools" VerticalAlignment="Top" FontSize="16"/>
-    			<TextBlock Margin="112,39.28,8,0" TextWrapping="NoWrap" Text="Version 4" VerticalAlignment="Top" FontSize="16" Foreground="{DynamicResource Brush_UI_Border}"/>
-    			<Button Click="Project_NewProject_Click" Margin="8,112,8,0" VerticalAlignment="Top" Height="25" Background="{x:Null}" BorderBrush="{x:Null}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" x:Name="Project_NewProject">
-    				<StackPanel Orientation="Horizontal">
-    					<Image Source="Images/Icons/page_white.png" Stretch="Fill" Width="16" Height="16" Margin="3,0,0,0"/>
-    					<TextBlock TextWrapping="NoWrap" Text="New Project" VerticalAlignment="Center" Margin="5,0,0,0"/>
-    				</StackPanel>
-    			</Button>
-    			<Button Click="Project_OpenProject_Click" Margin="8,137,8,136" Background="{x:Null}" BorderBrush="{x:Null}" Height="25" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" x:Name="Project_OpenProject">
-    				<StackPanel Orientation="Horizontal">
-    					<Image Source="Images/Icons/folder.png" Stretch="Fill" Width="16" Height="16" Margin="3,0,0,0"/>
-    					<TextBlock TextWrapping="NoWrap" Text="Open Project" VerticalAlignment="Center" Margin="5,0,0,0"/>
-    				</StackPanel>
-    			</Button>
-                <devctrls:DropDownButton Margin="8,0,8,111" Background="{x:Null}" BorderBrush="{x:Null}" Height="25" VerticalAlignment="Bottom" d:LayoutOverrides="Height" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
-                        x:Name="Project_RecentProjects">
-                    <StackPanel Orientation="Horizontal">
-                        <Image Source="Images/Icons/folder_star.png" Stretch="Fill" Width="16" Height="16" Margin="3,0,0,0"/>
-                        <TextBlock TextWrapping="NoWrap" Text="Recent Projects" VerticalAlignment="Center" Margin="5,0,0,0"/>
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:su="clr-namespace:DevelopmentTools.Tools.StartPage"
+             x:Class="DevelopmentTools.StartPage"
+             mc:Ignorable="d" d:DesignHeight="720" d:DesignWidth="1180"
+             Loaded="StartPage_Loaded" FontFamily="Segoe UI">
+    <UserControl.Resources>
+        <!-- flat nav item -->
+        <Style x:Key="NavBtn" TargetType="Button">
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Margin" Value="0,1"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Foreground" Value="#FFE8EEF8"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="b" CornerRadius="8" Padding="12,0" Background="Transparent">
+                            <ContentPresenter VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="b" Property="Background" Value="#FF214D86"/></Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!-- selected nav item (current page) -->
+        <Style x:Key="NavSel" TargetType="Button" BasedOn="{StaticResource NavBtn}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="8" Padding="12,0" Background="#FF2C5EA8">
+                            <ContentPresenter VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="NavIcon" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Segoe Fluent Icons, Segoe MDL2 Assets"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Width" Value="26"/>
+            <Setter Property="Foreground" Value="#FF9AA7B8"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="NavSection" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#FF9AA7B8"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Margin" Value="12,14,0,3"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Background="#FF081521">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="34"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="340"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- ===== MenuBar ===== -->
+        <Menu Grid.Row="0" Grid.ColumnSpan="2" Background="#FF0B192A" Padding="6,2" BorderBrush="#FF1D3552" BorderThickness="0,0,0,1">
+            <MenuItem Header="Project">
+                <MenuItem Header="Neues Projekt" Click="Project_NewProject_Click"/>
+                <MenuItem Header="Projekt öffnen" Click="Project_OpenProject_Click"/>
+            </MenuItem>
+            <MenuItem Header="Tools">
+                <MenuItem Header="Mod-Paket konvertieren" Click="Project_ConvertProject_Click"/>
+                <MenuItem Header="Mod-Paket veröffentlichen" Click="Project_StartPublisher_Click"/>
+                <MenuItem Header="Einstellungen" Click="ShowSettings_Click"/>
+            </MenuItem>
+        </Menu>
+
+        <!-- ===== Sidebar ===== -->
+        <Border Grid.Row="1" Grid.Column="0" Background="#FF0B192A" BorderBrush="#FF1D3552" BorderThickness="0,0,1,0">
+            <DockPanel LastChildFill="True">
+
+                <!-- Logo -->
+                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="16,16,16,10">
+                    <Border Width="46" Height="46" CornerRadius="8" Background="#FF2C5EA8" VerticalAlignment="Center">
+                        <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE7B8;" FontSize="22" Foreground="#FFFFFFFF" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <StackPanel Margin="12,0,0,0" VerticalAlignment="Center">
+                        <TextBlock Text="Development Tools 5" Foreground="#FFFFFFFF" FontSize="19" FontWeight="SemiBold"/>
+                        <TextBlock Text="Modding Toolkit for Anno 1404" Foreground="#FF9AA7B8" FontSize="12" Margin="0,1,0,0"/>
                     </StackPanel>
-                </devctrls:DropDownButton>
-                <Button Click="Project_ConvertProject_Click" Margin="8,0,8,72" Background="{x:Null}" BorderBrush="{x:Null}" Height="25" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" VerticalAlignment="Bottom" d:LayoutOverrides="Height" x:Name="Project_ConvertProject">
-                	<StackPanel Orientation="Horizontal">
-                		<Image Source="Images/Icons/arrow_refresh.png" Stretch="Fill" Width="16" Height="16" Margin="3,0,0,0"/>
-                		<TextBlock TextWrapping="NoWrap" Text="Convert Modification Package" VerticalAlignment="Center" Margin="5,0,0,0"/>
-                	</StackPanel>
-                </Button>
-                <Button Click="Project_StartPublisher_Click" Margin="8,0,8,47" Background="{x:Null}" BorderBrush="{x:Null}" Height="25" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" VerticalAlignment="Bottom" d:LayoutOverrides="Height" x:Name="Project_StartPublisher">
-                    <StackPanel Orientation="Horizontal">
-                        <Image Source="/DevelopmentTools;component/Images/Icons/world.png" Stretch="Fill" Width="16" Height="16" Margin="3,0,0,0"/>
-                        <TextBlock TextWrapping="NoWrap" Text="Modification Package Publisher" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                </StackPanel>
+
+                <!-- Footer -->
+                <TextBlock DockPanel.Dock="Bottom" Margin="16,8,16,12" Foreground="#FF6C7C90" FontSize="11">
+                    <Run Text="Development Tools 5.0.0"/><LineBreak/><Run Text="© 2026 Anno 1404 Mod Manager"/>
+                </TextBlock>
+
+                <!-- Navigation -->
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="10,4,10,0">
+                    <StackPanel>
+                        <Button Style="{StaticResource NavSel}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Style="{StaticResource NavIcon}" Text="&#xE80F;" Foreground="#FFFFFFFF"/>
+                                <TextBlock Text="Startseite" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                        <TextBlock Style="{StaticResource NavSection}" Text="PROJECT"/>
+                        <Button Style="{StaticResource NavBtn}" Click="Project_NewProject_Click">
+                            <StackPanel Orientation="Horizontal"><TextBlock Style="{StaticResource NavIcon}" Text="&#xE710;"/><TextBlock Text="Neues Projekt" VerticalAlignment="Center"/></StackPanel>
+                        </Button>
+                        <Button Style="{StaticResource NavBtn}" Click="Project_OpenProject_Click">
+                            <StackPanel Orientation="Horizontal"><TextBlock Style="{StaticResource NavIcon}" Text="&#xE8E5;"/><TextBlock Text="Projekt öffnen" VerticalAlignment="Center"/></StackPanel>
+                        </Button>
+                        <Button Style="{StaticResource NavBtn}" Click="Project_OpenProject_Click">
+                            <StackPanel Orientation="Horizontal"><TextBlock Style="{StaticResource NavIcon}" Text="&#xE8F1;"/><TextBlock Text="Projekte verwalten" VerticalAlignment="Center"/></StackPanel>
+                        </Button>
+
+                        <TextBlock Style="{StaticResource NavSection}" Text="TOOLS"/>
+                        <Button Style="{StaticResource NavBtn}" Click="Project_ConvertProject_Click">
+                            <StackPanel Orientation="Horizontal"><TextBlock Style="{StaticResource NavIcon}" Text="&#xE895;"/><TextBlock Text="Mod-Paket konvertieren" VerticalAlignment="Center"/></StackPanel>
+                        </Button>
+                        <Button Style="{StaticResource NavBtn}" Click="Project_StartPublisher_Click">
+                            <StackPanel Orientation="Horizontal"><TextBlock Style="{StaticResource NavIcon}" Text="&#xE898;"/><TextBlock Text="Mod-Paket veröffentlichen" VerticalAlignment="Center"/></StackPanel>
+                        </Button>
+
+                        <TextBlock Style="{StaticResource NavSection}" Text="EINSTELLUNGEN"/>
+                        <Button Style="{StaticResource NavBtn}" Click="ShowSettings_Click">
+                            <StackPanel Orientation="Horizontal"><TextBlock Style="{StaticResource NavIcon}" Text="&#xE713;"/><TextBlock Text="Einstellungen" VerticalAlignment="Center"/></StackPanel>
+                        </Button>
+
+                        <TextBlock Style="{StaticResource NavSection}" Text="HILFE"/>
+                        <Button Style="{StaticResource NavBtn}" Click="CheckUpdates_Click">
+                            <StackPanel Orientation="Horizontal"><TextBlock Style="{StaticResource NavIcon}" Text="&#xE72C;"/><TextBlock Text="Nach Updates suchen" VerticalAlignment="Center"/></StackPanel>
+                        </Button>
+                        <Button Style="{StaticResource NavBtn}" Click="ShowHelp_Click">
+                            <StackPanel Orientation="Horizontal"><TextBlock Style="{StaticResource NavIcon}" Text="&#xE946;"/><TextBlock Text="Info" VerticalAlignment="Center"/></StackPanel>
+                        </Button>
                     </StackPanel>
-                </Button>
-                <Separator Height="10" Margin="8,0,0,97" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="100"/>
-                <Button Click="ShowHelp_Click"  Background="{x:Null}" BorderBrush="{x:Null}" Height="25" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" VerticalAlignment="Bottom" x:Name="ShowHelp" d:LayoutOverrides="Height" HorizontalAlignment="Left" Width="60" Margin="2,0,0,2">
-                	<StackPanel Orientation="Horizontal">
-                		<Image Source="Images/Icons/help.png" Stretch="Fill" Width="16" Height="16" Margin="3,0,0,0"/>
-                		<TextBlock TextWrapping="NoWrap" Text="Help" VerticalAlignment="Center" Margin="5,0,0,0"/>
-                	</StackPanel>
-                </Button>
-                <Button Click="ShowSettings_Click"  Background="{x:Null}" BorderBrush="{x:Null}" Height="25" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" VerticalAlignment="Bottom" x:Name="ShowSettings" Margin="66,0,257,2" d:LayoutOverrides="Height" Width="75">
-                	<StackPanel Orientation="Horizontal">
-                		<Image Source="Images/Icons/cog.png" Stretch="Fill" Width="16" Height="16" Margin="3,0,0,0"/>
-                		<TextBlock TextWrapping="NoWrap" Text="Settings" VerticalAlignment="Center" Margin="5,0,0,0"/>
-                	</StackPanel>
-                </Button>
-    			<DevelopmentTools_Tools_StartPage:UpdateButton HorizontalAlignment="Right" Margin="0,0,2,2" VerticalAlignment="Bottom" Height="25"/>
+                </ScrollViewer>
+            </DockPanel>
+        </Border>
+
+        <!-- ===== Main Content ===== -->
+        <Grid Grid.Row="1" Grid.Column="1" Background="#FF081521">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Padding="28,24,28,24">
+                <StackPanel>
+
+                    <!-- Welcome -->
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE80F;" FontSize="26" Foreground="#FF3B82F6" VerticalAlignment="Center"/>
+                        <TextBlock Text="Startseite" Foreground="#FFFFFFFF" FontSize="30" FontWeight="SemiBold" Margin="12,0,0,0" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <TextBlock Text="Willkommen beim Development Tools 5 Modding Toolkit." Foreground="#FF9AA7B8" FontSize="15" Margin="0,6,0,24"/>
+
+                    <!-- Recent Projects -->
+                    <TextBlock Text="Zuletzt geöffnete Projekte" Foreground="#FFFFFFFF" FontSize="22" FontWeight="SemiBold" Margin="0,0,0,12"/>
+                    <Border Background="#FF0E2033" BorderBrush="#FF1D3552" BorderThickness="1" CornerRadius="8" Padding="8">
+                        <StackPanel>
+                            <ListView x:Name="ic_Recent" Background="Transparent" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                        <Setter Property="Padding" Value="0"/>
+                                        <Setter Property="Margin" Value="0"/>
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="ListViewItem"><ContentPresenter/></ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button Cursor="Hand" Tag="{Binding File}" Click="RecentCard_Click" Margin="0,0,0,8" HorizontalContentAlignment="Stretch">
+                                            <Button.Template>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border x:Name="b" Background="#FF13263D" BorderBrush="#FF1D3552" BorderThickness="1" CornerRadius="8" Padding="16">
+                                                        <DockPanel>
+                                                            <Border DockPanel.Dock="Left" Width="42" Height="42" CornerRadius="8" Background="#FF1D3552" Margin="0,0,14,0">
+                                                                <TextBlock FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" Text="&#xE7B8;" FontSize="20" Foreground="#FF3B82F6" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                            </Border>
+                                                            <TextBlock DockPanel.Dock="Right" Text="{Binding DateText}" Foreground="#FF9AA7B8" FontSize="13" VerticalAlignment="Center" Margin="12,0,0,0"/>
+                                                            <StackPanel VerticalAlignment="Center">
+                                                                <TextBlock Text="{Binding Name}" Foreground="#FFFFFFFF" FontSize="15" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
+                                                                <TextBlock Text="{Binding PathText}" Foreground="#FF9AA7B8" FontSize="12" Margin="0,2,0,0" TextTrimming="CharacterEllipsis"/>
+                                                            </StackPanel>
+                                                        </DockPanel>
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter TargetName="b" Property="Background" Value="#FF214D86"/>
+                                                            <Setter TargetName="b" Property="BorderBrush" Value="#FF3B82F6"/>
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Button.Template>
+                                        </Button>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                            <TextBlock x:Name="lbl_NoRecent" Text="Noch keine zuletzt geöffneten Projekte." Foreground="#FF9AA7B8" FontSize="13" Margin="8,6,0,6" Visibility="Collapsed"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Button Click="Project_OpenProject_Click" HorizontalAlignment="Left" Margin="0,12,0,0" Height="36" Padding="16,0" Content="Weitere Projekte anzeigen"/>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+
+        <!-- ===== StatusBar ===== -->
+        <Border Grid.Row="2" Grid.ColumnSpan="2" Background="#FF0B192A" BorderBrush="#FF1D3552" BorderThickness="0,1,0,0">
+            <Grid Margin="14,0">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                    <Ellipse Width="9" Height="9" Fill="#FF4CAF50" VerticalAlignment="Center"/>
+                    <TextBlock Text="Bereit" Foreground="#FFE8EEF8" FontSize="13" Margin="8,0,0,0" VerticalAlignment="Center"/>
+                </StackPanel>
+                <TextBlock Text="Keine aktiven Aufgaben" Foreground="#FF9AA7B8" FontSize="13" VerticalAlignment="Center" HorizontalAlignment="Right"/>
             </Grid>
-    	</Border>
+        </Border>
     </Grid>
 </UserControl>

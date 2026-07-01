@@ -1,4 +1,4 @@
-<Window x:Class="AnnoModificationManager5.Nexus.NexusLoginWindow"
+<Window x:Class="AnnoModificationManager5.Nexus.NexusLoginWindow" Style="{StaticResource DarkWindowChrome}"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Nexus Mods – Anmelden" Height="300" Width="480"

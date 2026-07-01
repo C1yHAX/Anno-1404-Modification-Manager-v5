@@ -6,7 +6,7 @@
              xmlns:AnnoModificationManager5_Language="clr-namespace:AnnoModificationManager5.Language;assembly=AnnoModificationManager5" x:Class="DevelopmentTools.Editors.UserdefinedValue.UserdefinedValueEditor_Creator" 
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="640">
-    <Grid Background="White">
+    <Grid Background="{DynamicResource Brush_UI_White}">
         <DockPanel Height="30" Margin="8,0,3,8" VerticalAlignment="Bottom" LastChildFill="False">
             <Button x:Name="button_add" Content="Add" Width="100" DockPanel.Dock="Right" Background="{DynamicResource Brush_UI_White}" Margin="0,0,5,0" Click="button_add_Click" />
             <Button x:Name="button_replace" Content="Replace" Width="100" Background="{DynamicResource Brush_UI_White}" DockPanel.Dock="Right" Margin="0,0,5,0" Click="button_replace_Click" />
@@ -68,9 +68,9 @@
         					<ToolBar VerticalAlignment="Bottom" Height="27" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource Brush_UI_Border}" IsOverflowOpen="False">
         						<ToolBar.Background>
         							<LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
-        								<GradientStop Color="White" Offset="0"/>
-        								<GradientStop Color="#FFFFFBFF" Offset="0.5"/>
-        								<GradientStop Color="#FFF7F7F7" Offset="1"/>
+        								<GradientStop Color="#FF1D2E45" Offset="0"/>
+        								<GradientStop Color="#FF18283C" Offset="0.5"/>
+        								<GradientStop Color="#FF14202F" Offset="1"/>
         							</LinearGradientBrush>
         						</ToolBar.Background>
                                 <Button Click="Combobox_List_Add_Click" Name="Combobox_List_Add" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -90,7 +90,7 @@
                                              />
                                 </Button>
                             </ToolBar>
-        					<ListView Margin="0,1,0,27" Foreground="Black" BorderBrush="{x:Null}" BorderThickness="0" Name="Field_Combobox_List">
+        					<ListView Margin="0,1,0,27" Foreground="#FFE8EEF8" BorderBrush="{x:Null}" BorderThickness="0" Name="Field_Combobox_List">
         						<ListView.View>
         							<GridView>
                                         <GridViewColumn Header="German" Width="200">
@@ -123,9 +123,9 @@
         					<ToolBar VerticalAlignment="Bottom" Height="27" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource Brush_UI_Border}" IsOverflowOpen="False">
         						<ToolBar.Background>
         							<LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
-        								<GradientStop Color="White" Offset="0"/>
-        								<GradientStop Color="#FFFFFBFF" Offset="0.5"/>
-        								<GradientStop Color="#FFF7F7F7" Offset="1"/>
+        								<GradientStop Color="#FF1D2E45" Offset="0"/>
+        								<GradientStop Color="#FF18283C" Offset="0.5"/>
+        								<GradientStop Color="#FF14202F" Offset="1"/>
         							</LinearGradientBrush>
         						</ToolBar.Background>
         						<Button Click="Files_List_Add_Click" x:Name="Files_List_Add" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -146,7 +146,7 @@
                                              />
                                 </Button>-->
                             </ToolBar>
-        					<ListView Margin="0,1,0,27" Foreground="Black" BorderBrush="{x:Null}" BorderThickness="0" x:Name="Field_Files_List">
+        					<ListView Margin="0,1,0,27" Foreground="#FFE8EEF8" BorderBrush="{x:Null}" BorderThickness="0" x:Name="Field_Files_List">
         						<ListView.View>
         							<GridView>
                                         <GridViewColumn Header="File" Width="{Binding ActualWidth, ElementName=Field_Files_List, Converter={StaticResource Converters_Arithmetic}, ConverterParameter=-20}">

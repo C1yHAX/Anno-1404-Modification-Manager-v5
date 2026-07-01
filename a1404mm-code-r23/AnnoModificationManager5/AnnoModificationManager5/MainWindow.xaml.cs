@@ -443,10 +443,9 @@ namespace AnnoModificationManager5
 
         private void Organize_RestoreManager_Click(object sender, RoutedEventArgs e)
         {
-            RestoreManager rest = new RestoreManager();
-            rest.ShowDialog();
-            if (rest.HasRestored)
-                UpdateActivationResponses();
+            // The restore manager is now an embedded view in the modern main window.
+            if (UserInterface.Modern.ModernMainWindow.Current != null)
+                UserInterface.Modern.ModernMainWindow.Current.ShowRestoreView();
         }
 
         private void Organize_Settings_Click(object sender, RoutedEventArgs e)

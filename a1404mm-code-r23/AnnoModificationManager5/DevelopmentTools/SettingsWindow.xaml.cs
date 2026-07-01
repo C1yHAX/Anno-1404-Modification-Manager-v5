@@ -20,17 +20,28 @@ namespace DevelopmentTools
     /// <summary>
     /// Interaction logic for SettingsWindow.xaml
     /// </summary>
-    public partial class SettingsWindow : Window
+    public partial class SettingsWindow : UserControl
     {
         private OpenFileDialog RecentFiles_OpenFileDialog = new OpenFileDialog()
         {
             Multiselect = true
         };
 
+        /// <summary>View that was shown before navigating here; restored on "Zurück".</summary>
+        public object PreviousContent { get; set; }
+
         public SettingsWindow()
         {
             InitializeComponent();
             Loaded += new RoutedEventHandler(SettingsWindow_Loaded);
+        }
+
+        private void Back_Click(object sender, RoutedEventArgs e)
+        {
+            if (PreviousContent != null)
+                MainWindow.CurrentMainWindow.Content = PreviousContent;
+            else
+                MainWindow.CurrentMainWindow.MainWindow_Loaded(null, null);
         }
 
         void SettingsWindow_Loaded(object sender, RoutedEventArgs e)
@@ -127,7 +138,20 @@ namespace DevelopmentTools
             if (!BackupHandler.IsValid(currdir, out msg))
             {
                 MessageBox.Show("You have to set the RDA working directory before continuing.");
-                (new SettingsWindow()).ShowDialog();
+
+                // Prompt directly for the directory instead of opening a separate
+                // settings window (settings is now an embedded in-app view).
+                System.Windows.Forms.FolderBrowserDialog dlg = new System.Windows.Forms.FolderBrowserDialog();
+                dlg.Description = "Select the RDA working directory (Anno 'maindata' folder).";
+                if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    if (BackupHandler.IsValid(dlg.SelectedPath, out msg))
+                    {
+                        Properties.Settings.Default.RDAWorkingDir = dlg.SelectedPath;
+                        Properties.Settings.Default.Save();
+                        Modification.Development_RDADirectory = dlg.SelectedPath;
+                    }
+                }
 
                 currdir = Properties.Settings.Default.RDAWorkingDir;
                 if (!BackupHandler.IsValid(currdir, out msg))

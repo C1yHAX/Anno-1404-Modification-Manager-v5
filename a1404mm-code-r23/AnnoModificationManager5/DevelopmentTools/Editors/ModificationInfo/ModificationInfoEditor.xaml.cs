@@ -70,6 +70,8 @@ namespace DevelopmentTools.Editors.ModificationInfo
             AnnoVersions_Addon1.IsChecked = mod.Info.AnnoVersions.Contains("Addon1");
             AnnoVersions_Addon1_Patch1.IsChecked = mod.Info.AnnoVersions.Contains("Addon1_Patch1");
             AnnoVersions_IAAM.IsChecked = mod.Info.AnnoVersions.Contains("IAAM");
+            AnnoVersions_HistoryEdition.IsChecked = mod.Info.AnnoVersions.Contains("HistoryEdition");
+            AnnoVersions_HistoryEdition_Addon.IsChecked = mod.Info.AnnoVersions.Contains("HistoryEdition_Addon");
 
             Images.Items.Clear();
             foreach (string image in mod.Info.Images)
@@ -217,6 +219,11 @@ namespace DevelopmentTools.Editors.ModificationInfo
                     mod.Info.AnnoVersions.Add("Addon1");
                 if (AnnoVersions_Addon1_Patch1.IsChecked == true)
                     mod.Info.AnnoVersions.Add("Addon1_Patch1");
+
+                if (AnnoVersions_HistoryEdition.IsChecked == true)
+                    mod.Info.AnnoVersions.Add("HistoryEdition");
+                if (AnnoVersions_HistoryEdition_Addon.IsChecked == true)
+                    mod.Info.AnnoVersions.Add("HistoryEdition_Addon");
 
                 //mod.Info.RDAIgnoreNonExistingRDAMods = chb_IgnoreNonExistingRDAs.IsChecked.Value;
             }

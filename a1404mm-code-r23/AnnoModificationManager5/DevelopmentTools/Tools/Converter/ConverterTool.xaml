@@ -5,12 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="480" d:DesignWidth="640">
-    <Grid Background="White">
-        <Image Height="64" HorizontalAlignment="Stretch" Stretch="Fill" VerticalAlignment="Top" Width="Auto"
-                Source="/DevelopmentTools;component/Images/Header/headerImage_converter.jpg" />
-        <TabControl Margin="8,40,8,42" Name="tabControl">
+    <Grid Background="{DynamicResource Brush_UI_White}">
+        <Border Height="44" VerticalAlignment="Top" Background="#FF132238">
+            <TextBlock Text="Mod-Paket konvertieren" Foreground="#FFF59E0B" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center" Margin="14,0,0,0"/>
+        </Border>
+        <TabControl Margin="8,52,8,42" Name="tabControl">
         	<TabItem Header="Settings" IsEnabled="False">
-        		<Grid Background="White">
+        		<Grid Background="{DynamicResource Brush_UI_White}">
         			<Grid Margin="8,8,8,0" VerticalAlignment="Top">
         				<Grid HorizontalAlignment="Left" Width="100">
         					<TextBlock Text="Old Project" d:LayoutOverrides="Width, Height" VerticalAlignment="Center" HorizontalAlignment="Left"/>
@@ -28,12 +29,12 @@
         		</Grid>
         	</TabItem>
         	<TabItem Header="Status" IsEnabled="False">
-        		<Grid Background="White">
+        		<Grid Background="{DynamicResource Brush_UI_White}">
         			<TextBox x:Name="Field_Status" d:LayoutOverrides="Width, Height" IsReadOnly="True" />
         		</Grid>
         	</TabItem>
 			<TabItem Header="Result" IsEnabled="False">
-        		<Grid Background="White"/>
+        		<Grid Background="{DynamicResource Brush_UI_White}"/>
         	</TabItem>
         </TabControl>
         <DockPanel Height="30" Margin="8,0,8,8" VerticalAlignment="Bottom" LastChildFill="False">

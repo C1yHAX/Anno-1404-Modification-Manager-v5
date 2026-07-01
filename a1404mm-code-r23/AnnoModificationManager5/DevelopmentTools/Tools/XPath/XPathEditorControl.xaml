@@ -5,8 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="480" d:DesignWidth="640">
-    <Grid Background="White">
-    	<ListView Height="120" VerticalAlignment="Top" Foreground="Black" BorderThickness="0,0,0,1" BorderBrush="{DynamicResource Brush_UI_Border}" Margin="28,0,0,0">
+    <Grid Background="{DynamicResource Brush_UI_White}">
+    	<ListView Height="120" VerticalAlignment="Top" Foreground="#FFE8EEF8" BorderThickness="0,0,0,1" BorderBrush="{DynamicResource Brush_UI_Border}" Margin="28,0,0,0">
     		<ListView.ItemsPanel>
     			<ItemsPanelTemplate>
     				<StackPanel Orientation="Horizontal" IsItemsHost="True"/>			
@@ -52,7 +52,7 @@
     			<Grid HorizontalAlignment="Left" Width="100" Height="21.96" VerticalAlignment="Top">
     				<TextBlock Text="Predicates" VerticalAlignment="Center" d:LayoutOverrides="Width"/>
     			</Grid>
-    			<ListView Margin="100,0,0,28" BorderBrush="{DynamicResource Brush_UI_Border}" Foreground="Black">
+    			<ListView Margin="100,0,0,28" BorderBrush="{DynamicResource Brush_UI_Border}" Foreground="#FFE8EEF8">
     				<ListView.View>
     					<GridView>
     						<GridViewColumn Width="200" Header="Element">

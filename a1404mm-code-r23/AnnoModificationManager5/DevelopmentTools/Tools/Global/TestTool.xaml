@@ -5,9 +5,9 @@
         Icon="/DevelopmentTools;component/Images/Logo/Version3_Comet20.ico" WindowStartupLocation="CenterScreen">
     <Grid>
     	<Image Margin="0" Source="/DevelopmentTools;component/Images/Header/headerImage_n05.jpg" Stretch="Fill" Height="80" VerticalAlignment="Top"/>
-    	<TabControl Margin="8,42,8,8" Background="White" Name="tabControl">
+    	<TabControl Margin="8,42,8,8" Background="{DynamicResource Brush_UI_White}" Name="tabControl">
     		<TabItem Header="Start" IsEnabled="False">
-    			<Grid Background="White">
+    			<Grid Background="{DynamicResource Brush_UI_White}">
     				<DockPanel Height="30" Margin="8,0,8,8" VerticalAlignment="Bottom" LastChildFill="False">
     					<Button x:Name="button_StartTest" Content="Start Test" Width="100" DockPanel.Dock="Right" Background="{DynamicResource Brush_UI_White}" Margin="0,0,5,0"
     						Click="button_StartTest_Click"/>
@@ -16,8 +16,8 @@
     			</Grid>
     		</TabItem>
     		<TabItem Header="Test" IsEnabled="False">
-    			<Grid Background="White">
-    				<ListView Foreground="Black" BorderBrush="{x:Null}" BorderThickness="0" Name="testList">
+    			<Grid Background="{DynamicResource Brush_UI_White}">
+    				<ListView Foreground="#FFE8EEF8" BorderBrush="{x:Null}" BorderThickness="0" Name="testList">
     					<ListView.View>
     						<GridView>
                                 <GridViewColumn Width="Auto">
@@ -34,7 +34,7 @@
     			</Grid>
     		</TabItem>
 			<TabItem Header="Result" IsEnabled="False">
-    			<Grid Background="White">
+    			<Grid Background="{DynamicResource Brush_UI_White}">
     				<DockPanel Height="30" Margin="8,0,8,8" VerticalAlignment="Bottom" LastChildFill="False">
     					<Button x:Name="button_Close" Content="Close" Width="100" DockPanel.Dock="Right" Background="{DynamicResource Brush_UI_White}" Margin="0,0,5,0"
     						Click="button_Close_Click"/>
@@ -43,7 +43,7 @@
                         <Button x:Name="button_OpenFolder" Content="Open Folder ..." Width="100" DockPanel.Dock="Right" Background="{DynamicResource Brush_UI_White}" Margin="0,0,5,0"
     						Click="button_OpenFolder_Click"/>
     				</DockPanel>
-                    <TreeView Margin="0,0,0,42" Foreground="Black" BorderBrush="{x:Null}" BorderThickness="0" Name="resultList"/>
+                    <TreeView Margin="0,0,0,42" Foreground="#FFE8EEF8" BorderBrush="{x:Null}" BorderThickness="0" Name="resultList"/>
                 </Grid>
     		</TabItem>
     	</TabControl>

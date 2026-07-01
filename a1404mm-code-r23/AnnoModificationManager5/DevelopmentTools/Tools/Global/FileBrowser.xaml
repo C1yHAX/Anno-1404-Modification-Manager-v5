@@ -31,7 +31,7 @@
                 <Image Source="/DevelopmentTools;component/Images/Icons/delete.png" />
             </Button>
         </ToolBar>
-        <ListView MouseDoubleClick="FileList_MouseDoubleClick" x:Name="FileList" Margin="0,27,0,42" BorderThickness="0" Foreground="Black">              
+        <ListView MouseDoubleClick="FileList_MouseDoubleClick" x:Name="FileList" Margin="0,27,0,42" BorderThickness="0" Foreground="#FFE8EEF8">              
             <ListView.View>
                 <GridView>
                     <GridView.ColumnHeaderContainerStyle>

@@ -31,7 +31,7 @@ namespace DevelopmentTools
             CurrentMainWindow = this;
             InitializeComponent();
 
-            Title = "Development Tools Version " + Assembly.GetExecutingAssembly().GetName().Version;
+            Title = "Development Tools Version 5";
 
             #region Load settings
             //Properties.Settings.Default.Upgrade();
@@ -78,7 +78,7 @@ namespace DevelopmentTools
 
         public void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            Title = "Development Tools Version " + Assembly.GetExecutingAssembly().GetName().Version;
+            Title = "Development Tools Version 5";
 
             StartPage page = new StartPage();
             Content = page;

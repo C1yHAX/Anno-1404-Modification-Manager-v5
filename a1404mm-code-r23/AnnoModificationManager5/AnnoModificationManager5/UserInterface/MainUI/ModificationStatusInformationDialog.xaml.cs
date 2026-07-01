@@ -29,6 +29,11 @@ namespace AnnoModificationManager5.UserInterface.MainUI
             InitializeComponent();
         }
 
+        private void Close_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
         public void SetModification(Modification mod)
         {
             CurrentModification = mod;

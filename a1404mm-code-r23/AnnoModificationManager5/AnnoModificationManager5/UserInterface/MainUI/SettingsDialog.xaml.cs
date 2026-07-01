@@ -25,7 +25,7 @@ namespace AnnoModificationManager5.UserInterface.MainUI
     {
         private OpenFileDialog openAnnoExecutable = new OpenFileDialog()
         {
-            Filter = "Anno 1404|Anno4.exe"
+            Filter = "Anno 1404|Anno4.exe;Anno1404.exe;Addon.exe;Anno1404Addon.exe"
         };
         private wf.FolderBrowserDialog openDataFolder = new wf.FolderBrowserDialog();
 

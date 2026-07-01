@@ -1,9 +1,9 @@
-﻿<Window x:Class="AnnoModificationManager5.UserInterface.MainUI.RestoreManager"
+﻿<UserControl x:Class="AnnoModificationManager5.UserInterface.MainUI.RestoreManager"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:lng="clr-namespace:AnnoModificationManager5.Language.DictionarySystem"
-        Title="{lng:LanguageMarkup Dictionary=RestoreManager,Key=Title}" ResizeMode="NoResize" Height="600" Width="800" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
-    <Grid>
+        Loaded="Window_Loaded">
+    <Grid Background="#FF0F172A">
     	<ToolBar Height="27" VerticalAlignment="Bottom" Background="{DynamicResource Brush_UI_White}" BorderBrush="{DynamicResource Brush_UI_Border}" BorderThickness="0,1,0,0" IsOverflowOpen="False">
     		<Button Click="button_Restore_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="button_Restore">
     			<StackPanel Orientation="Horizontal">
@@ -48,4 +48,4 @@
     	</ListView>
         
     </Grid>
-</Window>
+</UserControl>

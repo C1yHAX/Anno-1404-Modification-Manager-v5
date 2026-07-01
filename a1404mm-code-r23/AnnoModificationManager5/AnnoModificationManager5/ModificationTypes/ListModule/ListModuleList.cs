@@ -58,14 +58,17 @@ namespace AnnoModificationManager5.ModificationTypes.ListModule
                 {
                     try
                     {
+                        if (mod.ListFile == null)
+                            continue; // Datei in dieser Anno-Version nicht vorhanden -> still überspringen
+
                         mod.Activate();
 
                         //Set Changed to true
                         mod.ListFile.Changed = true;
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
-                        System.Windows.Forms.MessageBox.Show(ex.Message);
+                        // still überspringen (z. B. Datei in dieser Installation nicht vorhanden)
                     }
                 }
             }

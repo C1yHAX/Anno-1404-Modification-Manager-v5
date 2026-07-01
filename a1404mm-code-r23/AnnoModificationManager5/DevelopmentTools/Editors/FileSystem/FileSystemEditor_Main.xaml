@@ -68,11 +68,11 @@
 			</Setter>
 		</Style>
 	</UserControl.Resources>
-    <Grid Background="White">
-        <Border HorizontalAlignment="Left" Width="190" VerticalAlignment="Stretch" Margin="0,140,0,0" BorderThickness="0,0,1,0" BorderBrush="{DynamicResource Brush_UI_Border}"/>
-        <Grid Margin="190,0,0,0">
+    <Grid Background="{DynamicResource Brush_UI_White}">
+        <Border Width="0" Visibility="Collapsed"/>
+        <Grid Margin="0,0,0,0">
         	<Grid Height="27" VerticalAlignment="Top">
-        		<ToolBar HorizontalAlignment="Left" Width="100" BorderBrush="{DynamicResource Brush_UI_Border}" BorderThickness="0,0,0,1" IsOverflowOpen="False" Background="White">
+        		<ToolBar HorizontalAlignment="Left" Width="100" BorderBrush="{DynamicResource Brush_UI_Border}" BorderThickness="0,0,0,1" IsOverflowOpen="False" Background="{DynamicResource Brush_UI_White}">
         			<Button Click="Folder_OpenWindowsExplorer_Click" x:Name="Folder_OpenWindowsExplorer" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         				<Image Height="16" Source="/DevelopmentTools;component/Images/Icons/folder_explore.png" Stretch="Fill" Width="16"/>
         			</Button>
@@ -84,11 +84,11 @@
                         <Image Height="16" Source="/DevelopmentTools;component/Images/Icons/folder_add.png" Stretch="Fill" Width="16"/>
                     </Button>
                 </ToolBar>
-                <Border Margin="100,0,0,0" BorderThickness="0,0,0,1" BorderBrush="{DynamicResource Brush_UI_Border}" Background="White"   >
+                <Border Margin="100,0,0,0" BorderThickness="0,0,0,1" BorderBrush="{DynamicResource Brush_UI_Border}" Background="{DynamicResource Brush_UI_White}"   >
         		    <StackPanel Orientation="Horizontal" x:Name="Folder_Toolbar_SubFolders" />   
                 </Border>
         	</Grid>
-        	<ListView SelectionMode="Extended" MouseDoubleClick="FileList_MouseDoubleClick" Margin="0,27,0,0" BorderBrush="{x:Null}" BorderThickness="0" Foreground="Black" x:Name="FileList">
+        	<ListView SelectionMode="Extended" MouseDoubleClick="FileList_MouseDoubleClick" Margin="0,27,0,0" BorderBrush="{x:Null}" BorderThickness="0" Foreground="#FFE8EEF8" x:Name="FileList">
         		<!--<ListView.ItemsPanel>
         			<ItemsPanelTemplate>
         				<WrapPanel IsItemsHost="True"/>   			

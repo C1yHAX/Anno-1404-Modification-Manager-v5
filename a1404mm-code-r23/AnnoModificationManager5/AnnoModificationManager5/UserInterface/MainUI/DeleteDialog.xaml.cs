@@ -44,33 +44,48 @@ namespace AnnoModificationManager5.UserInterface.MainUI
             //Load Conflicts
             Thread tr = new Thread(new ParameterizedThreadStart(delegate
             {
-                if (mod.CheckActivation().Result() != Enums.Modification_ActivationStatus.Deactivated)
+                try
                 {
-                    Conflicts.Add(new ConflictResponse()
+                    if (mod.CheckActivation().Result() != Enums.Modification_ActivationStatus.Deactivated)
                     {
-                        CurrentModification = mod,
-                        ToCheck = mod,
-                        ConflictFiles_Anno = mod.ModificationUtils.Files_Anno,
-                        ConflictFiles_AppData = mod.ModificationUtils.Files_AppData,
-                        ConflictXmlModules = mod.ModificationUtils.Xml_AllModififers,
-                        ConflictListModules = mod.ModificationUtils.List_AllModififers
-                    });
-                }
-
-                //Only if is COMPATIBLE!!!
-                if (ModificationHandler.Instance.IsCompatible(mod))
-                {
-                    foreach (Modification modification in ModificationHandler.Modifications)
-                    {
-                        if (modification == mod)
-                            continue;
-                        if (ModificationHandler.ActivationResponses[modification].Result() == Enums.Modification_ActivationStatus.Deactivated)
-                            continue;
-                        ConflictResponse response = ConflictResponse.Generate(mod, modification);
-                        if (response.IsConflict())
-                            Conflicts.Add(response);
+                        Conflicts.Add(new ConflictResponse()
+                        {
+                            CurrentModification = mod,
+                            ToCheck = mod,
+                            ConflictFiles_Anno = mod.ModificationUtils.Files_Anno,
+                            ConflictFiles_AppData = mod.ModificationUtils.Files_AppData,
+                            ConflictXmlModules = mod.ModificationUtils.Xml_AllModififers,
+                            ConflictListModules = mod.ModificationUtils.List_AllModififers
+                        });
                     }
                 }
+                catch (Exception) { }
+
+                try
+                {
+                    //Only if is COMPATIBLE!!!
+                    if (ModificationHandler.Instance.IsCompatible(mod))
+                    {
+                        foreach (Modification modification in ModificationHandler.Modifications)
+                        {
+                            try
+                            {
+                                if (modification == mod)
+                                    continue;
+                                ModificationActivationResponse mar;
+                                if (!ModificationHandler.ActivationResponses.TryGetValue(modification, out mar) || mar == null)
+                                    continue;
+                                if (mar.Result() == Enums.Modification_ActivationStatus.Deactivated)
+                                    continue;
+                                ConflictResponse response = ConflictResponse.Generate(mod, modification);
+                                if (response != null && response.IsConflict())
+                                    Conflicts.Add(response);
+                            }
+                            catch (Exception) { }
+                        }
+                    }
+                }
+                catch (Exception) { }
 
                 Application.Current.Dispatch(app => ConflictsLoaded());
             }));

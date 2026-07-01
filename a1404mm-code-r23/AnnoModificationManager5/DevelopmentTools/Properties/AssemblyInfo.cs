@@ -8,7 +8,7 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("DevelopmentTools")]
-[assembly: AssemblyDescription("Anno 1404 Modification Manager Development Tools Version 4")]
+[assembly: AssemblyDescription("Anno 1404 Modification Manager Development Tools Version 5")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("DevelopmentTools")]

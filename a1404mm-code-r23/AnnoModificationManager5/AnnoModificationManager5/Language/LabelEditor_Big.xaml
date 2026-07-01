@@ -3,9 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" Background="White" d:DesignWidth="396">
+             mc:Ignorable="d" Background="Transparent" d:DesignWidth="396">
     <Grid>
-    	<GroupBox Header="Not loaded" VerticalAlignment="Top" Height="180" Name="groupBox">
+    	<GroupBox Header="Not loaded" VerticalAlignment="Top" Height="200" Name="groupBox">
     		<UniformGrid Rows="2" Columns="1">
     			<Grid>
     				<TextBox TextChanged="TextChanged_UpdateBinding"  Margin="100,0,0,0" TextWrapping="NoWrap" Text="" d:LayoutOverrides="Height" x:Name="Field_German" AcceptsReturn="True" AcceptsTab="True" />

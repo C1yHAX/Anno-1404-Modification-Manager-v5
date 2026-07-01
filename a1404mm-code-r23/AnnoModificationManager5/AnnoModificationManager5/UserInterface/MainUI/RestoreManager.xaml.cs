@@ -22,13 +22,20 @@ namespace AnnoModificationManager5.UserInterface.MainUI
     /// <summary>
     /// Interaction logic for RestoreManager.xaml
     /// </summary>
-    public partial class RestoreManager : Window
+    public partial class RestoreManager : UserControl
     {
         public bool HasRestored = false;
 
         public RestoreManager()
         {
             InitializeComponent();
+        }
+
+        /// <summary>Reload the restore point list (called on load and when the view is shown).</summary>
+        public void ReloadItems()
+        {
+            list_Restore.ItemsSource = RestoreItem.GetItems();
+            list_Restore.Items.Refresh();
         }
 
         private void button_Restore_Click(object sender, RoutedEventArgs e)
@@ -55,6 +62,11 @@ namespace AnnoModificationManager5.UserInterface.MainUI
                     //Clean all List- and XmlFiles for full Reload
                     AnnoModificationManager5.ModificationTypes.XmlModule.XMLFileCollector.CollectedFiles.Clear();
                     AnnoModificationManager5.ModificationTypes.ListModule.ListFileCollector.CollectedFiles.Clear();
+
+                    // Refresh activation status after a restore (previously done by the caller
+                    // that opened this as a dialog; now embedded, so trigger it here).
+                    try { MainWindow.CurrentMainWindow.UpdateActivationResponses(); }
+                    catch (Exception) { }
 
                     MessageWindow.Show(LanguageDictionary.Get("RestoreManager", "RestoredMessage"));
                 }
@@ -130,8 +142,7 @@ namespace AnnoModificationManager5.UserInterface.MainUI
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            list_Restore.ItemsSource = RestoreItem.GetItems();
-            list_Restore.Items.Refresh();
+            ReloadItems();
         }
     }
 

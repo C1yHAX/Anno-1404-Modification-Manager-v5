@@ -41,7 +41,22 @@ namespace DevelopmentTools.Tools.Global
         private void button_StartTest_Click(object sender, RoutedEventArgs e)
         {
             tabControl.SelectedIndex = 1;
-            Thread nthread = new Thread(new ThreadStart(Test));
+            Thread nthread = new Thread(new ThreadStart(delegate
+            {
+                try
+                {
+                    Test();
+                }
+                catch (Exception ex)
+                {
+                    Test_Notify("");
+                    Test_Notify("=== TEST ABGEBROCHEN (unerwartete Ausnahme) ===");
+                    Test_Notify(ex.GetType().Name + ": " + ex.Message);
+                    if (ex.InnerException != null)
+                        Test_Notify("Inner: " + ex.InnerException.GetType().Name + ": " + ex.InnerException.Message);
+                    Test_Notify(ex.StackTrace ?? "");
+                }
+            }));
             nthread.Start();
         }
 
@@ -85,6 +100,12 @@ namespace DevelopmentTools.Tools.Global
             {
                 foreach (IListModifier mod in list.Get())
                 {
+                    if (mod.ListFile == null)
+                    {
+                        Test_Notify("!!! Übersprungen: ListModifier ohne ListFile (File=\"" + mod.File + "\") – Datei in dieser Anno-Version nicht gefunden?");
+                        continue;
+                    }
+
                     if (!listFiles.ContainsKey(mod.File))
                     {
                         Test_Notify("-> Creating temp. ListFile \"" + mod.File + "\" ...");
@@ -107,6 +128,7 @@ namespace DevelopmentTools.Tools.Global
             #region Save Files Original
             foreach (KeyValuePair<string, XMLFile> file in xmlFiles)
             {
+                if (file.Value == null) continue;
                 file.Value.WriteContent(Modification.Development_CurrentModification.Folder + "_Test\\Original\\" + file.Key.FormatProjectPath().Replace(";", "\\"));
             }
             #endregion
@@ -216,6 +238,7 @@ namespace DevelopmentTools.Tools.Global
             #region Save Files Activated
             foreach (KeyValuePair<string, XMLFile> file in xmlFiles)
             {
+                if (file.Value == null) continue;
                 file.Value.WriteContent(Modification.Development_CurrentModification.Folder + "_Test\\Activated\\" + file.Key.FormatProjectPath().Replace(";", "\\"));
             }
             #endregion
@@ -308,6 +331,7 @@ namespace DevelopmentTools.Tools.Global
             #region Save Files Deactivated
             foreach (KeyValuePair<string, XMLFile> file in xmlFiles)
             {
+                if (file.Value == null) continue;
                 file.Value.WriteContent(Modification.Development_CurrentModification.Folder + "_Test\\Deactivated\\" + file.Key.FormatProjectPath().Replace(";", "\\"));
             }
             #endregion
@@ -320,6 +344,7 @@ namespace DevelopmentTools.Tools.Global
             #region Save Files Original
             foreach (KeyValuePair<string, ListFile> file in listFiles)
             {
+                if (file.Value == null) continue;
                 file.Value.WriteContent(Modification.Development_CurrentModification.Folder + "_Test\\Original\\" + file.Key.FormatProjectPath().Replace(";", "\\"));
             }
             #endregion
@@ -425,6 +450,7 @@ namespace DevelopmentTools.Tools.Global
             #region Save Files Activated
             foreach (KeyValuePair<string, ListFile> file in listFiles)
             {
+                if (file.Value == null) continue;
                 file.Value.WriteContent(Modification.Development_CurrentModification.Folder + "_Test\\Activated\\" + file.Key.FormatProjectPath().Replace(";", "\\"));
             }
             #endregion
@@ -518,6 +544,7 @@ namespace DevelopmentTools.Tools.Global
             #region Save Files Deactivated
             foreach (KeyValuePair<string, ListFile> file in listFiles)
             {
+                if (file.Value == null) continue;
                 file.Value.WriteContent(Modification.Development_CurrentModification.Folder + "_Test\\Deactivated\\" + file.Key.FormatProjectPath().Replace(";", "\\"));
             }
             #endregion

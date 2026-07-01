@@ -5,9 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DevelopmentTools.Editors.XmlModule" x:Class="DevelopmentTools.Editors.XmlModule.XmlModuleEditor_Main" 
              mc:Ignorable="d" 
-             d:DesignHeight="480" d:DesignWidth="640" Background="White" Focusable="True">
+             d:DesignHeight="480" d:DesignWidth="640" Background="{DynamicResource Brush_UI_White}" Focusable="True">
     <Grid>
-        <TreeView SelectedItemChanged="FileList_SelectedItemChanged"  MouseLeftButtonUp="FileList_MouseLeftButtonUp" HorizontalAlignment="Left" Width="190" VerticalAlignment="Stretch" Margin="0,140,0,28" BorderThickness="0,1,1,0" BorderBrush="{DynamicResource Brush_UI_Border}" Name="FileList" />
+        <TreeView SelectedItemChanged="FileList_SelectedItemChanged"  MouseLeftButtonUp="FileList_MouseLeftButtonUp" HorizontalAlignment="Left" Width="190" VerticalAlignment="Stretch" Margin="0,0,0,28" BorderThickness="0,1,1,0" BorderBrush="{DynamicResource Brush_UI_Border}" Name="FileList" />
         <Grid x:Name="ModifierListEditor" Margin="190,0,0,0" Visibility="Hidden" Focusable="True">  
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5*"/>
@@ -16,7 +16,10 @@
             </Grid.ColumnDefinitions>
             <GridSplitter Grid.Column="1" Width="2" HorizontalAlignment="Center" VerticalAlignment="Stretch" ShowsPreview="True"/>
             
-        	<TreeView Grid.Column="2" MouseLeftButtonUp="ModuleList_MouseLeftButtonUp" SelectedItemChanged="ModuleList_SelectedItemChanged" x:Name="ModuleList" BorderBrush="{DynamicResource Brush_UI_Border}" BorderThickness="1,0,0,0" HorizontalAlignment="Stretch" Margin="0,0,0,28"/>
+            <Border Grid.Column="2" Height="30" VerticalAlignment="Top" Background="#FF132238" BorderBrush="{DynamicResource Brush_UI_Border}" BorderThickness="1,0,0,1">
+                <TextBlock Text="XML STRUCTURE" Foreground="#FF9FB2C8" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center" Margin="10,0,0,0"/>
+            </Border>
+        	<TreeView Grid.Column="2" MouseLeftButtonUp="ModuleList_MouseLeftButtonUp" SelectedItemChanged="ModuleList_SelectedItemChanged" x:Name="ModuleList" BorderBrush="{DynamicResource Brush_UI_Border}" BorderThickness="1,0,0,0" HorizontalAlignment="Stretch" Margin="0,30,0,28"/>
             <ContentPresenter x:Name="ModuleEditPanel" Grid.Column="0"/>
             <local:XmlModuleEditor_ModuleCreator Grid.Column="0" x:Name="ModuleCreator" Visibility="Visible" />              
             <ToolBar Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="28" Background="{DynamicResource Brush_UI_White}" BorderBrush="{DynamicResource Brush_UI_Border}" BorderThickness="1,1,0,0" IsOverflowOpen="False">

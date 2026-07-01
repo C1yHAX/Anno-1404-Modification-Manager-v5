@@ -16,8 +16,8 @@
         </DataTemplate>
     </UserControl.Resources>
     <Grid>
-        <Border HorizontalAlignment="Left" Width="190" VerticalAlignment="Stretch" Margin="0,140,0,0" BorderThickness="0,0,1,0" BorderBrush="{DynamicResource Brush_UI_Border}"/>
-        <Grid x:Name="ModifierListEditor" Margin="190,0,0,0">
+        <Border Width="0" Visibility="Collapsed"/>
+        <Grid x:Name="ModifierListEditor" Margin="0,0,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5*"/>
                 <ColumnDefinition Width="Auto"/>
@@ -25,7 +25,10 @@
             </Grid.ColumnDefinitions>
             <GridSplitter Grid.Column="1" Width="2" HorizontalAlignment="Center" VerticalAlignment="Stretch" ShowsPreview="True"/>
             <local:UserdefinedValueEditor_Creator Grid.Column="0" x:Name="ModuleCreator" />
-            <TreeView SelectedItemChanged="ModuleList_SelectedItemChanged" Grid.Column="2" x:Name="ModuleList" BorderBrush="{DynamicResource Brush_UI_Border}" BorderThickness="1,0,0,0" HorizontalAlignment="Stretch" Margin="0,0,0,28"/>                
+            <Border Grid.Column="2" Height="30" VerticalAlignment="Top" Background="#FF132238" BorderBrush="{DynamicResource Brush_UI_Border}" BorderThickness="1,0,0,1">
+                <TextBlock Text="VALUES" Foreground="#FF9FB2C8" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center" Margin="10,0,0,0"/>
+            </Border>
+            <TreeView SelectedItemChanged="ModuleList_SelectedItemChanged" Grid.Column="2" x:Name="ModuleList" BorderBrush="{DynamicResource Brush_UI_Border}" BorderThickness="1,0,0,0" HorizontalAlignment="Stretch" Margin="0,30,0,28"/>                
             <ToolBar Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="28" Background="{DynamicResource Brush_UI_White}" BorderBrush="{DynamicResource Brush_UI_Border}" BorderThickness="1,1,0,0" IsOverflowOpen="False">
                 <Button Click="ModuleList_Add_Click" x:Name="ModuleList_Add" Margin="3,0,0,0">
                     <Image Height="16" Source="/DevelopmentTools;component/Images/Icons/add.png" Stretch="Fill" Width="16"/>

@@ -56,16 +56,20 @@ namespace AnnoModificationManager5.ModificationTypes.XmlModule
             {
                 if (mod.IsActive && !mod.Validitate())
                 {
-                    //try
+                    try
                     {
+                        if (mod.XMLFile == null)
+                            continue; // Datei in dieser Anno-Version nicht vorhanden -> still überspringen
+
                         mod.Activate();
 
                         //Set Changed to true
                         mod.XMLFile.Changed = true;
                     }
-                    //catch (Exception)
-                    //{
-                    //}
+                    catch (Exception)
+                    {
+                        // still überspringen (z. B. Datei in dieser Installation nicht vorhanden)
+                    }
                 }
             }
         }

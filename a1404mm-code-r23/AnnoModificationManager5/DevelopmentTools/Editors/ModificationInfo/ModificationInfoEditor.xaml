@@ -1,142 +1,153 @@
-﻿<UserControl x:Class="DevelopmentTools.Editors.ModificationInfo.ModificationInfoEditor"
+<UserControl x:Class="DevelopmentTools.Editors.ModificationInfo.ModificationInfoEditor"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:devctrls="clr-namespace:DevelopmentTools.Controls"
              xmlns:ammlgctrls="clr-namespace:AnnoModificationManager5.Language;assembly=AnnoModificationManager5"
-             mc:Ignorable="d" 
-             d:DesignHeight="1024" d:DesignWidth="640" Focusable="True" >
-    <Grid Background="White">
-        <Border HorizontalAlignment="Left" Width="190" VerticalAlignment="Stretch" Margin="0,140,0,0" BorderThickness="0,0,1,0" BorderBrush="{DynamicResource Brush_UI_Border}"/>
-        <Image Height="80" HorizontalAlignment="Stretch" Margin="190,0,0,0" Stretch="Fill" VerticalAlignment="Top" Width="Auto"
-                Source="/DevelopmentTools;component/Images/Header/headerImage_n05.jpg" />
-        <ScrollViewer Margin="190,84,0,0" ScrollViewer.VerticalScrollBarVisibility="Visible">
-        	<StackPanel>
-        		<Grid Height="21.96" Margin="8,0">
-        			<TextBox x:Name="Field_InternalName" TextWrapping="NoWrap" Text="TextBox" VerticalAlignment="Bottom" Margin="100,0,0,0"
-        				TextChanged="Field_UpdateModification" />
-        			<Grid HorizontalAlignment="Left" Width="100">
-        				<TextBlock TextWrapping="NoWrap" Text="Internal Name" d:LayoutOverrides="Width, Height" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-        			</Grid>
-        		</Grid>
-        		<Grid Height="21.96" Margin="8,3,8,0">
-        			<TextBox x:Name="Field_Category" TextWrapping="NoWrap" Text="TextBox" VerticalAlignment="Bottom" Margin="100,0,0,0"
-        				TextChanged="Field_UpdateModification" />
-        			<Grid HorizontalAlignment="Left" Width="100">
-        				<TextBlock TextWrapping="NoWrap" Text="Internal Category" d:LayoutOverrides="Width, Height" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-        			</Grid>
-        		</Grid>
-        		<Grid Height="21.96" Margin="8,8,8,0">
-        			<TextBox x:Name="Field_Author" TextWrapping="NoWrap" Text="TextBox" VerticalAlignment="Bottom" Margin="100,0,0,0"
-        				TextChanged="Field_UpdateModification" />
-        			<Grid HorizontalAlignment="Left" Width="100">
-        				<TextBlock TextWrapping="NoWrap" Text="Author" d:LayoutOverrides="Width, Height" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-        			</Grid>
-        		</Grid>
-        		<Grid Height="21.96" Margin="8,3,8,0">
-        			<TextBox x:Name="Field_Website" TextWrapping="NoWrap" Text="TextBox" VerticalAlignment="Bottom" Margin="100,0,0,0"
-        				TextChanged="Field_UpdateModification" />
-        			<Grid HorizontalAlignment="Left" Width="100">
-        				<TextBlock TextWrapping="NoWrap" Text="Website" d:LayoutOverrides="Width, Height" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-        			</Grid>
-        		</Grid>
-        		<Grid Height="21.96" Margin="8,3,8,0">
-        			<TextBox x:Name="Field_Documentation" TextWrapping="NoWrap" Text="TextBox" VerticalAlignment="Bottom" Margin="100,0,52,0"
-        				TextChanged="Field_UpdateModification" IsEnabled="False" />
-        			<Grid HorizontalAlignment="Left" Width="100">
-        				<TextBlock TextWrapping="NoWrap" Text="Documentation" d:LayoutOverrides="Width, Height" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-        			</Grid>
-        			<Button Click="Field_Documentation_Open_Click"  x:Name="Field_Documentation_Open" Content="..." HorizontalAlignment="Right" Width="22" d:LayoutOverrides="Height" Background="{DynamicResource Brush_UI_White}"/>
-        			<devctrls:DropDownButton HorizontalAlignment="Right" Width="22" Background="{DynamicResource Brush_UI_White}" d:LayoutOverrides="Height" Margin="0,0,26,0">
-        				<devctrls:DropDownButton.DropDown>
-        					<ContextMenu>
-        						<MenuItem Click="Field_Documentation_Create_Click" Header="Create" x:Name="Field_Documentation_Create">
-        							<MenuItem.Icon>
-        								<Image Source="/DevelopmentTools;component/Images/Icons/page_white.png" />
-        							</MenuItem.Icon>
-        						</MenuItem>
-        						<MenuItem Click="Field_Documentation_Edit_Click" Header="Open/Edit" x:Name="Field_Documentation_Edit">
-        							<MenuItem.Icon>
-        								<Image Source="/DevelopmentTools;component/Images/Icons/pencil.png" />
-        							</MenuItem.Icon>
-        						</MenuItem>
-        						<MenuItem Click="Field_Documentation_Remove_Click" Header="Remove" x:Name="Field_Documentation_Remove">
-        							<MenuItem.Icon>
-        								<Image Source="/DevelopmentTools;component/Images/Icons/cross.png" />
-        							</MenuItem.Icon>
-        						</MenuItem>
-        					</ContextMenu>
-        				</devctrls:DropDownButton.DropDown>
-        				<Image Source="/DevelopmentTools;component/Images/Icons/asterisk_yellow.png" />
-        			</devctrls:DropDownButton>
-        		</Grid>
-        		<Grid Height="21.96" Margin="8,8,8,0">
-        			<Grid HorizontalAlignment="Left" Width="100">
-        				<TextBlock TextWrapping="NoWrap" Text="Version" d:LayoutOverrides="Width, Height" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-        			</Grid>
-        			<Grid Margin="100,0,0,0">
-        				<UniformGrid Columns="4" Width="200" HorizontalAlignment="Left">
-        					<TextBox x:Name="Field_Version_Major" TextWrapping="NoWrap" Text="1" HorizontalAlignment="Left" Width="40"
-        						TextChanged="Version_UpdateModification" />
-        					<TextBox x:Name="Field_Version_Minor" TextWrapping="NoWrap" Text="0" HorizontalAlignment="Left" Width="40"
-        						TextChanged="Version_UpdateModification" />
-        					<TextBox x:Name="Field_Version_Build" TextWrapping="NoWrap" Text="0" HorizontalAlignment="Left" Width="40"
-        						TextChanged="Version_UpdateModification" />
-        					<TextBox x:Name="Field_Version_Revision" TextWrapping="NoWrap" Text="0" HorizontalAlignment="Left" Width="40"
-        						TextChanged="Version_UpdateModification" />
-        				</UniformGrid>
-        			</Grid>
-        		</Grid>
-                <!--<CheckBox Name="chb_IgnoreNonExistingRDAs" Content="Ignore non-existing RDA files"  Margin="8,5,0,0"
-                        Checked="AnnoVersion_UpdateModification" Unchecked="AnnoVersion_UpdateModification" />-->
-        		<GroupBox Header="Anno Versions" Margin="8,8,8,0" Height="Auto">
-                    <StackPanel Orientation="Vertical">
-                        <CheckBox x:Name="AnnoVersions_All" Content="All Versions" Checked="AnnoVersion_UpdateModification" Unchecked="AnnoVersion_UpdateModification" />
-                        <Separator  Height="10" HorizontalAlignment="Left" Width="100" VerticalAlignment="Top" d:LayoutOverrides="Height"/>
-                        <CheckBox x:Name="AnnoVersions_Retail" Content="Retail" Checked="AnnoVersion_UpdateModification" Unchecked="AnnoVersion_UpdateModification" />
-                        <CheckBox x:Name="AnnoVersions_Patch1" Content="Patch 1" Checked="AnnoVersion_UpdateModification" Unchecked="AnnoVersion_UpdateModification" />
-                        <CheckBox x:Name="AnnoVersions_Patch2" Content="Patch 2" Checked="AnnoVersion_UpdateModification" Unchecked="AnnoVersion_UpdateModification" />
-                        <CheckBox x:Name="AnnoVersions_Patch3" Content="Patch 3" Checked="AnnoVersion_UpdateModification" Unchecked="AnnoVersion_UpdateModification" />
-                        <CheckBox x:Name="AnnoVersions_IAAM" Content="IAAM Mod" Checked="AnnoVersion_UpdateModification" Unchecked="AnnoVersion_UpdateModification" />
-                        <Separator Height="10" HorizontalAlignment="Left" Width="100" VerticalAlignment="Top" d:LayoutOverrides="Height"/>
-                        <CheckBox x:Name="AnnoVersions_Addon1" Content="Addon 1" Checked="AnnoVersion_UpdateModification" Unchecked="AnnoVersion_UpdateModification" />
-                       <CheckBox x:Name="AnnoVersions_Addon1_Patch1" Content="Addon 1 Patch 1" Checked="AnnoVersion_UpdateModification" Unchecked="AnnoVersion_UpdateModification" />
+             mc:Ignorable="d"
+             d:DesignHeight="1024" d:DesignWidth="900" Focusable="True" >
+    <Grid Background="{DynamicResource Brush_UI_White}">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="20,16,20,20">
+            <StackPanel>
+
+                <!-- General Information -->
+                <GroupBox Header="General Information">
+                    <Grid Margin="2,6,2,2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="38"/>
+                            <RowDefinition Height="38"/>
+                            <RowDefinition Height="38"/>
+                            <RowDefinition Height="38"/>
+                            <RowDefinition Height="38"/>
+                            <RowDefinition Height="38"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Text="Internal Name" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="0" Grid.Column="1" x:Name="Field_InternalName" Height="30" VerticalContentAlignment="Center" VerticalAlignment="Center" TextChanged="Field_UpdateModification"/>
+
+                        <TextBlock Grid.Row="1" Text="Internal Category" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="1" Grid.Column="1" x:Name="Field_Category" Height="30" VerticalContentAlignment="Center" VerticalAlignment="Center" TextChanged="Field_UpdateModification"/>
+
+                        <TextBlock Grid.Row="2" Text="Author" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="2" Grid.Column="1" x:Name="Field_Author" Height="30" VerticalContentAlignment="Center" VerticalAlignment="Center" TextChanged="Field_UpdateModification"/>
+
+                        <TextBlock Grid.Row="3" Text="Website" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="3" Grid.Column="1" x:Name="Field_Website" Height="30" VerticalContentAlignment="Center" VerticalAlignment="Center" TextChanged="Field_UpdateModification"/>
+
+                        <TextBlock Grid.Row="4" Text="Documentation" VerticalAlignment="Center"/>
+                        <Grid Grid.Row="4" Grid.Column="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0" x:Name="Field_Documentation" Height="30" VerticalContentAlignment="Center" VerticalAlignment="Center" IsEnabled="False" TextChanged="Field_UpdateModification"/>
+                            <Button Grid.Column="1" Click="Field_Documentation_Open_Click" x:Name="Field_Documentation_Open" Content="..." Width="32" Height="30" Margin="6,0,0,0"/>
+                            <devctrls:DropDownButton Grid.Column="2" Width="32" Height="30" Margin="6,0,0,0" Background="{DynamicResource Brush_UI_White}" BorderBrush="{DynamicResource Brush_UI_Border}">
+                                <devctrls:DropDownButton.DropDown>
+                                    <ContextMenu>
+                                        <MenuItem Click="Field_Documentation_Create_Click" Header="Create" x:Name="Field_Documentation_Create">
+                                            <MenuItem.Icon><Image Source="/DevelopmentTools;component/Images/Icons/page_white.png" /></MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Click="Field_Documentation_Edit_Click" Header="Open/Edit" x:Name="Field_Documentation_Edit">
+                                            <MenuItem.Icon><Image Source="/DevelopmentTools;component/Images/Icons/pencil.png" /></MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Click="Field_Documentation_Remove_Click" Header="Remove" x:Name="Field_Documentation_Remove">
+                                            <MenuItem.Icon><Image Source="/DevelopmentTools;component/Images/Icons/cross.png" /></MenuItem.Icon>
+                                        </MenuItem>
+                                    </ContextMenu>
+                                </devctrls:DropDownButton.DropDown>
+                                <Image Source="/DevelopmentTools;component/Images/Icons/asterisk_yellow.png" Width="16" Height="16"/>
+                            </devctrls:DropDownButton>
+                        </Grid>
+
+                        <TextBlock Grid.Row="5" Text="Version" VerticalAlignment="Center"/>
+                        <StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBox x:Name="Field_Version_Major" Text="1" Width="52" Height="30" VerticalContentAlignment="Center" TextAlignment="Center" TextChanged="Version_UpdateModification"/>
+                            <TextBlock Text="." VerticalAlignment="Center" Margin="7,0"/>
+                            <TextBox x:Name="Field_Version_Minor" Text="0" Width="52" Height="30" VerticalContentAlignment="Center" TextAlignment="Center" TextChanged="Version_UpdateModification"/>
+                            <TextBlock Text="." VerticalAlignment="Center" Margin="7,0"/>
+                            <TextBox x:Name="Field_Version_Build" Text="0" Width="52" Height="30" VerticalContentAlignment="Center" TextAlignment="Center" TextChanged="Version_UpdateModification"/>
+                            <TextBlock Text="." VerticalAlignment="Center" Margin="7,0"/>
+                            <TextBox x:Name="Field_Version_Revision" Text="0" Width="52" Height="30" VerticalContentAlignment="Center" TextAlignment="Center" TextChanged="Version_UpdateModification"/>
+                        </StackPanel>
+                    </Grid>
+                </GroupBox>
+
+                <!-- Compatible Versions -->
+                <GroupBox Header="Compatible Versions">
+                    <StackPanel Margin="2,6,2,2">
+                        <CheckBox x:Name="AnnoVersions_All" Content="All Versions" Margin="0,0,0,10" Checked="AnnoVersion_UpdateModification" Unchecked="AnnoVersion_UpdateModification"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="Base Game" Foreground="#FF9FB2C8" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                                <CheckBox x:Name="AnnoVersions_Retail" Content="Retail" Margin="0,3" Checked="AnnoVersion_UpdateModification" Unchecked="AnnoVersion_UpdateModification"/>
+                                <CheckBox x:Name="AnnoVersions_Patch1" Content="Patch 1" Margin="0,3" Checked="AnnoVersion_UpdateModification" Unchecked="AnnoVersion_UpdateModification"/>
+                                <CheckBox x:Name="AnnoVersions_Patch2" Content="Patch 2" Margin="0,3" Checked="AnnoVersion_UpdateModification" Unchecked="AnnoVersion_UpdateModification"/>
+                                <CheckBox x:Name="AnnoVersions_Patch3" Content="Patch 3" Margin="0,3" Checked="AnnoVersion_UpdateModification" Unchecked="AnnoVersion_UpdateModification"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="Add-ons &amp; Editions" Foreground="#FF9FB2C8" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                                <CheckBox x:Name="AnnoVersions_Addon1" Content="Addon 1" Margin="0,3" Checked="AnnoVersion_UpdateModification" Unchecked="AnnoVersion_UpdateModification"/>
+                                <CheckBox x:Name="AnnoVersions_Addon1_Patch1" Content="Addon 1 Patch 1" Margin="0,3" Checked="AnnoVersion_UpdateModification" Unchecked="AnnoVersion_UpdateModification"/>
+                                <CheckBox x:Name="AnnoVersions_IAAM" Content="IAAM" Margin="0,3" Checked="AnnoVersion_UpdateModification" Unchecked="AnnoVersion_UpdateModification"/>
+                                <CheckBox x:Name="AnnoVersions_HistoryEdition" Content="History Edition" Margin="0,3" Checked="AnnoVersion_UpdateModification" Unchecked="AnnoVersion_UpdateModification"/>
+                                <CheckBox x:Name="AnnoVersions_HistoryEdition_Addon" Content="History Edition Addon" Margin="0,3" Checked="AnnoVersion_UpdateModification" Unchecked="AnnoVersion_UpdateModification"/>
+                            </StackPanel>
+                        </Grid>
                     </StackPanel>
                 </GroupBox>
-                <ammlgctrls:LabelEditor Margin="8,8,8,0" x:Name="LabelEditor_Name" />
-        		<ammlgctrls:LabelEditor Margin="8,3,8,0" x:Name="LabelEditor_Category" />      
-        		<ammlgctrls:LabelEditor_Big Margin="8,8,8,0" x:Name="LabelEditor_Description"/>
-        		<GroupBox Header="Images" Margin="8,8,8,0" Height="200">
-        			<Grid>
-        				<ToolBar Height="27" VerticalAlignment="Bottom" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource Brush_UI_Border}" IsOverflowOpen="False">
-        					<Button Click="Images_Add_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="Images_Add">
-        						<Image Height="16" Source="/DevelopmentTools;component/Images/Icons/add.png" Stretch="UniformToFill" Width="16"/>
-        					</Button>
-        					<Button Click="Images_Remove_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="Images_Remove">
-        						<Image Height="16" Source="/DevelopmentTools;component/Images/Icons/delete.png" Stretch="UniformToFill" Width="16"/>
-        					</Button>
-        				</ToolBar>
-        				<ListView Margin="0,0,0,27" BorderBrush="{x:Null}" BorderThickness="0" Foreground="Black" Name="Images">
-                            <!--<ListView.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <WrapPanel IsItemsHost="True" Width="{Binding ActualWidth, ElementName=Images}"/>
-                                </ItemsPanelTemplate>
-                            </ListView.ItemsPanel>-->
-                                <ListView.View>                                      
-        						<GridView>
+
+                <!-- Name + Category side by side -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="14"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <ammlgctrls:LabelEditor Grid.Column="0" x:Name="LabelEditor_Name"/>
+                    <ammlgctrls:LabelEditor Grid.Column="2" x:Name="LabelEditor_Category"/>
+                </Grid>
+
+                <!-- Description -->
+                <ammlgctrls:LabelEditor_Big x:Name="LabelEditor_Description"/>
+
+                <!-- Images -->
+                <GroupBox Header="Images" Height="220">
+                    <Grid>
+                        <ToolBar Height="27" VerticalAlignment="Bottom" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource Brush_UI_Border}" IsOverflowOpen="False">
+                            <Button Click="Images_Add_Click" Name="Images_Add">
+                                <Image Height="16" Source="/DevelopmentTools;component/Images/Icons/add.png" Stretch="UniformToFill" Width="16"/>
+                            </Button>
+                            <Button Click="Images_Remove_Click" Name="Images_Remove">
+                                <Image Height="16" Source="/DevelopmentTools;component/Images/Icons/delete.png" Stretch="UniformToFill" Width="16"/>
+                            </Button>
+                        </ToolBar>
+                        <ListView Margin="0,0,0,27" BorderBrush="{x:Null}" BorderThickness="0" Foreground="#FFE8EEF8" Name="Images">
+                            <ListView.View>
+                                <GridView>
                                     <GridView.ColumnHeaderContainerStyle>
                                         <Style>
                                             <Setter Property="UIElement.Visibility" Value="Collapsed"/>
                                         </Style>
                                     </GridView.ColumnHeaderContainerStyle>
-        							<GridViewColumn/>
-        						</GridView>
-        					</ListView.View>                              
+                                    <GridViewColumn/>
+                                </GridView>
+                            </ListView.View>
                         </ListView>
-        			</Grid>
-        		</GroupBox>
-        	</StackPanel>
+                    </Grid>
+                </GroupBox>
+
+            </StackPanel>
         </ScrollViewer>
     </Grid>
 </UserControl>

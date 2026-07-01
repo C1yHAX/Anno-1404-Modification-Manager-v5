@@ -7,8 +7,8 @@
 	<SolidColorBrush x:Key="ButtonNormalBorder" Color="#FF707070"/>
 	<Style TargetType="{x:Type devctrls:DropDownButton}">
 		<Setter Property="FocusVisualStyle" Value="{StaticResource ButtonFocusVisual}"/>
-		<Setter Property="Background" Value="{StaticResource ButtonNormalBackground}"/>
-		<Setter Property="BorderBrush" Value="{StaticResource ButtonNormalBorder}"/>
+		<Setter Property="Background" Value="{DynamicResource Brush_UI_White}"/>
+		<Setter Property="BorderBrush" Value="{DynamicResource Brush_UI_Border}"/>
 		<Setter Property="BorderThickness" Value="1"/>
 		<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
 		<Setter Property="HorizontalContentAlignment" Value="Center"/>

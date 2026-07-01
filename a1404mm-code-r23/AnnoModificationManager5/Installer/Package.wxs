@@ -1,25 +1,123 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+     xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
 
     <Package
-        Name="Anno 1404 Modification Manager 5 Beta"
-        Manufacturer="Anno Modding Community"
-        Version="5.0.0"
-        UpgradeCode="a2c6bf9c-9f5d-4fee-9cad-18f3b411a5cc">
+        Name="Anno 1404 Modification Manager 5"
+        Manufacturer="Anno 1404 Modding Community"
+        Version="5.0.0.0"
+        UpgradeCode="a2c6bf9c-9f5d-4fee-9cad-18f3b411a5cc"
+        Scope="perMachine"
+        InstallerVersion="500">
 
-        <MajorUpgrade />
+        <SummaryInformation
+            Description="Anno 1404 Modification Manager 5 &#8211; Setup"
+            Manufacturer="Anno 1404 Modding Community" />
 
-        <MediaTemplate />
+        <!-- Upgrade over any previous 5.x; block downgrades. -->
+        <MajorUpgrade
+            AllowSameVersionUpgrades="yes"
+            DowngradeErrorMessage="Eine neuere Version des Anno 1404 Modification Manager 5 ist bereits installiert. Das Setup wird beendet." />
 
+        <!-- Single-file MSI (cab embedded). -->
+        <MediaTemplate EmbedCab="yes" />
+
+        <!-- ================= .NET Framework 4.7.2 requirement (self-contained) =================
+             Read the NDP\v4\Full "Release" DWORD from both registry views so the check works on
+             32-bit and 64-bit Windows. 461808 = .NET Framework 4.7.2. -->
+        <Property Id="NETFX472_64">
+            <RegistrySearch Id="Netfx472Release64" Root="HKLM"
+                            Key="SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full"
+                            Name="Release" Type="raw" Bitness="always64" />
+        </Property>
+        <Property Id="NETFX472_32">
+            <RegistrySearch Id="Netfx472Release32" Root="HKLM"
+                            Key="SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full"
+                            Name="Release" Type="raw" Bitness="always32" />
+        </Property>
+        <Launch
+            Condition="Installed OR (NETFX472_64 &gt;= &quot;#461808&quot;) OR (NETFX472_32 &gt;= &quot;#461808&quot;)"
+            Message="Für den Anno 1404 Modification Manager 5 wird Microsoft .NET Framework 4.7.2 oder neuer benötigt. Bitte installieren Sie es zuerst und starten Sie das Setup danach erneut." />
+
+        <!-- ARP (Programme &amp; Features) presentation. -->
+        <Icon Id="AppIcon.ico" SourceFile="..\AnnoModificationManager5\Images\Logo\AMM4_Icon.ico" />
+        <Property Id="ARPPRODUCTICON" Value="AppIcon.ico" />
+
+        <!-- Desktop shortcut on by default; pass INSTALLDESKTOPSHORTCUT=0 for a silent install without it. -->
+        <Property Id="INSTALLDESKTOPSHORTCUT" Value="1" />
+
+        <!-- ================= Directories ================= -->
         <StandardDirectory Id="ProgramFilesFolder">
-
-            <Directory Id="INSTALLFOLDER"
-                       Name="Anno 1404 Modification Manager 5 Beta">
-
-            </Directory>
-
+            <Directory Id="INSTALLFOLDER" Name="Anno 1404 Modification Manager 5" />
         </StandardDirectory>
+        <StandardDirectory Id="ProgramMenuFolder">
+            <Directory Id="AppProgramMenuDir" Name="Anno 1404 Modification Manager 5" />
+        </StandardDirectory>
+        <StandardDirectory Id="DesktopFolder" />
+
+        <!-- ================= Payload: harvest the whole Release output ================= -->
+        <ComponentGroup Id="ProductFiles" Directory="INSTALLFOLDER">
+            <Files Include="$(var.SourceDir)\**">
+                <Exclude Files="$(var.SourceDir)\**\*.pdb" />
+                <Exclude Files="$(var.SourceDir)\**\*.vshost.*" />
+                <Exclude Files="$(var.SourceDir)\**\*.rar" />
+                <Exclude Files="$(var.SourceDir)\**\*.lref" />
+                <Exclude Files="$(var.SourceDir)\**\*.cache" />
+            </Files>
+        </ComponentGroup>
+
+        <!-- ================= Start menu shortcuts ================= -->
+        <ComponentGroup Id="StartMenuShortcuts" Directory="AppProgramMenuDir">
+            <Component Id="cmpStartMenuShortcuts" Guid="*">
+                <Shortcut Id="scManager"
+                          Name="Anno 1404 Modification Manager 5"
+                          Description="Mods für Anno 1404 verwalten"
+                          Target="[INSTALLFOLDER]AnnoModificationManager5.exe"
+                          WorkingDirectory="INSTALLFOLDER"
+                          Icon="AppIcon.ico" />
+                <Shortcut Id="scDevTools"
+                          Name="Development Tools 5"
+                          Description="Mods für Anno 1404 erstellen und bearbeiten"
+                          Target="[INSTALLFOLDER]DevelopmentTools.exe"
+                          WorkingDirectory="INSTALLFOLDER" />
+                <Shortcut Id="scRDA"
+                          Name="RDA Explorer"
+                          Description="RDA-Archive öffnen und entpacken"
+                          Target="[INSTALLFOLDER]RDAExplorerGUI.exe"
+                          WorkingDirectory="INSTALLFOLDER" />
+                <RemoveFolder Id="RemoveAppProgramMenuDir" Directory="AppProgramMenuDir" On="uninstall" />
+                <RegistryValue Root="HKCU" Key="Software\Anno 1404 Modding Community\AMM5"
+                               Name="StartMenu" Type="integer" Value="1" KeyPath="yes" />
+            </Component>
+        </ComponentGroup>
+
+        <!-- ================= Desktop shortcut (optional) ================= -->
+        <Component Id="cmpDesktopShortcut" Directory="DesktopFolder" Guid="*"
+                   Condition="INSTALLDESKTOPSHORTCUT = &quot;1&quot;">
+            <Shortcut Id="scDesktopManager"
+                      Name="Anno 1404 Modification Manager 5"
+                      Description="Mods für Anno 1404 verwalten"
+                      Target="[INSTALLFOLDER]AnnoModificationManager5.exe"
+                      WorkingDirectory="INSTALLFOLDER"
+                      Icon="AppIcon.ico" />
+            <RegistryValue Root="HKCU" Key="Software\Anno 1404 Modding Community\AMM5"
+                           Name="DesktopShortcut" Type="integer" Value="1" KeyPath="yes" />
+        </Component>
+
+        <!-- ================= Feature ================= -->
+        <Feature Id="Main" Title="Anno 1404 Modification Manager 5" Level="1"
+                 Description="Programmdateien, Development Tools und RDA Explorer.">
+            <ComponentGroupRef Id="ProductFiles" />
+            <ComponentGroupRef Id="StartMenuShortcuts" />
+            <ComponentRef Id="cmpDesktopShortcut" />
+        </Feature>
+
+        <!-- ================= UI (branded) ================= -->
+        <ui:WixUI Id="WixUI_InstallDir" InstallDirectory="INSTALLFOLDER" />
+        <WixVariable Id="WixUILicenseRtf" Value="License.rtf" />
+        <WixVariable Id="WixUIBannerBmp" Value="WixUIBannerBmp.bmp" />
+        <WixVariable Id="WixUIDialogBmp" Value="WixUIDialogBmp.bmp" />
 
     </Package>
 

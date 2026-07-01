@@ -3,7 +3,7 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:lng="clr-namespace:AnnoModificationManager5.Language.DictionarySystem"
 		xmlns:ctrls="clr-namespace:AnnoModificationManager5.Controls"
-		xmlns:Microsoft_Windows_Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero" x:Class="AnnoModificationManager5.UserInterface.MainUI.DownloadPackagesWindow"
+		xmlns:Microsoft_Windows_Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero" x:Class="AnnoModificationManager5.UserInterface.MainUI.DownloadPackagesWindow" Style="{StaticResource DarkWindowChrome}"
 		Loaded="Window_Loaded"
 		ResizeMode="NoResize"
 		Title="{lng:LanguageMarkup Dictionary=DownloadPackagesWindow, Key=Title}" Height="600" Width="800" WindowStartupLocation="CenterScreen">   

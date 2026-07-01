@@ -53,8 +53,13 @@ namespace AnnoModificationManager5.MainControls
                 !string.IsNullOrEmpty(mod.Info.Documentation) ? Visibility.Visible : Visibility.Collapsed;
             button_OpenDocumentation.ToolTip = mod.Info.Documentation;
 
-            ////Activation status
-            ModificationActivationResponse activationstatus = ModificationHandler.ActivationResponses[mod];
+            ////Activation status (compute lazily for this single mod if not cached yet)
+            ModificationActivationResponse activationstatus;
+            if (!ModificationHandler.ActivationResponses.TryGetValue(mod, out activationstatus) || activationstatus == null)
+            {
+                activationstatus = mod.CheckActivation();
+                ModificationHandler.ActivationResponses[mod] = activationstatus;
+            }
             switch (activationstatus.Result())
             {
                 case Misc.Enums.Modification_ActivationStatus.Activated:

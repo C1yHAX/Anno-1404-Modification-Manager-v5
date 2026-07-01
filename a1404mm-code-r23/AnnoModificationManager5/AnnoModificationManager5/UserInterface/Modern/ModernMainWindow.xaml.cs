@@ -87,6 +87,7 @@ namespace AnnoModificationManager5.UserInterface.Modern
             ShowOverviewCard();
             RefreshList();
             UpdateDetail(_selected);
+            UpdateApplyButton();
         }
 
         private void RefreshList()
@@ -134,7 +135,8 @@ namespace AnnoModificationManager5.UserInterface.Modern
                 d_Meta.Text = "";
                 d_Desc.Text = "Wähle links eine Mod aus.";
                 d_StatusChip.Visibility = Visibility.Collapsed;
-                btn_Activate.Content = "✓  Aktivieren";
+                btn_Activate.Visibility = Visibility.Collapsed;
+                btn_Deactivate.Visibility = Visibility.Collapsed;
                 return;
             }
 
@@ -145,19 +147,30 @@ namespace AnnoModificationManager5.UserInterface.Modern
             d_StatusChip.Visibility = Visibility.Visible;
             try
             {
-                switch (mod.CheckActivation().Result())
+                // Use the cached activation status if available; compute (and cache) it
+                // only for this single mod on first selection — never for the whole list.
+                AnnoModificationManager5.ModificationTypes.ModificationActivationResponse resp;
+                if (!ModificationHandler.ActivationResponses.TryGetValue(mod, out resp) || resp == null)
+                {
+                    resp = mod.CheckActivation();
+                    ModificationHandler.ActivationResponses[mod] = resp;
+                }
+                switch (resp.Result())
                 {
                     case Enums.Modification_ActivationStatus.Activated:
                         d_Status.Text = "Aktiv";
-                        btn_Activate.Content = "✕  Deaktivieren";
+                        btn_Activate.Visibility = Visibility.Collapsed;
+                        btn_Deactivate.Visibility = Visibility.Visible;
                         break;
                     case Enums.Modification_ActivationStatus.Partially:
                         d_Status.Text = "Teilweise aktiv";
-                        btn_Activate.Content = "✓  Aktivieren";
+                        btn_Activate.Visibility = Visibility.Visible;
+                        btn_Deactivate.Visibility = Visibility.Visible;
                         break;
                     default:
                         d_Status.Text = "Inaktiv";
-                        btn_Activate.Content = "✓  Aktivieren";
+                        btn_Activate.Visibility = Visibility.Visible;
+                        btn_Deactivate.Visibility = Visibility.Collapsed;
                         break;
                 }
             }
@@ -215,7 +228,7 @@ namespace AnnoModificationManager5.UserInterface.Modern
 
         private void SetActiveNav(Button active)
         {
-            Button[] all = { nav_Overview, nav_Mods, nav_Categories, nav_Settings, nav_About };
+            Button[] all = { nav_Overview, nav_Mods, nav_Categories, nav_Settings, nav_Restore, nav_About };
             foreach (Button b in all)
             {
                 b.Background = Brushes.Transparent;
@@ -231,9 +244,24 @@ namespace AnnoModificationManager5.UserInterface.Modern
             view_Mods.Visibility = Visibility.Collapsed;
             view_Categories.Visibility = Visibility.Collapsed;
             view_About.Visibility = Visibility.Collapsed;
+            view_Settings.Visibility = Visibility.Collapsed;
+            view_Restore.Visibility = Visibility.Collapsed;
             view.Visibility = Visibility.Visible;
             SetActiveNav(nav);
             lbl_Title.Text = title;
+        }
+
+        private bool ShowDialogModal(Window dlg)
+        {
+            try
+            {
+                dlg.Owner = this;
+                dlg.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            }
+            catch (Exception) { }
+            dimOverlay.Visibility = Visibility.Visible;
+            try { return dlg.ShowDialog() == true; }
+            finally { dimOverlay.Visibility = Visibility.Collapsed; }
         }
 
         private void nav_Overview_Click(object sender, RoutedEventArgs e) { ShowView(view_Overview, nav_Overview, "Übersicht"); }
@@ -247,12 +275,161 @@ namespace AnnoModificationManager5.UserInterface.Modern
 
         private void nav_Categories_Click(object sender, RoutedEventArgs e) { ShowView(view_Categories, nav_Categories, "Kategorien"); }
 
+        private string _setAnnoDir;
+        private string _setDataDir;
+
+        private static readonly AnnoVersionHandler.AnnoVersion[] _versions = new AnnoVersionHandler.AnnoVersion[]
+        {
+            AnnoVersionHandler.AnnoVersion.Retail,
+            AnnoVersionHandler.AnnoVersion.Patch1,
+            AnnoVersionHandler.AnnoVersion.Patch2,
+            AnnoVersionHandler.AnnoVersion.Patch3,
+            AnnoVersionHandler.AnnoVersion.IAAM,
+            AnnoVersionHandler.AnnoVersion.Addon1,
+            AnnoVersionHandler.AnnoVersion.Addon1_Patch1,
+            AnnoVersionHandler.AnnoVersion.HistoryEdition,
+            AnnoVersionHandler.AnnoVersion.HistoryEdition_Addon,
+        };
+
+        private static string VersionLabel(AnnoVersionHandler.AnnoVersion v)
+        {
+            switch (v)
+            {
+                case AnnoVersionHandler.AnnoVersion.Patch1: return "Patch 1";
+                case AnnoVersionHandler.AnnoVersion.Patch2: return "Patch 2";
+                case AnnoVersionHandler.AnnoVersion.Patch3: return "Patch 3";
+                case AnnoVersionHandler.AnnoVersion.IAAM: return "IAAM Mod";
+                case AnnoVersionHandler.AnnoVersion.Addon1: return "Addon 1";
+                case AnnoVersionHandler.AnnoVersion.Addon1_Patch1: return "Addon 1, Patch 1";
+                case AnnoVersionHandler.AnnoVersion.HistoryEdition: return "History Edition";
+                case AnnoVersionHandler.AnnoVersion.HistoryEdition_Addon: return "History Edition Addon";
+                default: return "Retail";
+            }
+        }
+
         private void nav_Settings_Click(object sender, RoutedEventArgs e)
         {
-            try { new SettingsDialog().ShowDialog(); } catch (Exception) { }
-            SetActiveNav(view_Overview.Visibility == Visibility.Visible ? nav_Overview :
-                         view_Mods.Visibility == Visibility.Visible ? nav_Mods :
-                         view_Categories.Visibility == Visibility.Visible ? nav_Categories : nav_About);
+            LoadSettingsView();
+            ShowView(view_Settings, nav_Settings, "Einstellungen");
+        }
+
+        private void nav_Restore_Click(object sender, RoutedEventArgs e)
+        {
+            try { restoreView.ReloadItems(); } catch (Exception) { }
+            ShowView(view_Restore, nav_Restore, "Wiederherstellung");
+        }
+
+        /// <summary>Show the embedded restore manager (used by the legacy menu entry too).</summary>
+        public void ShowRestoreView()
+        {
+            nav_Restore_Click(null, null);
+        }
+
+        private void LoadSettingsView()
+        {
+            set_LangEn.IsChecked = Properties.Settings.Default.Language == "English";
+            set_LangDe.IsChecked = Properties.Settings.Default.Language != "English";
+
+            _setAnnoDir = Properties.Settings.Default.OverwrittenAnnoDirectory;
+            _setDataDir = Properties.Settings.Default.OverwrittenDataFolder;
+
+            try { set_AnnoDir.Text = AnnoDirectoryHandler.GetCurrent(); } catch (Exception) { set_AnnoDir.Text = _setAnnoDir; }
+            try { set_DataDir.Text = DirectoryExtension.GetAMM4ApplicationDataFolder(); } catch (Exception) { }
+
+            set_Version.Items.Clear();
+            foreach (AnnoVersionHandler.AnnoVersion v in _versions)
+                set_Version.Items.Add(VersionLabel(v));
+            AnnoVersionHandler.AnnoVersion cur;
+            try { cur = AnnoVersionHandler.GetCurrent(); } catch (Exception) { cur = AnnoVersionHandler.AnnoVersion.Retail; }
+            int idx = Array.IndexOf(_versions, cur);
+            set_Version.SelectedIndex = idx >= 0 ? idx : 0;
+            try { set_VersionAuto.Text = "Automatisch erkannt: " + VersionLabel(AnnoVersionHandler.GetCurrentViaFilesize()); }
+            catch (Exception) { set_VersionAuto.Text = ""; }
+
+            try { set_BackupDir.Text = Properties.Settings.Default.RDABackupDir; } catch (Exception) { }
+        }
+
+        private void Set_ChooseAnno_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            dlg.Filter = "Anno 1404 (Anno4.exe / Anno1404.exe / Addon)|Anno4.exe;Anno1404.exe;Addon.exe;Anno1404Addon.exe";
+            if (dlg.ShowDialog() == true && !string.IsNullOrEmpty(dlg.FileName))
+            {
+                _setAnnoDir = System.IO.Path.GetDirectoryName(dlg.FileName);
+                set_AnnoDir.Text = _setAnnoDir;
+            }
+        }
+
+        private void Set_AutoAnno_Click(object sender, RoutedEventArgs e)
+        {
+            _setAnnoDir = "";
+            set_AnnoDir.Text = "(wird beim Neustart automatisch erkannt)";
+        }
+
+        private void Set_ChooseData_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.FolderBrowserDialog dlg = new System.Windows.Forms.FolderBrowserDialog();
+            if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                _setDataDir = dlg.SelectedPath;
+                set_DataDir.Text = _setDataDir;
+            }
+        }
+
+        private void Set_StandardData_Click(object sender, RoutedEventArgs e)
+        {
+            _setDataDir = "";
+            set_DataDir.Text = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData).TrimEnd('\\') + "\\AnnoModificationManager5";
+        }
+
+        private void Set_ChooseBackup_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.FolderBrowserDialog dlg = new System.Windows.Forms.FolderBrowserDialog();
+            if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                string seldir = dlg.SelectedPath.Trim('\\');
+                string msg;
+                if (!BackupHandler.IsValid(seldir, out msg))
+                {
+                    AnnoModificationManager5.UserInterface.Misc.MessageWindow.Show(msg);
+                    return;
+                }
+                set_BackupDir.Text = seldir;
+            }
+        }
+
+        private void Set_Save_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Properties.Settings.Default.Language = set_LangEn.IsChecked == true ? "English" : "German";
+                Properties.Settings.Default.OverwrittenAnnoDirectory = string.IsNullOrEmpty(_setAnnoDir) ? "" : _setAnnoDir;
+                Properties.Settings.Default.OverwrittenDataFolder = string.IsNullOrEmpty(_setDataDir) ? "" : _setDataDir;
+
+                if (set_Version.SelectedIndex >= 0 && set_Version.SelectedIndex < _versions.Length)
+                {
+                    AnnoVersionHandler.AnnoVersion sel = _versions[set_Version.SelectedIndex];
+                    AnnoVersionHandler.AnnoVersion detected;
+                    try { detected = AnnoVersionHandler.GetCurrentViaFilesize(); } catch (Exception) { detected = sel; }
+                    Properties.Settings.Default.OverwrittenAnnoVersion = sel.Equals(detected) ? "" : sel.ToString();
+                }
+                else
+                {
+                    Properties.Settings.Default.OverwrittenAnnoVersion = "";
+                }
+
+                if (!string.IsNullOrEmpty(set_BackupDir.Text))
+                    Properties.Settings.Default.RDABackupDir = set_BackupDir.Text;
+
+                Properties.Settings.Default.StartupShown = true;
+                Properties.Settings.Default.Save();
+                set_Status.Text = "Gespeichert – starte neu …";
+                ApplicationExtension.RestartManager();
+            }
+            catch (Exception ex)
+            {
+                set_Status.Text = "Fehler: " + ex.Message;
+            }
         }
 
         private void nav_About_Click(object sender, RoutedEventArgs e) { ShowView(view_About, nav_About, "Über"); }
@@ -278,6 +455,16 @@ namespace AnnoModificationManager5.UserInterface.Modern
 
         private void Activate_Click(object sender, RoutedEventArgs e)
         {
+            RunActivationDialog(false);
+        }
+
+        private void Deactivate_Click(object sender, RoutedEventArgs e)
+        {
+            RunActivationDialog(true);
+        }
+
+        private void RunActivationDialog(bool deactivate)
+        {
             Modification mod = SelectedMod();
             if (mod == null) { d_Desc.Text = "Bitte zuerst eine Mod auswählen."; return; }
 
@@ -286,25 +473,26 @@ namespace AnnoModificationManager5.UserInterface.Modern
                 EnsureActivationResponses();
 
                 bool ok;
-                if (mod.CheckActivation().Result() == Enums.Modification_ActivationStatus.Activated)
+                if (deactivate)
                 {
                     DeactivationDialog dlg = new DeactivationDialog();
                     dlg.LoadModification(mod);
-                    ok = dlg.ShowDialog() == true;
+                    ok = ShowDialogModal(dlg);
                 }
                 else
                 {
                     ActivationDialog dlg = new ActivationDialog();
                     dlg.LoadModification(mod);
-                    ok = dlg.ShowDialog() == true;
+                    ok = ShowDialogModal(dlg);
                 }
 
                 if (ok)
                 {
                     EnsureActivationResponses();
                     if (MainWindow.CurrentMainWindow != null)
-                        MainWindow.CurrentMainWindow.ApplyPendingChanges();
+                        MainWindow.CurrentMainWindow.UpdateActivationResponses();
                     UpdateDetail(mod);
+                    UpdateApplyButton();
                 }
             }
             catch (Exception ex)
@@ -322,15 +510,37 @@ namespace AnnoModificationManager5.UserInterface.Modern
             }
         }
 
+        private void Apply_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (MainWindow.CurrentMainWindow != null)
+                    MainWindow.CurrentMainWindow.ApplyPendingChanges();
+            }
+            catch (Exception ex) { d_Desc.Text = "Fehler: " + ex.Message; }
+            UpdateApplyButton();
+        }
+
+        private void UpdateApplyButton()
+        {
+            bool pending = false;
+            try { pending = Modification.AMMRDA.Pending; } catch (Exception) { }
+            btn_Apply.IsEnabled = pending;
+            btn_Apply.ToolTip = pending
+                ? "Ausstehende Änderungen ins Spiel schreiben"
+                : "Keine ausstehenden Änderungen";
+        }
+
         private void Uninstall_Click(object sender, RoutedEventArgs e)
         {
             Modification mod = SelectedMod();
             if (mod == null) { d_Desc.Text = "Bitte zuerst eine Mod auswählen."; return; }
             try
             {
+                EnsureActivationResponses();
                 DeleteDialog dlg = new DeleteDialog();
                 dlg.LoadModification(mod);
-                if (dlg.ShowDialog() == true)
+                if (ShowDialogModal(dlg))
                 {
                     _selected = null;
                     if (MainWindow.CurrentMainWindow != null)
@@ -346,9 +556,10 @@ namespace AnnoModificationManager5.UserInterface.Modern
             if (mod == null) return;
             try
             {
+                EnsureActivationResponses();
                 ModificationStatusInformationDialog dlg = new ModificationStatusInformationDialog();
                 dlg.SetModification(mod);
-                dlg.ShowDialog();
+                ShowDialogModal(dlg);
             }
             catch (Exception) { }
         }
@@ -362,9 +573,32 @@ namespace AnnoModificationManager5.UserInterface.Modern
             Open(url);
         }
 
+        private void AddMod_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            dlg.Filter = "Mod-Paket (*.zip)|*.zip";
+            dlg.Multiselect = true;
+            if (dlg.ShowDialog() != true)
+                return;
+
+            bool any = false;
+            foreach (string file in dlg.FileNames)
+            {
+                try
+                {
+                    if (ModificationHandler.Instance.AddModification(file))
+                        any = true;
+                }
+                catch (Exception) { }
+            }
+
+            if (any && MainWindow.CurrentMainWindow != null)
+                MainWindow.CurrentMainWindow.ReloadModifications(true);
+        }
+
         private void Nexus_Click(object sender, RoutedEventArgs e)
         {
-            try { new Nexus.NexusBrowseWindow().ShowDialog(); } catch (Exception) { }
+            try { ShowDialogModal(new Nexus.NexusBrowseWindow()); } catch (Exception) { }
             Refresh_Click(sender, e);
         }
 
@@ -373,7 +607,7 @@ namespace AnnoModificationManager5.UserInterface.Modern
             try
             {
                 DownloadPackagesWindow w = new DownloadPackagesWindow();
-                w.ShowDialog();
+                ShowDialogModal(w);
                 if (w.HasDownloaded && MainWindow.CurrentMainWindow != null)
                     MainWindow.CurrentMainWindow.ReloadModifications(true);
             }

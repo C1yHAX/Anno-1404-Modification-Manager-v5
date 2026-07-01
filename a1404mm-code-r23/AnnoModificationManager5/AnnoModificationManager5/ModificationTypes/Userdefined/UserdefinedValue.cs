@@ -119,15 +119,16 @@ namespace AnnoModificationManager5.ModificationTypes.Userdefined
                     slider.Value = current;
                     slider.IsSnapToTickEnabled = true;
                     slider.TickFrequency = 1;
-                    slider.Width = 168;
                     slider.VerticalAlignment = System.Windows.VerticalAlignment.Center;
 
                     win.TextBlock valueLabel = new win.TextBlock();
                     valueLabel.Text = current.ToString();
-                    valueLabel.MinWidth = 46;
+                    valueLabel.MinWidth = 52;
                     valueLabel.TextAlignment = System.Windows.TextAlignment.Right;
                     valueLabel.VerticalAlignment = System.Windows.VerticalAlignment.Center;
-                    valueLabel.Margin = new System.Windows.Thickness(8, 0, 0, 0);
+                    valueLabel.Margin = new System.Windows.Thickness(12, 0, 0, 0);
+                    valueLabel.Foreground = System.Windows.Media.Brushes.White;
+                    valueLabel.FontWeight = System.Windows.FontWeights.SemiBold;
 
                     slider.ValueChanged += delegate(object sender, System.Windows.RoutedPropertyChangedEventArgs<double> e)
                     {
@@ -136,9 +137,11 @@ namespace AnnoModificationManager5.ModificationTypes.Userdefined
                         valueLabel.Text = v.ToString();
                     };
 
-                    win.StackPanel panel = new win.StackPanel();
-                    panel.Orientation = win.Orientation.Horizontal;
-                    panel.HorizontalAlignment = System.Windows.HorizontalAlignment.Right;
+                    win.Grid panel = new win.Grid();
+                    panel.ColumnDefinitions.Add(new win.ColumnDefinition() { Width = new System.Windows.GridLength(1, System.Windows.GridUnitType.Star) });
+                    panel.ColumnDefinitions.Add(new win.ColumnDefinition() { Width = System.Windows.GridLength.Auto });
+                    win.Grid.SetColumn(slider, 0);
+                    win.Grid.SetColumn(valueLabel, 1);
                     panel.Children.Add(slider);
                     panel.Children.Add(valueLabel);
 

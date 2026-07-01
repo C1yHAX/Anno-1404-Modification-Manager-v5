@@ -10,7 +10,7 @@
     			<MenuItem Header="Refresh" x:Name="File_Refresh" Click="File_Refresh_Click"/>
     		</MenuItem>
     	</Menu>
-    	<ListView SelectionChanged="Filters_SelectionChanged" x:Name="Filters" HorizontalAlignment="Left" Margin="0,24,0,27" Width="170" Foreground="Black" BorderBrush="{DynamicResource Brush_UI_Border}" BorderThickness="0,0,1,0">
+    	<ListView SelectionChanged="Filters_SelectionChanged" x:Name="Filters" HorizontalAlignment="Left" Margin="0,24,0,27" Width="170" Foreground="#FFE8EEF8" BorderBrush="{DynamicResource Brush_UI_Border}" BorderThickness="0,0,1,0">
     		<ListView.View>
     			<GridView>
     				<GridView.ColumnHeaderContainerStyle>
@@ -41,7 +41,7 @@
     		</Grid>
     		<Grid Height="150" Margin="8,111.84,8,0" VerticalAlignment="Top">
                 <TextBlock HorizontalAlignment="Left" Margin="0,4,0,0" TextWrapping="NoWrap" Text="Def. Replace" d:LayoutOverrides="Height" VerticalAlignment="Top"/>
-    			<ListView x:Name="filter_list_defaultreplace" Margin="85,0,0,25" BorderThickness="1,1,1,0" Foreground="Black" BorderBrush="{DynamicResource Brush_UI_Border}">
+    			<ListView x:Name="filter_list_defaultreplace" Margin="85,0,0,25" BorderThickness="1,1,1,0" Foreground="#FFE8EEF8" BorderBrush="{DynamicResource Brush_UI_Border}">
     				<ListView.View>
     					<GridView>
     						<GridView.ColumnHeaderContainerStyle>
@@ -77,7 +77,7 @@
     		</Grid>
     		<Grid Height="150" Margin="8,265.84,8,0" VerticalAlignment="Top">
     			<TextBlock HorizontalAlignment="Left" Margin="0,4,0,0" TextWrapping="NoWrap" Text="Attributes" d:LayoutOverrides="Height" VerticalAlignment="Top"/>
-    			<ListView x:Name="filter_list_attributes" Margin="85,0,0,25" BorderThickness="1,1,1,0" Foreground="Black" BorderBrush="{DynamicResource Brush_UI_Border}">
+    			<ListView x:Name="filter_list_attributes" Margin="85,0,0,25" BorderThickness="1,1,1,0" Foreground="#FFE8EEF8" BorderBrush="{DynamicResource Brush_UI_Border}">
     				<ListView.View>
     					<GridView>
     						<GridView.ColumnHeaderContainerStyle>

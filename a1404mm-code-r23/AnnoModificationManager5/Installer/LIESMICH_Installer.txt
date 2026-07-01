@@ -1,36 +1,60 @@
 Installer für den Anno 1404 Modification Manager 5
 ==================================================
 
-Der alte 4.2 wurde per Installer verteilt; hier ist das Gegenstück für v5
-als Inno-Setup-Skript (AnnoModificationManager5.iss).
+Es gibt zwei Wege, einen Installer zu erzeugen. Empfohlen ist WiX Toolset v7
+(erzeugt eine .msi). Das alte Inno-Setup-Skript bleibt als Alternative erhalten.
 
+
+A) WiX Toolset v7  (empfohlen, .msi)
+------------------------------------
 Voraussetzungen
----------------
-- Inno Setup 6 (kostenlos): https://jrsoftware.org/isdl.php
+  - .NET SDK (für den WiX-MSBuild-SDK)
+  - WiX Toolset v7 CLI:  dotnet tool install --global wix
+    (Die Erweiterung WixToolset.UI.wixext wird beim Build automatisch per
+     NuGet wiederhergestellt.)
 
 Setup erzeugen
---------------
-1. Solution bauen (Debug oder Release) in Visual Studio.
-   Alle Projekte landen in:
-     a1404mm-code-r23\AnnoModificationManager5\AnnoModificationManager5\bin\Debug
-   Genau dorthin zeigt das Skript (SourceDir).
-2. AnnoModificationManager5.iss mit Inno Setup öffnen und auf "Compile" klicken
-   ODER per Kommandozeile:
-     "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" AnnoModificationManager5.iss
-3. Ergebnis: Installer\Output\AMM5_Setup_<Version>.exe
+  1. Solution in der Konfiguration RELEASE / x86 bauen. Alle Projekte landen in:
+       a1404mm-code-r23\AnnoModificationManager5\AnnoModificationManager5\bin\Release
+     Genau dorthin zeigt der Installer (Konstante SourceDir in Installer.wixproj).
+  2. Im Ordner Installer\ bauen:
+       dotnet build Installer.wixproj -c Release -p:Platform=x86
+  3. Ergebnis:
+       Installer\bin\x86\Release\AnnoModificationManager5Setup.msi
 
-Was der Installer macht
------------------------
-- Installiert nach: Program Files (x86)\Anno 1404 Modification Manager 5
-- Bündelt EXEs/DLLs, data_restore.zip, Help\*.chm, Language\Dictionaries\*.xml,
-  Editors\* — OHNE Debug-Artefakte (.pdb, .vshost.*, .rar).
-- Startmenü-Verknüpfungen: Manager, Development Tools, RDA Explorer + Uninstaller.
-- Optional Desktop-Icon.
-- Prüft auf .NET Framework 4.7.2 (warnt, falls nicht vorhanden).
-- Die Version wird automatisch aus AnnoModificationManager5.exe gelesen.
+Was der WiX-Installer macht
+  - Installiert nach: Program Files (x86)\Anno 1404 Modification Manager 5
+    (per-machine, verlangt Administratorrechte).
+  - Bündelt automatisch das komplette Release-Verzeichnis: EXEs, DLLs,
+    data_restore.zip, Help\*.chm, Language\Dictionaries\*.xml, Editors\*
+    – OHNE Debug-Artefakte (.pdb, .vshost.*, .rar, .lref, .cache).
+  - Startmenü-Verknüpfungen: Modification Manager, Development Tools 5,
+    RDA Explorer.
+  - Desktop-Verknüpfung für den Manager (standardmäßig an; für eine stille
+    Installation ohne Desktop-Icon:  msiexec /i Setup.msi INSTALLDESKTOPSHORTCUT=0 ).
+  - Prüft .NET Framework 4.7.2 (Release >= 461808) und bricht mit Hinweis ab,
+    falls es fehlt.
+  - MajorUpgrade: eine neue Installation ersetzt die alte sauber; Downgrades
+    werden blockiert.
+  - Deinstallation über Windows „Apps & Features" (mit Programm-Icon).
+  - Eigenes Branding: Assistent-Grafiken (WixUIBannerBmp.bmp, WixUIDialogBmp.bmp)
+    und Lizenztext (License.rtf) liegen im Installer-Ordner.
 
-Hinweis
--------
-Für eine echte Release-Auslieferung idealerweise in der Release-Konfiguration
-bauen (optimiert). Die Projekte legen ihre Ausgabe aktuell unabhängig von der
-Konfiguration in bin\Debug ab — das Skript nimmt daher diesen Ordner.
+Stille Installation / Deinstallation
+    msiexec /i AnnoModificationManager5Setup.msi /qn
+    msiexec /x AnnoModificationManager5Setup.msi /qn
+
+Versionswechsel
+  Die Version steht in Package.wxs (Package/@Version, aktuell 5.0.0.0). Für ein
+  echtes Update diese Zahl erhöhen (UpgradeCode NICHT ändern) – dann räumt der
+  MajorUpgrade die Vorgängerversion automatisch weg.
+
+
+B) Inno Setup 6  (Alternative, .exe)
+------------------------------------
+  - Inno Setup 6 (kostenlos): https://jrsoftware.org/isdl.php
+  - Solution in Release bauen, dann:
+      "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" AnnoModificationManager5.iss
+  - Ergebnis: Installer\Output\AMM5_Setup_<Version>.exe
+  (Das .iss-Skript liest die Version aus AnnoModificationManager5.exe und
+   bündelt denselben Dateisatz.)

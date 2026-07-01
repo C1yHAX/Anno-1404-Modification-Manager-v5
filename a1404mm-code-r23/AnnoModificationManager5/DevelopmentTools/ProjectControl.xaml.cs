@@ -50,6 +50,20 @@ namespace DevelopmentTools
         void ProjectControl_Loaded(object sender, RoutedEventArgs e)
         {
             EditorList_ModificationInfoEditor.IsSelected = true;
+
+            try
+            {
+                string t = MainWindow.CurrentMainWindow.Title;
+                int idx = t.IndexOf(" - ");
+                string name = idx >= 0 ? t.Substring(idx + 3) : t;
+                if (name.EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
+                    name = name.Substring(0, name.Length - 4);
+                // Strip a trailing Nexus-style version suffix like "-14-1-0-1673039526".
+                name = System.Text.RegularExpressions.Regex.Replace(name, @"-\d+(-\d+){2,}$", "").Trim();
+                lbl_ProjectName.Text = name;
+                bc_Project.Text = name;
+            }
+            catch (Exception) { }
         }
 
         public void Refresh()
@@ -97,22 +111,26 @@ namespace DevelopmentTools
 
         private void EditorList_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
+            string section = "";
             if (EditorList.SelectedItem == EditorList_ModificationInfoEditor)
             {
                 CurrentEditor.Content = ModificationInfoEditor;
-                //CurrentEditor.Content = tst;
+                section = "Project Settings";
             }
             else if (EditorList.SelectedItem == EditorList_FileSystem_Anno)
             {
                 CurrentEditor.Content = FileSystemEditor_AnnoFolder;
+                section = "Files  ›  Anno Directory";
             }
             else if (EditorList.SelectedItem == EditorList_FileSystem_AppData)
             {
                 CurrentEditor.Content = FileSystemEditor_AppDataFolder;
+                section = "Files  ›  Application Data";
             }
             else if (EditorList.SelectedItem == EditorList_Modulemanager)
             {
                 CurrentEditor.Content = ModuleManager;
+                section = "Module Manager";
 
                 //Refresh everytime, the manager is opened
                 ModuleManager.Refresh();
@@ -120,15 +138,21 @@ namespace DevelopmentTools
             else if (EditorList.SelectedItem == EditorList_XmlModuleEditor)
             {
                 CurrentEditor.Content = XmlModuleEditor;
+                section = "XML Modules";
             }
             else if (EditorList.SelectedItem == EditorList_ListModuleEditor)
             {
                 CurrentEditor.Content = ListModuleEditor;
+                section = "List Modules";
             }
             else if (EditorList.SelectedItem == EditorList_UserdefinedValueEditor)
             {
                 CurrentEditor.Content = UserdefinedValueEditor;
+                section = "Userdefined Values";
             }
+
+            if (bc_Section != null && section.Length != 0)
+                bc_Section.Text = section;
 
             var pres = (Control)CurrentEditor.Content;
             pres.UpdateLayout();
@@ -143,7 +167,7 @@ namespace DevelopmentTools
                 Modification.Development_CurrentModification.SaveFile();
                 try
                 {
-                    MainWindow.CurrentMainWindow.Title = "Development Tools Version 4 - "
+                    MainWindow.CurrentMainWindow.Title = "Development Tools Version 5 - "
                                 + Path.GetFileName(Modification.Development_CurrentModification.File);
                 }
                 catch (Exception)
@@ -163,7 +187,7 @@ namespace DevelopmentTools
                 Modification.Development_CurrentModification.SaveFile_As();
                 try
                 {
-                    MainWindow.CurrentMainWindow.Title = "Development Tools Version 4 - "
+                    MainWindow.CurrentMainWindow.Title = "Development Tools Version 5 - "
                                 + Path.GetFileName(Modification.Development_CurrentModification.File);
                 }
                 catch (Exception)
@@ -246,7 +270,9 @@ namespace DevelopmentTools
 
         private void Tools_OpenPublisher_Click(object sender, RoutedEventArgs e)
         {
-            (new Tools.PackagePublisher.PackagePublisher()).ShowDialog();
+            Tools.PackagePublisher.PackagePublisher pub = new Tools.PackagePublisher.PackagePublisher();
+            pub.PreviousContent = MainWindow.CurrentMainWindow.Content;
+            MainWindow.CurrentMainWindow.Content = pub;
         }
 
         //private void Project_RemoveUnusedOriginalFiles_Click(object sender, RoutedEventArgs e)
@@ -265,7 +291,9 @@ namespace DevelopmentTools
 
         private void Tools_OpenSettings_Click(object sender, RoutedEventArgs e)
         {
-
+            SettingsWindow settings = new SettingsWindow();
+            settings.PreviousContent = MainWindow.CurrentMainWindow.Content;
+            MainWindow.CurrentMainWindow.Content = settings;
         }
 
         private void Project_Publish_Click(object sender, RoutedEventArgs e)
@@ -273,12 +301,15 @@ namespace DevelopmentTools
             Tools.PackagePublisher.PackagePublisher pub =
                 new Tools.PackagePublisher.PackagePublisher();
             pub.AutoAddCurrentProject = true;
-            pub.ShowDialog();
+            pub.PreviousContent = MainWindow.CurrentMainWindow.Content;
+            MainWindow.CurrentMainWindow.Content = pub;
         }
 
         private void Help_ShowHelp_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start(DirectoryExtension.GetApplicationFolder() + "\\Help\\DevHelp.chm");
+            HelpView help = new HelpView();
+            help.PreviousContent = MainWindow.CurrentMainWindow.Content;
+            MainWindow.CurrentMainWindow.Content = help;
         }
 
         private void Help_ShowInfo_Click(object sender, RoutedEventArgs e)

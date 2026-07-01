@@ -7,7 +7,7 @@
     x:Class="DevelopmentTools.Tools.Global.PatchTool"
     xmlns:devctrls="clr-namespace:DevelopmentTools.Controls"
         Title="PatchTool" Height="600" Width="810" WindowStartupLocation="CenterScreen">
-    <Grid Background="White">
+    <Grid Background="{DynamicResource Brush_UI_White}">
         <Image Margin="0" Source="/DevelopmentTools;component/Images/Header/headerImage_n05.jpg" Stretch="Fill" Height="80" VerticalAlignment="Top"/>
         <DockPanel Height="30" Margin="8,0,8,8" VerticalAlignment="Bottom" LastChildFill="False">
             <Button x:Name="button_Patch" Content="Patch" Width="100" DockPanel.Dock="Right" Background="{DynamicResource Brush_UI_White}" Margin="0,0,5,0" Click="button_Patch_Click" />
@@ -23,7 +23,7 @@
         	<Grid HorizontalAlignment="Left" Width="100" Height="21.96" VerticalAlignment="Top">
         		<TextBlock Text="Files" d:LayoutOverrides="Width, Height" VerticalAlignment="Center" HorizontalAlignment="Left"/>
         	</Grid>
-        	<ListView Foreground="Black" Margin="100,0,0,0" Name="Files_List">
+        	<ListView Foreground="#FFE8EEF8" Margin="100,0,0,0" Name="Files_List">
         		<ListView.View>
         			<GridView>
         				<GridViewColumn Header="Destination" Width="300" DisplayMemberBinding="{Binding DestinationFile}"/>

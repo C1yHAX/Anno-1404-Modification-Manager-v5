@@ -157,10 +157,14 @@ namespace AnnoModificationManager5.ModificationTypes.XmlModule
             //XML Files
             foreach (XMLFile xml in XMLFileCollector.CollectedFiles.Values)
             {
-                if (xml.Changed)
+                if (xml == null)
+                    continue;
+                try
                 {
-                    xml.WriteContent();
+                    if (xml.Changed)
+                        xml.WriteContent();
                 }
+                catch (Exception) { }
             }
         }
     }

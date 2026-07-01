@@ -3,13 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:lng="clr-namespace:AnnoModificationManager5.Language.DictionarySystem"
         xmlns:bot="clr-namespace:PixelLab.Wpf;assembly=PixelLab.Wpf"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="AnnoModificationManager5.UserInterface.MainUI.ActivationDialog"
-        ResizeMode="NoResize"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="AnnoModificationManager5.UserInterface.MainUI.ActivationDialog" Style="{StaticResource DarkWindowChrome}"
+        ResizeMode="NoResize" WindowStyle="None"
         Title="{lng:LanguageMarkup Dictionary=ActivationDialog, Key=Title}" Height="600" Width="800" WindowStartupLocation="CenterScreen">
     <Grid>
-        <Border Height="60" VerticalAlignment="Top"><Border.Background><LinearGradientBrush StartPoint="0,0" EndPoint="0,1"><GradientStop Color="#FF13314E" Offset="0"/><GradientStop Color="#FF0B1B2C" Offset="1"/></LinearGradientBrush></Border.Background></Border>
         <Grid Height="30" Margin="8,0,8,8" VerticalAlignment="Bottom">
-            <Button Background="{DynamicResource Brush_UI_White}" IsEnabled="False" Content="OK" HorizontalAlignment="Right" Margin="0"
+            <Button Style="{DynamicResource AccentButton}" IsEnabled="False" Content="OK" HorizontalAlignment="Right" Margin="0"
                     x:Name="button_OK" Width="100"
                     Click="button_OK_Click" />
             <Button Background="{DynamicResource Brush_UI_White}"
@@ -19,8 +18,7 @@
         <TabControl x:Name="tabControl" Margin="8,32,8,42" BorderBrush="{DynamicResource Brush_UI_Border}">
         	<TabItem Header="{lng:LanguageMarkup Dictionary=ActivationDialog, Key=Tab_Information}" x:Name="tabControl_Information">
         		<Grid Background="{DynamicResource Brush_UI_White}">
-        			<Image Margin="8,8,0,348.04" Source="/AnnoModificationManager5;component/Images/Logo/Version3_Comet256.ico" Stretch="Fill" HorizontalAlignment="Left" Width="100" Height="100"/>
-        			<TextBlock Margin="112,18.04,8,0" Text="Anno 1404 Modification Manager" VerticalAlignment="Top" FontSize="16" x:Name="field_Name" />
+        			        			<TextBlock Margin="112,18.04,8,0" Text="Anno 1404 Modification Manager" VerticalAlignment="Top" FontSize="16" x:Name="field_Name" />
         			<TextBlock Margin="112,43.32,8,0" Text="Version 4.0.0.0" VerticalAlignment="Top" x:Name="field_Version" />
         			<StackPanel Margin="25,112,8,0" Height="100" VerticalAlignment="Top">
         				<StackPanel Orientation="Horizontal">
@@ -112,13 +110,18 @@
                             <GridViewColumn Width="{Binding ActualWidth, ElementName=list_UserdefinedValues}">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Grid>                                            
-                                            <Grid VerticalAlignment="Top" Height="21.96">
-                                                <Image HorizontalAlignment="Left" Margin="0,3,0,0" Source="{Binding UI_Icon}" Stretch="Fill" Width="16" VerticalAlignment="Top" Height="16"/>
-                                                <TextBlock HorizontalAlignment="Left" Margin="20,3,0,0" Text="{Binding UI_Name}" VerticalAlignment="Top" Width="Auto"/>
-                                                <ContentPresenter Width="230" Margin="0,0,20,0"  HorizontalAlignment="Right" Content="{Binding UI_Editor}"/>
-                                            </Grid>
-                                            <TextBlock Text="{Binding UI_Description}" Margin="21,22,0,0" VerticalAlignment="Top" Foreground="#FFA9BBD0"/>
+                                        <Grid Margin="2,6,16,10">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                                                <Image Source="{Binding UI_Icon}" Stretch="Uniform" Width="16" Height="16" VerticalAlignment="Center"/>
+                                                <TextBlock Text="{Binding UI_Name}" Margin="8,0,0,0" VerticalAlignment="Center" Foreground="#FFEAF1F9" FontWeight="SemiBold"/>
+                                            </StackPanel>
+                                            <ContentPresenter Grid.Row="1" Margin="24,7,0,0" Content="{Binding UI_Editor}"/>
+                                            <TextBlock Grid.Row="2" Text="{Binding UI_Description}" Margin="24,4,0,0" Foreground="#FFB8C8DC" FontSize="11" TextWrapping="Wrap"/>
                                         </Grid>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>

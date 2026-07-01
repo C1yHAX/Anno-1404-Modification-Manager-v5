@@ -109,6 +109,15 @@ namespace AnnoModificationManager5.Misc
                 var cell = rdapath.Split(';');
                 string rdaselfolder = RDAContainingFolder + "\\" + cell[0];
 
+                // The targeted RDA folder (e.g. "addon") may not exist in this Anno install
+                // (e.g. main-game only, or a language not installed). Treat as "file not found"
+                // so callers skip the modifier instead of crashing.
+                if (!Directory.Exists(rdaselfolder))
+                {
+                    reader = null;
+                    return null;
+                }
+
                 var rd = Modification.RDAManager.LookForFileIn(cell[1], Directory.GetFiles(rdaselfolder, "*.rda").ToList());
 
                 if (rd == null)

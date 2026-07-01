@@ -19,6 +19,8 @@
                 <ResourceDictionary Source="ControlStyle_Toolbar_Global.xaml"/>
                 <ResourceDictionary Source="ControlStyle_Button_NoBorder.xaml"/>
                 <ResourceDictionary Source="ControlStyle_NumericUpDown_Global.xaml"/>
+                <!-- Dark theme from the Mod Manager (overrides the light styles above) -->
+                <ResourceDictionary Source="/AnnoModificationManager5;component/ControlStyle_DarkGlobal.xaml"/>
             </ResourceDictionary.MergedDictionaries>
     	</ResourceDictionary>            
          

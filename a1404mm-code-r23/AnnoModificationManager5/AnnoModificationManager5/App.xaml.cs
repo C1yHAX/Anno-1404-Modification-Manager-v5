@@ -19,8 +19,42 @@ namespace AnnoModificationManager5
     {
         public static System.Windows.SplashScreen Splash;
 
+        [System.Runtime.InteropServices.DllImport("dwmapi.dll")]
+        private static extern int DwmSetWindowAttribute(IntPtr hwnd, int attr, ref int attrValue, int attrSize);
+
+        private static void ApplyDarkTitleBar(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Window w = sender as Window;
+                if (w == null)
+                    return;
+
+                // Implicit Window styles only match the exact type, not subclasses, so apply the
+                // dark borderless chrome here to every dialog window (except the windows with their own look).
+                if (w.Style == null
+                    && !(w is UserInterface.Modern.ModernMainWindow)
+                    && !(w is MainWindow))
+                {
+                    System.Windows.Style chrome = Current.TryFindResource("DarkWindowChrome") as System.Windows.Style;
+                    if (chrome != null)
+                        w.Style = chrome;
+                }
+
+                IntPtr hwnd = new System.Windows.Interop.WindowInteropHelper(w).Handle;
+                if (hwnd == IntPtr.Zero)
+                    return;
+                int on = 1;
+                if (DwmSetWindowAttribute(hwnd, 20, ref on, sizeof(int)) != 0)
+                    DwmSetWindowAttribute(hwnd, 19, ref on, sizeof(int));
+            }
+            catch (Exception) { }
+        }
+
         private void Application_Startup(object sender, StartupEventArgs e)
         {
+            EventManager.RegisterClassHandler(typeof(Window), FrameworkElement.LoadedEvent, new RoutedEventHandler(ApplyDarkTitleBar));
+
             Nexus.NxmProtocolHandler.Register();
 
             if (e.Args != null && e.Args.Length > 0 && e.Args[0].StartsWith("nxm://", StringComparison.OrdinalIgnoreCase))

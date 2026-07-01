@@ -4,16 +4,21 @@
     <OutputType>Package</OutputType>
 
     <Platform>x86</Platform>
-
     <InstallerPlatform>x86</InstallerPlatform>
 
-    <OutputName>AnnoModificationManager5BetaSetup</OutputName>
+    <OutputName>AnnoModificationManager5Setup</OutputName>
+
+    <!-- Absolute path to the built Release output that gets harvested by Package.wxs. -->
+    <DefineConstants>SourceDir=$(MSBuildThisFileDirectory)..\AnnoModificationManager5\bin\Release</DefineConstants>
+
+    <!-- ICE61: expected with MajorUpgrade/@AllowSameVersionUpgrades (same-version reinstall of the beta).
+         ICE80: the .NET-detection RegistrySearch intentionally reads the 64-bit registry from this x86 package. -->
+    <SuppressIces>ICE61;ICE80</SuppressIces>
   </PropertyGroup>
 
   <ItemGroup>
-
-    <Content Include="Package.wxs" />
-
+    <!-- WixUI dialog set (WixUI_InstallDir). -->
+    <PackageReference Include="WixToolset.UI.wixext" Version="7.0.0" />
   </ItemGroup>
 
 </Project>

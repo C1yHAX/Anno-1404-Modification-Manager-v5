@@ -3,9 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit" mc:Ignorable="d"
     x:Class="DevelopmentTools.Editors.XmlModule.ModuleEditors.XmlEditEditor"
-        d:DesignWidth="700" d:DesignHeight="800" Background="White" Focusable="True">
+        d:DesignWidth="700" d:DesignHeight="800" Background="{DynamicResource Brush_UI_White}" Focusable="True">
     <Grid>
-        <Image Height="80" x:Name="image1" Stretch="Fill" VerticalAlignment="Top"
+        <Image Height="0" Visibility="Collapsed" x:Name="image1" Stretch="Fill" VerticalAlignment="Top"
                 Source="/DevelopmentTools;component/Images/Header/headerImage_n05.jpg" >
         	<Image.OpacityMask>
         		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -31,18 +31,18 @@
             <Button x:Name="button_select" DockPanel.Dock="Right" Content="Editor" Width="100" Background="{DynamicResource Brush_UI_White}" Margin="0,0,5,0"
         		Click="button_select_Click" />
         </DockPanel>
-        <TabControl Margin="8,55,8,42" BorderBrush="{DynamicResource Brush_UI_Border}" >
+        <TabControl Margin="8,8,8,42" BorderBrush="{DynamicResource Brush_UI_Border}" >
         	<TabItem Header="Modifier" IsSelected="True">
-        		<DockPanel Background="White">
+        		<DockPanel Background="{DynamicResource Brush_UI_White}">
         			<Grid Height="22" HorizontalAlignment="Stretch" VerticalAlignment="Top" DockPanel.Dock="Top" Margin="5,3,5,0" >
         				<Grid HorizontalAlignment="Left" Width="100">
         					<TextBlock HorizontalAlignment="Left" TextWrapping="NoWrap" Text="File" d:LayoutOverrides="Height" VerticalAlignment="Center"/>
         				</Grid>
                         <ComboBox IsEditable="True" x:Name="Field_DestinationFile" Margin="100,0,50,0" Height="22" DropDownOpened="Field_DestinationFile_DropDownOpened"/>
-                        <Button Margin="0,0,25,0" Background="{DynamicResource Brush_UI_White}" Click="Field_DestinationFile_Inspect_Click" x:Name="Field_DestinationFile_Inspect" HorizontalAlignment="Right">
-                            <Image Source="/DevelopmentTools;component/Images/Icons/zoom.png" />
+                        <Button Margin="0,0,25,0" Background="{DynamicResource Brush_UI_White}" Click="Field_DestinationFile_Inspect_Click" x:Name="Field_DestinationFile_Inspect" HorizontalAlignment="Right" Width="22" Height="22" Padding="0">
+                            <Image Source="/DevelopmentTools;component/Images/Icons/zoom.png" Width="16" Height="16"/>
                         </Button>
-                        <Button Background="{DynamicResource Brush_UI_White}"  HorizontalAlignment="Right" Width="22" x:Name="b_DestinationFile_Select" Click="b_DestinationFile_Select_Click">
+                        <Button Background="{DynamicResource Brush_UI_White}"  HorizontalAlignment="Right" Width="22" Height="22" Padding="0" x:Name="b_DestinationFile_Select" Click="b_DestinationFile_Select_Click">
                             ...
                         </Button>
                     </Grid>
@@ -52,8 +52,8 @@
         					<TextBlock HorizontalAlignment="Left" TextWrapping="NoWrap" Text="Selector" d:LayoutOverrides="Height" VerticalAlignment="Center"/>
         				</Grid>
         				<TextBox x:Name="Field_Selector" Margin="100,0,26,0" Height="22"/>
-        				<Button Background="{DynamicResource Brush_UI_White}" Click="Field_Selector_Inspect_Click" x:Name="Field_Selector_Inspect" HorizontalAlignment="Right">
-        					<Image Source="/DevelopmentTools;component/Images/Icons/zoom.png" />
+        				<Button Background="{DynamicResource Brush_UI_White}" Click="Field_Selector_Inspect_Click" x:Name="Field_Selector_Inspect" HorizontalAlignment="Right" Width="22" Height="22" Padding="0">
+        					<Image Source="/DevelopmentTools;component/Images/Icons/zoom.png" Width="16" Height="16"/>
         				</Button>
         			</Grid>
         			<Grid Height="22" HorizontalAlignment="Stretch" VerticalAlignment="Top" DockPanel.Dock="Top" Margin="5,3,5,0">
@@ -68,14 +68,14 @@
         					<TextBlock HorizontalAlignment="Left" TextWrapping="NoWrap" Text="Inner Xml" d:LayoutOverrides="Height" VerticalAlignment="Center"/>
         				</Grid>
         				<Border BorderBrush="{DynamicResource Brush_UI_TextEditor}" BorderThickness="1" d:LayoutOverrides="Width" Margin="100,0,0,0" >
-        					<avalonedit:TextEditor x:Name="Field_NewValue" FontFamily="Courier New"/>
+        					<avalonedit:TextEditor x:Name="Field_NewValue" FontFamily="Courier New" Background="#FF0F172A" Foreground="#FFFFFFFF" ShowLineNumbers="True"/>
         				</Border>
         			</Grid>
         		</DockPanel>
         	</TabItem>
         	<TabItem Header="Userdefined Values">
-        		<Grid Background="White">
-        			<ListView Margin="0,46.92,0,27" Foreground="Black" BorderBrush="{DynamicResource Brush_UI_Border}" BorderThickness="0"
+        		<Grid Background="{DynamicResource Brush_UI_White}">
+        			<ListView Margin="0,46.92,0,27" Foreground="#FFE8EEF8" BorderBrush="{DynamicResource Brush_UI_Border}" BorderThickness="0"
                             Name="UserdefinedValues_List">
         				<ListView.View>
         					<GridView>

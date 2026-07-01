@@ -67,7 +67,7 @@
 							<RowDefinition Height="Auto"/>
 							<RowDefinition/>
 						</Grid.RowDefinitions>
-						<Border x:Name="HighlightBorder" BorderBrush="{DynamicResource Brush_UI_Border}" BorderThickness="1" Grid.Column="1" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true" Background="{DynamicResource Brush_UI_White}" CornerRadius="3" Visibility="Hidden" Margin="0,-0.5,-2,-0.5"/>
+						<Border x:Name="HighlightBorder" BorderThickness="0" Grid.Column="1" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true" Background="#FF3B82F6" CornerRadius="5" Visibility="Hidden" Margin="-2,0,-6,0"/>
 						<ToggleButton x:Name="Expander" ClickMode="Press" IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource ExpandCollapseToggleStyle}"/>
 						<Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Grid.Column="1" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
 							<ContentPresenter x:Name="PART_Header" ContentSource="Header" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
@@ -84,7 +84,7 @@
 						<Trigger Property="IsSelected" Value="true">
 							<!--<Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>-->
 							<Setter TargetName="HighlightBorder" Property="Visibility" Value="Visible"/>
-							<Setter TargetName="HighlightBorder" Property="Opacity" Value="0.75"/>
+							<Setter TargetName="HighlightBorder" Property="Opacity" Value="1"/>
 							
 						</Trigger>
 						<MultiTrigger>
@@ -136,7 +136,7 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <Border x:Name="HighlightBorder" BorderBrush="{DynamicResource Brush_UI_Border}" BorderThickness="1" Grid.Column="1" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true" Background="{DynamicResource Brush_UI_White}" CornerRadius="3" Visibility="Hidden" Margin="0,-0.5,-2,-0.5"/>
+                        <Border x:Name="HighlightBorder" BorderThickness="0" Grid.Column="1" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true" Background="#FF3B82F6" CornerRadius="5" Visibility="Hidden" Margin="-2,0,-6,0"/>
                         <ToggleButton x:Name="Expander" ClickMode="Press" IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource ExpandCollapseToggleStyle}"/>
                         <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Grid.Column="1" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
                             <ContentPresenter x:Name="PART_Header" ContentSource="Header" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
@@ -153,7 +153,7 @@
                         <Trigger Property="IsSelected" Value="true">
                             <!--<Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>-->
                             <Setter TargetName="HighlightBorder" Property="Visibility" Value="Visible"/>
-                            <Setter TargetName="HighlightBorder" Property="Opacity" Value="0.75"/>
+                            <Setter TargetName="HighlightBorder" Property="Opacity" Value="1"/>
 
                         </Trigger>
                         <MultiTrigger>
@@ -205,7 +205,7 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <Border x:Name="HighlightBorder" BorderBrush="{DynamicResource Brush_UI_Border}" BorderThickness="1" Grid.Column="1" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true" Background="{DynamicResource Brush_UI_White}" CornerRadius="3" Visibility="Hidden" Margin="0,-0.5,-2,-0.5"/>
+                        <Border x:Name="HighlightBorder" BorderThickness="0" Grid.Column="1" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true" Background="#FF3B82F6" CornerRadius="5" Visibility="Hidden" Margin="-2,0,-6,0"/>
                         <ToggleButton x:Name="Expander" ClickMode="Press" IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource ExpandCollapseToggleStyle}"/>
                         <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Grid.Column="1" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
                             <ContentPresenter x:Name="PART_Header" ContentSource="Header" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
@@ -222,7 +222,7 @@
                         <Trigger Property="IsSelected" Value="true">
                             <!--<Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>-->
                             <Setter TargetName="HighlightBorder" Property="Visibility" Value="Visible"/>
-                            <Setter TargetName="HighlightBorder" Property="Opacity" Value="0.75"/>
+                            <Setter TargetName="HighlightBorder" Property="Opacity" Value="1"/>
 
                         </Trigger>
                         <MultiTrigger>

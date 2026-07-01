@@ -946,30 +946,38 @@ namespace AnnoModificationManager5.ModificationTypes
             Debug.WriteLine("XmlMods");
             foreach (XmlModuleList xml in XmlModules)
             {
-                //Stopwatch w = new Stopwatch();
-                //w.Start();
+                try
+                {
+                    ModificationActivationResponse n = xml.CheckActivation();
+                    resp.XmlModuleActive += n.XmlModuleActive;
+                    resp.XmlModuleCount += n.XmlModuleCount;
 
-                ModificationActivationResponse n = xml.CheckActivation();
-                resp.XmlModuleActive += n.XmlModuleActive;
-                resp.XmlModuleCount += n.XmlModuleCount;
-
-                resp.Log.Append(n.Log.ToString());
-                resp.Log.AppendLine("\tXmlModuleList '" + xml.Name + "' -> " + n.Result() + "\r\n");
-
-                //w.Stop();
-                //Debug.WriteLine(w.ElapsedMilliseconds);
+                    resp.Log.Append(n.Log.ToString());
+                    resp.Log.AppendLine("\tXmlModuleList '" + xml.Name + "' -> " + n.Result() + "\r\n");
+                }
+                catch (Exception ex)
+                {
+                    resp.Log.AppendLine("\tXmlModuleList '" + xml.Name + "' -> Fehler übersprungen: " + ex.Message + "\r\n");
+                }
             }
             #endregion
             #region ListModules
             resp.Log.AppendLine("\r\nListModules:");
             foreach (ListModuleList List in ListModules)
             {
-                ModificationActivationResponse n = List.CheckActivation();
-                resp.ListModuleActive += n.ListModuleActive;
-                resp.ListModuleCount += n.ListModuleCount;
+                try
+                {
+                    ModificationActivationResponse n = List.CheckActivation();
+                    resp.ListModuleActive += n.ListModuleActive;
+                    resp.ListModuleCount += n.ListModuleCount;
 
-                resp.Log.Append(n.Log.ToString());
-                resp.Log.AppendLine("\tListModuleList '" + List.Name + "' -> " + n.Result() + "\r\n");
+                    resp.Log.Append(n.Log.ToString());
+                    resp.Log.AppendLine("\tListModuleList '" + List.Name + "' -> " + n.Result() + "\r\n");
+                }
+                catch (Exception ex)
+                {
+                    resp.Log.AppendLine("\tListModuleList '" + List.Name + "' -> Fehler übersprungen: " + ex.Message + "\r\n");
+                }
             }
             #endregion
             #region Anno Files
@@ -1031,7 +1039,7 @@ namespace AnnoModificationManager5.ModificationTypes
                                 }
                                 catch (Exception wy)
                                 {
-                                    System.Windows.Forms.MessageBox.Show(wy.Message);
+                                    resp.Log.AppendLine("\tVergleich übersprungen: " + wy.Message);
                                 }
 
 

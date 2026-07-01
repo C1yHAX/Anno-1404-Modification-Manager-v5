@@ -96,7 +96,7 @@ namespace DevelopmentTools
             ProjectControl = new ProjectControl();
             ProjectControl.Refresh();
 
-            MainWindow.CurrentMainWindow.Title = "Development Tools Version 4 - " + Path.GetFileName(folder);
+            MainWindow.CurrentMainWindow.Title = "Development Tools Version 5 - " + Path.GetFileName(folder);
         }
 
         public void OpenFolder(string folder)
@@ -129,7 +129,7 @@ namespace DevelopmentTools
             ProjectControl = new ProjectControl();
             ProjectControl.Refresh();
 
-            MainWindow.CurrentMainWindow.Title = "Development Tools Version 4 - " + Path.GetFileName(folder);
+            MainWindow.CurrentMainWindow.Title = "Development Tools Version 5 - " + Path.GetFileName(folder);
         }
 
         public void CreateProject()
@@ -147,7 +147,7 @@ namespace DevelopmentTools
             ProjectControl = new ProjectControl();
             ProjectControl.Refresh();
 
-            MainWindow.CurrentMainWindow.Title = "Development Tools Version 4 - New Project";
+            MainWindow.CurrentMainWindow.Title = "Development Tools Version 5 - New Project";
         }
     }
 }

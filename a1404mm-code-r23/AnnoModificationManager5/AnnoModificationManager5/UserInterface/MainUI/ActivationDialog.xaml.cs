@@ -100,16 +100,27 @@ namespace AnnoModificationManager5.UserInterface.MainUI
             //Load Conflicts
             Thread tr = new Thread(new ParameterizedThreadStart(delegate
                 {
-                    foreach (Modification modification in ModificationHandler.Modifications)
+                    try
                     {
-                        if (modification == mod)
-                            continue;
-                        if (ModificationHandler.ActivationResponses[modification].Result() == Enums.Modification_ActivationStatus.Deactivated)
-                            continue;
-                        ConflictResponse response = ConflictResponse.Generate(mod, modification);
-                        if (response.IsConflict())
-                            Conflicts.Add(response);
+                        foreach (Modification modification in ModificationHandler.Modifications)
+                        {
+                            try
+                            {
+                                if (modification == mod)
+                                    continue;
+                                ModificationActivationResponse mar;
+                                if (!ModificationHandler.ActivationResponses.TryGetValue(modification, out mar) || mar == null)
+                                    continue;
+                                if (mar.Result() == Enums.Modification_ActivationStatus.Deactivated)
+                                    continue;
+                                ConflictResponse response = ConflictResponse.Generate(mod, modification);
+                                if (response != null && response.IsConflict())
+                                    Conflicts.Add(response);
+                            }
+                            catch (Exception) { }
+                        }
                     }
+                    catch (Exception) { }
 
                     Application.Current.Dispatch(app => ConflictsLoaded());
                 }));

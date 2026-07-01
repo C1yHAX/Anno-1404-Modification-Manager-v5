@@ -37,7 +37,7 @@ namespace DevelopmentTools.Editors.XmlModule.ModuleEditors
         {
             Modifier = mod;
             InitializeComponent();
-            Field_NewValue.SyntaxHighlighting = HighlightingManager.Instance.GetDefinition("XML");
+            Field_NewValue.SyntaxHighlighting = null; // plain white text (readability over colouring)
 
             LoadModification();
         }

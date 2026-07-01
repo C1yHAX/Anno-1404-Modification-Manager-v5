@@ -1,0 +1,72 @@
+<UserControl x:Class="DevelopmentTools.HelpView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="600" d:DesignWidth="900">
+    <Grid Background="{DynamicResource Brush_UI_White}">
+        <!-- Header band -->
+        <Border Height="44" VerticalAlignment="Top" Background="#FF132238">
+            <Grid>
+                <TextBlock Text="Hilfe – Development Tools 5" Foreground="#FFF59E0B" FontSize="16"
+                           FontWeight="SemiBold" VerticalAlignment="Center" Margin="14,0,0,0"/>
+                <Button Content="◀ Zurück" Click="Back_Click" HorizontalAlignment="Right"
+                        VerticalAlignment="Center" Margin="0,0,12,0" Padding="14,5"
+                        Foreground="#FFE8ECF5" Background="#FF1B3050" BorderBrush="#FF294A72"/>
+            </Grid>
+        </Border>
+
+        <ScrollViewer Margin="0,44,0,0" VerticalScrollBarVisibility="Auto" Padding="28,22,28,28">
+            <StackPanel MaxWidth="900" HorizontalAlignment="Left">
+
+                <TextBlock Foreground="#FF9FB2C8" TextWrapping="Wrap" FontSize="13" Margin="0,0,0,18"
+                           Text="Mit den Development Tools 5 erstellst, bearbeitest und veröffentlichst du Modifikationen für Anno 1404 – sowohl für die Königsedition (Hauptspiel + Addon) als auch für die History Edition."/>
+
+                <!-- Erste Schritte -->
+                <TextBlock Text="Erste Schritte" Foreground="#FFF59E0B" FontSize="16" FontWeight="SemiBold" Margin="0,6,0,8"/>
+                <TextBlock Foreground="#FFE8ECF5" TextWrapping="Wrap" FontSize="13" Margin="0,0,0,4"
+                           Text="• Neues Projekt – legt eine leere Modifikation an. Du vergibst Name, Kategorie und Version und wählst, für welche Anno-Versionen die Mod gilt."/>
+                <TextBlock Foreground="#FFE8ECF5" TextWrapping="Wrap" FontSize="13" Margin="0,0,0,4"
+                           Text="• Projekt öffnen – öffnet ein bestehendes Mod-Projekt (.zip). Zuletzt geöffnete Projekte erscheinen auf der Startseite."/>
+                <TextBlock Foreground="#FFE8ECF5" TextWrapping="Wrap" FontSize="13" Margin="0,0,0,16"
+                           Text="• Speichern – das Projekt wird als .zip-Paket abgelegt, das im Modification Manager installiert werden kann."/>
+
+                <!-- Module -->
+                <TextBlock Text="Module" Foreground="#FFF59E0B" FontSize="16" FontWeight="SemiBold" Margin="0,6,0,8"/>
+                <TextBlock Foreground="#FFE8ECF5" TextWrapping="Wrap" FontSize="13" Margin="0,0,0,4"
+                           Text="• XML-Module – ändern Werte in den Spiel-XMLs über Modifizierer (Edit / Add / Remove). Jeder Modifizierer zielt über File, Selector und ElementValue auf einen Knoten."/>
+                <TextBlock Foreground="#FFE8ECF5" TextWrapping="Wrap" FontSize="13" Margin="0,0,0,4"
+                           Text="• List-Module – ändern textbasierte Listen (z. B. guids.txt, Lokalisierung)."/>
+                <TextBlock Foreground="#FFE8ECF5" TextWrapping="Wrap" FontSize="13" Margin="0,0,0,16"
+                           Text="• Userdefined-Werte – machen einzelne Zahlen über einen Schieberegler im Manager einstellbar."/>
+
+                <!-- Anno-Versionen -->
+                <TextBlock Text="Anno-Versionen (All-Version-Mods)" Foreground="#FFF59E0B" FontSize="16" FontWeight="SemiBold" Margin="0,6,0,8"/>
+                <TextBlock Foreground="#FFE8ECF5" TextWrapping="Wrap" FontSize="13" Margin="0,0,0,4"
+                           Text="Eine Mod kann für mehrere Spielversionen gelten. Im Modifikations-Editor wählst du die Zielversionen aus:"/>
+                <TextBlock Foreground="#FFE8ECF5" TextWrapping="Wrap" FontSize="13" Margin="14,0,0,4"
+                           Text="– Königsedition (maindata) und deren Addon (addondata)"/>
+                <TextBlock Foreground="#FFE8ECF5" TextWrapping="Wrap" FontSize="13" Margin="14,0,0,4"
+                           Text="– History Edition (Haupt- und Addon-Daten)"/>
+                <TextBlock Foreground="#FF9FB2C8" TextWrapping="Wrap" FontSize="12" Margin="0,4,0,16"
+                           Text="Hinweis: Damit eine Mod als „All-Version“ läuft, müssen die Modifizierer sowohl die maindata- als auch die addondata-Pfade ansprechen. Fehlende Dateien (z. B. eine nicht installierte Lokalisierung) werden beim Übernehmen automatisch übersprungen."/>
+
+                <!-- RDA Working Directory -->
+                <TextBlock Text="RDA Working Directory" Foreground="#FFF59E0B" FontSize="16" FontWeight="SemiBold" Margin="0,6,0,8"/>
+                <TextBlock Foreground="#FFE8ECF5" TextWrapping="Wrap" FontSize="13" Margin="0,0,0,16"
+                           Text="Für das Konvertieren und Patchen muss ein gültiges RDA-Arbeitsverzeichnis gesetzt sein (das Anno-„maindata“-Verzeichnis). Setze es unter Einstellungen. Wird es benötigt und ist nicht gesetzt, fragt das Tool automatisch danach."/>
+
+                <!-- Konvertieren / Veröffentlichen -->
+                <TextBlock Text="Konvertieren &amp; Veröffentlichen" Foreground="#FFF59E0B" FontSize="16" FontWeight="SemiBold" Margin="0,6,0,8"/>
+                <TextBlock Foreground="#FFE8ECF5" TextWrapping="Wrap" FontSize="13" Margin="0,0,0,4"
+                           Text="• Mod-Paket konvertieren – wandelt ein altes Projektformat in das aktuelle um."/>
+                <TextBlock Foreground="#FFE8ECF5" TextWrapping="Wrap" FontSize="13" Margin="0,0,0,16"
+                           Text="• Mod-Paket-Publisher – verwaltet die online verfügbaren Pakete (aktualisieren, hinzufügen, bearbeiten, entfernen)."/>
+
+                <TextBlock Foreground="#FF9FB2C8" TextWrapping="Wrap" FontSize="12" Margin="0,8,0,0"
+                           Text="Development Tools – Version 5.0.0.0 · .NET Framework 4.7.2 · x86"/>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

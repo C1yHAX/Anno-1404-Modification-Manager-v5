@@ -23,7 +23,10 @@ namespace AnnoModificationManager5.UserInterface.Startup
     {
         private OpenFileDialog openAnnoExecutable = new OpenFileDialog()
         {
-            Filter = "Anno 1404|Anno4.exe"
+            // Accept every recognised Anno 1404 executable, not just the Kings Edition
+            // Anno4.exe: Königsedition · Addon.exe: Venedig-Addon
+            // Anno1404.exe: History Edition · Anno1404Addon.exe: History Edition Addon
+            Filter = "Anno 1404|Anno4.exe;Anno1404.exe;Addon.exe;Anno1404Addon.exe"
         };
 
         public StartupDialog()

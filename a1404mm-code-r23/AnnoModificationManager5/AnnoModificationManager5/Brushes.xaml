@@ -1,7 +1,7 @@
 <ResourceDictionary
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-	<SolidColorBrush x:Key="Brush_UI_White" Color="#FF15263B"/>
+	<SolidColorBrush x:Key="Brush_UI_White" Color="#2615263B"/>
 	<LinearGradientBrush x:Key="Brush_UI_Blue" EndPoint="0.5,1" StartPoint="0.5,0">
 		<GradientStop Color="#FF3A5A86" Offset="0"/>
 		<GradientStop Color="#FF26405F" Offset="1"/>

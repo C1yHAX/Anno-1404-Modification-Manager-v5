@@ -1,19 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.IO;
 using AnnoModificationManager5.Misc;
 using System.Diagnostics;
-
 
 namespace DevelopmentTools
 {
@@ -27,35 +19,55 @@ namespace DevelopmentTools
             Filter = "Modification Project|*.zip"
         };
 
+        public class RecentItem
+        {
+            public string Name { get; set; }
+            public string PathText { get; set; }
+            public string DateText { get; set; }
+            public string File { get; set; }
+        }
+
         public StartPage()
         {
-            InitializeComponent();            
+            InitializeComponent();
         }
 
         void StartPage_Loaded(object sender, RoutedEventArgs e)
         {
-            ContextMenu menu = new ContextMenu();
-            foreach (string file in Properties.Settings.Default.StartPage_RecentFiles.Split(';'))
+            LoadRecent();
+        }
+
+        private void LoadRecent()
+        {
+            List<RecentItem> items = new List<RecentItem>();
+            try
             {
-                try
+                string[] files = Properties.Settings.Default.StartPage_RecentFiles.Split(';');
+                for (int i = files.Length - 1; i >= 0; i--)   // newest entries last -> show newest first
                 {
-                    if (File.Exists(file))
+                    string f = files[i];
+                    if (string.IsNullOrEmpty(f) || string.IsNullOrEmpty(f.Trim()))
+                        continue;
+                    try
                     {
-                        MenuItem item = new MenuItem();
-                        item.Header = new TextBlock() { Text = file };
-                        item.Click += new RoutedEventHandler(RecentFile_Click);
-                        item.Icon = new Image()
+                        if (!System.IO.File.Exists(f))
+                            continue;
+                        FileInfo fi = new FileInfo(f);
+                        items.Add(new RecentItem()
                         {
-                            Source = BitmapImageExtension.Load(("pack://application:,,,/Images/Icons/page_white.png"))
-                        };
-
-                        menu.Items.Add(item);
+                            Name = Path.GetFileNameWithoutExtension(f),
+                            PathText = f,
+                            DateText = fi.LastWriteTime.ToString("dd.MM.yyyy HH:mm"),
+                            File = f
+                        });
                     }
+                    catch (Exception) { }
                 }
-                catch (Exception) { }
             }
+            catch (Exception) { }
 
-            Project_RecentProjects.DropDown = menu;
+            ic_Recent.ItemsSource = items;
+            lbl_NoRecent.Visibility = items.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
         }
 
         void Open(string FileName)
@@ -67,10 +79,18 @@ namespace DevelopmentTools
             MainWindow.CurrentMainWindow.Activate();
         }
 
-        void RecentFile_Click(object sender, RoutedEventArgs e)
+        private void RecentCard_Click(object sender, RoutedEventArgs e)
         {
-            MenuItem item = sender as MenuItem;
-            Open(((TextBlock)item.Header).Text);
+            try
+            {
+                string file = (sender as Button).Tag as string;
+                if (!string.IsNullOrEmpty(file))
+                    Open(file);
+            }
+            catch (Exception ex)
+            {
+                AnnoModificationManager5.UserInterface.Misc.MessageWindow.Show("Projekt konnte nicht geöffnet werden: " + ex.Message);
+            }
         }
 
         private void Project_NewProject_Click(object sender, RoutedEventArgs e)
@@ -85,12 +105,12 @@ namespace DevelopmentTools
         {
             if (OpenFile.ShowDialog() == true)
             {
-                Open(OpenFile.FileName);
                 if (!Properties.Settings.Default.StartPage_RecentFiles.Contains(OpenFile.FileName))
                 {
                     Properties.Settings.Default.StartPage_RecentFiles += ";" + OpenFile.FileName;
                     Properties.Settings.Default.Save();
                 }
+                Open(OpenFile.FileName);
             }
         }
 
@@ -105,18 +125,27 @@ namespace DevelopmentTools
         {
             DevelopmentTools.Tools.PackagePublisher.PackagePublisher p =
                 new Tools.PackagePublisher.PackagePublisher();
-            p.ShowDialog();
-        }       
+            p.PreviousContent = MainWindow.CurrentMainWindow.Content;
+            MainWindow.CurrentMainWindow.Content = p;
+        }
 
         private void ShowHelp_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start(DirectoryExtension.GetApplicationFolder() + "\\Help\\DevHelp.chm");
+            HelpView help = new HelpView();
+            help.PreviousContent = MainWindow.CurrentMainWindow.Content;
+            MainWindow.CurrentMainWindow.Content = help;
         }
 
         private void ShowSettings_Click(object sender, RoutedEventArgs e)
         {
-            (new SettingsWindow()).ShowDialog();
-            MainWindow.CurrentMainWindow.MainWindow_Loaded(null, null);
-        }         
+            SettingsWindow settings = new SettingsWindow();
+            settings.PreviousContent = MainWindow.CurrentMainWindow.Content;
+            MainWindow.CurrentMainWindow.Content = settings;
+        }
+
+        private void CheckUpdates_Click(object sender, RoutedEventArgs e)
+        {
+            AnnoModificationManager5.UserInterface.Misc.MessageWindow.Show("Du verwendest die aktuelle Version (5.0.0.0).");
+        }
     }
 }

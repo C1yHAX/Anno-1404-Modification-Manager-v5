@@ -8,7 +8,7 @@
 	x:Class="DevelopmentTools.ProjectControl"
 	x:Name="UserControl"
 	d:DesignWidth="640" d:DesignHeight="480" xmlns:my="clr-namespace:DevelopmentTools.Tools.TaskSystem">
-	<Grid x:Name="LayoutRoot" Background="White">
+	<Grid x:Name="LayoutRoot" Background="{DynamicResource Brush_UI_White}">
 		<Menu Height="22" VerticalAlignment="Top" Background="{DynamicResource Brush_UI_White}" BorderBrush="{DynamicResource Brush_UI_Border}" BorderThickness="0,0,0,1">
             <MenuItem Header="Project">
                 <MenuItem Header="Open ..." Name="Project_Open" Click="Project_Open_Click">
@@ -101,23 +101,37 @@
             </MenuItem>
             <MenuItem Header="Plugins" Name="Menu_Plugins">
             </MenuItem>
-            <MenuItem Header="Help">
-                <MenuItem Click="Help_ShowHelp_Click"  Header="Help" Name="Help_ShowHelp">
-                    <MenuItem.Icon>
-                        <Image Source="/DevelopmentTools;component/Images/Icons/help.png" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Click="Help_ShowInfo_Click" Header="Info" Name="Help_ShowInfo">
-                    <MenuItem.Icon>
-                        <Image Source="/DevelopmentTools;component/Images/Icons/information.png" />
-                    </MenuItem.Icon>
-                </MenuItem>                
-            </MenuItem>
         </Menu>
-        <Grid Margin="0,22,0,0">
-            <ContentPresenter x:Name="CurrentEditor"/>
+        <Grid Margin="210,22,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="38"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0" Background="#FF132238" BorderBrush="{DynamicResource Brush_UI_Border}" BorderThickness="0,0,0,1">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="16,0,0,0">
+                    <TextBlock x:Name="bc_Project" Text="Project" Foreground="#FF9FB2C8" FontSize="13" VerticalAlignment="Center"/>
+                    <TextBlock Text="&#160;&#160;›&#160;&#160;" Foreground="#FF9FB2C8" FontSize="13" VerticalAlignment="Center"/>
+                    <TextBlock x:Name="bc_Section" Text="Project Settings" Foreground="#FFE8EEF8" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Border>
+            <ContentPresenter Grid.Row="1" x:Name="CurrentEditor"/>
         </Grid>
-        <TreeView SelectedItemChanged="EditorList_SelectedItemChanged" x:Name="EditorList" HorizontalAlignment="Left" Margin="0,22,0,0" Width="190" BorderThickness="0,0,1,0" BorderBrush="{DynamicResource Brush_UI_Border}" Height="140" VerticalAlignment="Top">
+        <Border HorizontalAlignment="Left" Width="210" Margin="0,22,0,0" Background="#FF132238" BorderBrush="{DynamicResource Brush_UI_Border}" BorderThickness="0,0,1,0">
+            <DockPanel LastChildFill="True">
+                <TextBlock DockPanel.Dock="Top" Text="PROJECT" Foreground="#FF9FB2C8" FontSize="11" FontWeight="SemiBold" Margin="16,14,0,10"/>
+                <Border DockPanel.Dock="Bottom" Margin="8,8,8,10" Padding="11,9" Background="#FF0F172A" CornerRadius="8" BorderBrush="{DynamicResource Brush_UI_Border}" BorderThickness="1">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/DevelopmentTools;component/Images/Logo/Version3_Comet20.ico" Width="18" Height="18" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="lbl_ProjectName" Text="Project" Foreground="#FFE8EEF8" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" Margin="7,0,0,0"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="1,6,0,0">
+                            <Ellipse Width="9" Height="9" Fill="#FF22C55E" VerticalAlignment="Center"/>
+                            <TextBlock Text="Bereit" Foreground="#FF9FB2C8" Margin="7,0,0,0" FontSize="12" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+                <TreeView SelectedItemChanged="EditorList_SelectedItemChanged" x:Name="EditorList" Background="Transparent" BorderThickness="0" Margin="4,4,4,4">
             <TreeViewItem Name="EditorList_ModificationInfoEditor">
                 <TreeViewItem.Header>
                     <StackPanel Orientation="Horizontal">
@@ -182,7 +196,9 @@
                     </StackPanel>
                 </TreeViewItem.Header>
             </TreeViewItem>
-        </TreeView>
+                </TreeView>
+            </DockPanel>
+        </Border>
         <my:TaskButton Content="Button" Height="22" HorizontalAlignment="Right" x:Name="taskButton" VerticalAlignment="Top"
                 HorizontalContentAlignment="Right" Margin="0,0,5,0"/>
     </Grid>

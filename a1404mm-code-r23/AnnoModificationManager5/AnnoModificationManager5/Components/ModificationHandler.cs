@@ -61,8 +61,15 @@ namespace AnnoModificationManager5.Components
 
                 for (int i = 0; i < Modifications.Count; i++)
                 {
-                    //wrk.ReportProgress(ProgressBarExtension.Calculate(i, Modifications.Count));
-                    ActivationResponses.Add(Modifications[i], Modifications[i].CheckActivation());
+                    try
+                    {
+                        ActivationResponses.Add(Modifications[i], Modifications[i].CheckActivation());
+                    }
+                    catch (Exception)
+                    {
+                        if (!ActivationResponses.ContainsKey(Modifications[i]))
+                            ActivationResponses.Add(Modifications[i], new AnnoModificationManager5.ModificationTypes.ModificationActivationResponse());
+                    }
                 }
             };
             wrk.RunWorkerAsync();
@@ -146,8 +153,12 @@ namespace AnnoModificationManager5.Components
                         continue;
                     }
 
-                    //Check Activation                  
-                    ActivationResponses.Add(mod, mod.CheckActivation());
+                    // NOTE: Activation status (mod.CheckActivation()) reads/compares the
+                    // target game files for every module of every mod, which made the whole
+                    // list block for seconds before anything showed. It is NOT needed to
+                    // display the list (name/version/category). It is now computed lazily
+                    // on demand (on selection in UpdateDetail, and via EnsureActivationResponses
+                    // before applying changes), so the mod list appears immediately.
                 }
                 /*catch (Exception)
                 {

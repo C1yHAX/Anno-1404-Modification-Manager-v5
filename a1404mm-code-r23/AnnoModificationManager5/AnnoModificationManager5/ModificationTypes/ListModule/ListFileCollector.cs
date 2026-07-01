@@ -155,10 +155,14 @@ namespace AnnoModificationManager5.ModificationTypes.ListModule
             //List Files
             foreach (ListFile List in ListFileCollector.CollectedFiles.Values)
             {
-                if (List.Changed)
+                if (List == null)
+                    continue;
+                try
                 {
-                    List.WriteContent();
+                    if (List.Changed)
+                        List.WriteContent();
                 }
+                catch (Exception) { }
             }
         }
     }

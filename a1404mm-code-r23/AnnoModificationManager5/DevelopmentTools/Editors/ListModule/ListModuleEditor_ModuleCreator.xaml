@@ -5,36 +5,36 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"        
              xmlns:devctrls="clr-namespace:DevelopmentTools.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="480" d:DesignWidth="640" Background="White" Focusable="True"
+             d:DesignHeight="480" d:DesignWidth="640" Background="{DynamicResource Brush_UI_White}" Focusable="True"
         xmlns:my="clr-namespace:DevelopmentTools.Editors.ListModule.Controls">       
     <Grid>
     	<DockPanel x:Name="dockPanel" Margin="0,0,0,28">       		
     		<Expander Header="Expander" Style="{DynamicResource ExpanderStyle_Headerless}" IsExpanded="True" VerticalAlignment="Top" DockPanel.Dock="Top">
-                <Grid Height="90" Background="White">
+                <Grid Height="78" Background="{DynamicResource Brush_UI_White}">
                     <Grid Width="{Binding ElementName=dockPanel, Path=ActualWidth,
                       Converter={StaticResource Converters_Arithmetic},
                       ConverterParameter=-20}" Height="21.96" Margin="8,8,8,0" VerticalAlignment="Top" HorizontalAlignment="Left" MaxWidth="600">
-                        <ComboBox x:Name="Files_File" Margin="82,0,26,0" d:LayoutOverrides="Height" DropDownOpened="Files_File_DropDownOpened" IsEditable="True"/>
+                        <ComboBox x:Name="Files_File" Margin="82,0,30,0" Height="24" VerticalAlignment="Center" Foreground="#FFFFFFFF" d:LayoutOverrides="Height" DropDownOpened="Files_File_DropDownOpened" IsEditable="True"/>
                         <Grid HorizontalAlignment="Left" Width="82">
                             <TextBlock TextWrapping="NoWrap" d:LayoutOverrides="Width, Height" VerticalAlignment="Center" HorizontalAlignment="Left" Text="Source File" />
                         </Grid>
-                        <Button Click="Files_File_OpenSelector_Click" x:Name="Files_File_OpenSelector" HorizontalAlignment="Right" Width="22" Background="{DynamicResource Brush_UI_White}" d:LayoutOverrides="Height" Content="..."/>
+                        <Button Click="Files_File_OpenSelector_Click" x:Name="Files_File_OpenSelector" HorizontalAlignment="Right" Width="26" Height="24" Padding="0" VerticalAlignment="Center" Background="{DynamicResource Brush_UI_White}" Content="..."/>
                     </Grid>                  
-                    <Grid Width="{Binding ActualWidth, ConverterParameter=-20, Converter={StaticResource Converters_Arithmetic}, ElementName=dockPanel}" Margin="8,60.04,0,8" HorizontalAlignment="Left" MaxWidth="600">
+                    <Grid Width="{Binding ActualWidth, ConverterParameter=-20, Converter={StaticResource Converters_Arithmetic}, ElementName=dockPanel}" Margin="8,40,0,8" HorizontalAlignment="Left" MaxWidth="600">
                     	<Grid HorizontalAlignment="Left" Width="82">
                     		<TextBlock TextWrapping="NoWrap" d:LayoutOverrides="Width, Height" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                     	</Grid>
-                    	<Button Click="RefreshList_Click"  x:Name="RefreshList" HorizontalAlignment="Left" Width="110" d:LayoutOverrides="Height" Margin="82,0,0,0" Background="{DynamicResource Brush_UI_White}">
-                    		<StackPanel Orientation="Horizontal" Width="110">
+                    	<Button Click="RefreshList_Click"  x:Name="RefreshList" HorizontalAlignment="Left" Height="30" Padding="12,0" Margin="82,0,0,0" Background="{DynamicResource Brush_UI_White}">
+                    		<StackPanel Orientation="Horizontal">
                     			<Image Height="16" Source="/DevelopmentTools;component/Images/Icons/arrow_refresh.png" Stretch="Fill" Width="16"/>
-                    			<TextBlock TextWrapping="NoWrap" Text="Refresh List" Margin="3,0,0,0"/>
+                    			<TextBlock TextWrapping="NoWrap" Text="Refresh List" Margin="6,0,0,0" VerticalAlignment="Center"/>
                     		</StackPanel>
                     	</Button>
                     </Grid>
                 </Grid>
             </Expander>
     		<Expander Header="Expander" Style="{DynamicResource ExpanderStyle_Headerless}" IsExpanded="True" VerticalAlignment="Top" DockPanel.Dock="Top" Visibility="Collapsed">
-    			<Grid Height="60" Background="White">
+    			<Grid Height="60" Background="{DynamicResource Brush_UI_White}">
     				<Grid Width="{Binding ActualWidth, ConverterParameter=-20, Converter={StaticResource Converters_Arithmetic}, ElementName=dockPanel}" Height="21.96" Margin="8,8,8,0" VerticalAlignment="Top" HorizontalAlignment="Left" MaxWidth="600">
     					<TextBox x:Name="Selector_Group" Margin="82,0,0,0" d:LayoutOverrides="Height" MaxLines="1"/>
     					<Grid HorizontalAlignment="Left" Width="82">

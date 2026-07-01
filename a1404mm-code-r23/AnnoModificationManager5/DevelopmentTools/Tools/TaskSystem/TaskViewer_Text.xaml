@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid Background="White">
+    <Grid Background="{DynamicResource Brush_UI_White}">
     	<Border Height="28" VerticalAlignment="Bottom" Background="{DynamicResource Brush_UI_White}" BorderBrush="{DynamicResource Brush_UI_Border}" BorderThickness="0,1,0,0">
     		<Grid>
                 <CheckBox Checked="button_Save_Click" Unchecked="button_Save_Click" x:Name="Checkbox_Done" Content="Done" HorizontalAlignment="Left" Margin="5,0,0,0" d:LayoutOverrides="Height" VerticalAlignment="Center"/>

@@ -10,7 +10,7 @@
              d:DesignHeight="300" d:DesignWidth="300" Width="640" Height="480">
 	
     <Grid>
-    	<Grid Margin="0" VerticalAlignment="Top" Background="White"/>
+    	<Grid Margin="0" VerticalAlignment="Top" Background="{DynamicResource Brush_UI_White}"/>
     	<Grid Margin="47,166,187,0" VerticalAlignment="Top" HorizontalAlignment="Left">
     		<Grid VerticalAlignment="Top" Height="21.96">
     			<Image HorizontalAlignment="Left" Margin="0" Source="/DevelopmentTools;component/Images/Icons/pencil.png" Stretch="Fill" Width="16" VerticalAlignment="Center" Height="16"/>
