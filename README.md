@@ -17,7 +17,6 @@
 **[The three tools](#-three-tools-one-suite)** ·
 **[How it works](#-how-it-works)** ·
 **[Install](#-installation)** ·
-**[Build](#%EF%B8%8F-building)** ·
 **[FAQ](#-troubleshooting)** ·
 **[Credits](#-credits)** ·
 **[Deutsch](#-deutsch)**
