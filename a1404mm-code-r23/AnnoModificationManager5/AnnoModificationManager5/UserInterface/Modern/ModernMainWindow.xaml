@@ -525,6 +525,7 @@
                                         <TextBlock x:Name="set_UpdateInfo" Foreground="{StaticResource TextMain}" FontSize="13" Text="Installierte Version: 5.0.1.0"/>
                                         <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                                             <Button Content="⟳  Nach Updates suchen" Style="{StaticResource Pill}" Click="Set_CheckUpdates_Click"/>
+                                            <Button x:Name="set_InstallUpdate" Content="⬆  Update jetzt installieren" Style="{StaticResource Pill}" Margin="8,0,0,0" Visibility="Collapsed" Click="Set_InstallUpdate_Click"/>
                                             <Button x:Name="set_OpenRelease" Content="⬇  Download-Seite öffnen" Style="{StaticResource Pill}" Margin="8,0,0,0" Visibility="Collapsed" Click="Set_OpenRelease_Click"/>
                                         </StackPanel>
                                         <TextBlock x:Name="set_UpdateStatus" Foreground="{StaticResource TextDim}" FontSize="11" Margin="0,8,0,0" TextWrapping="Wrap"/>

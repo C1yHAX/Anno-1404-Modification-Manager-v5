@@ -7,8 +7,9 @@ follows [Semantic Versioning](https://semver.org).
 ## [5.0.1] — 2026-07-02
 
 ### Added
-- **Update check** — *Settings → Updates* checks the GitHub releases for a newer version
-  and links straight to the download page.
+- **Update check & in-app update** — *Settings → Updates* checks the GitHub releases for a
+  newer version; if one is found, the manager can **download and install it directly**
+  ("Update jetzt installieren") — the installer replaces the old version automatically.
 
 ### Fixed
 - **Userdefined values** — sliders no longer collapse to a bare thumb; every numeric value
@@ -18,8 +19,9 @@ follows [Semantic Versioning](https://semver.org).
 ### Changed
 - Installer is now produced as **`AMM5_Setup.msi`** (WiX Toolset v7), version 5.0.1.0.
 
-**🇩🇪** *Neu:* Update-Prüfung unter *Einstellungen → Updates* (vergleicht mit GitHub, öffnet
-die Download-Seite). *Behoben:* Benutzerdefinierte Werte zeigen jetzt echte Schieberegler
+**🇩🇪** *Neu:* Update-Prüfung unter *Einstellungen → Updates* — bei gefundenem Update lädt
+der Manager die neue Version direkt herunter und installiert sie („Update jetzt
+installieren“). *Behoben:* Benutzerdefinierte Werte zeigen jetzt echte Schieberegler
 **plus Eingabefeld** für exakte Zahlen (vorher kollabierte Regler ohne Track). *Geändert:*
 Installer heißt jetzt `AMM5_Setup.msi` (Version 5.0.1.0).
 

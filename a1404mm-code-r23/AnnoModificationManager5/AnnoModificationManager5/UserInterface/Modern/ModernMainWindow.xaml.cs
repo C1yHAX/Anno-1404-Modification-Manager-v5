@@ -437,10 +437,17 @@ namespace AnnoModificationManager5.UserInterface.Modern
         private const string UpdateApiLatest = "https://api.github.com/repos/C1yHAX/Anno-1404-Modification-Manager-v5/releases/latest";
         private const string UpdatePage = "https://github.com/C1yHAX/Anno-1404-Modification-Manager-v5/releases/latest";
 
+        /// <summary>Download-URL des MSI-Assets aus dem neuesten GitHub-Release (gesetzt vom Update-Check).</summary>
+        private string _updateMsiUrl;
+        private Version _updateVersion;
+
         private void Set_CheckUpdates_Click(object sender, RoutedEventArgs e)
         {
             set_UpdateStatus.Text = "Suche nach Updates…";
             set_OpenRelease.Visibility = Visibility.Collapsed;
+            set_InstallUpdate.Visibility = Visibility.Collapsed;
+            _updateMsiUrl = null;
+            _updateVersion = null;
 
             System.ComponentModel.BackgroundWorker worker = new System.ComponentModel.BackgroundWorker();
             string json = null;
@@ -491,8 +498,13 @@ namespace AnnoModificationManager5.UserInterface.Modern
                     }
                     else if (NormalizeVersion(latest) > current)
                     {
+                        _updateVersion = latest;
+                        _updateMsiUrl = FindMsiAssetUrl(release);
+
                         set_UpdateStatus.Text = "Update verfügbar: Version " + latest
                             + " (installiert: " + current + ").";
+                        if (!string.IsNullOrEmpty(_updateMsiUrl))
+                            set_InstallUpdate.Visibility = Visibility.Visible;
                         set_OpenRelease.Visibility = Visibility.Visible;
                     }
                     else
@@ -513,6 +525,98 @@ namespace AnnoModificationManager5.UserInterface.Modern
         {
             try { System.Diagnostics.Process.Start(UpdatePage); }
             catch (Exception) { }
+        }
+
+        /// <summary>URL des ersten .msi-Assets im Release-JSON (bevorzugt AMM5_Setup.msi), sonst null.</summary>
+        private static string FindMsiAssetUrl(Dictionary<string, object> release)
+        {
+            try
+            {
+                object assetsObj;
+                if (release == null || !release.TryGetValue("assets", out assetsObj))
+                    return null;
+
+                System.Collections.IEnumerable assets = assetsObj as System.Collections.IEnumerable;
+                if (assets == null)
+                    return null;
+
+                string firstMsi = null;
+                foreach (object item in assets)
+                {
+                    Dictionary<string, object> asset = item as Dictionary<string, object>;
+                    if (asset == null) continue;
+
+                    string name = asset.ContainsKey("name") ? Convert.ToString(asset["name"]) : "";
+                    string url = asset.ContainsKey("browser_download_url") ? Convert.ToString(asset["browser_download_url"]) : "";
+                    if (string.IsNullOrEmpty(url) || !name.EndsWith(".msi", StringComparison.OrdinalIgnoreCase))
+                        continue;
+
+                    if (name.Equals("AMM5_Setup.msi", StringComparison.OrdinalIgnoreCase))
+                        return url;
+                    if (firstMsi == null)
+                        firstMsi = url;
+                }
+                return firstMsi;
+            }
+            catch (Exception) { return null; }
+        }
+
+        private void Set_InstallUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(_updateMsiUrl))
+                return;
+
+            set_InstallUpdate.IsEnabled = false;
+            set_UpdateStatus.Text = "Lade Update herunter… 0 %";
+
+            string target = System.IO.Path.Combine(System.IO.Path.GetTempPath(),
+                "AMM5_Setup_" + (_updateVersion != null ? _updateVersion.ToString() : "update") + ".msi");
+
+            System.Net.ServicePointManager.SecurityProtocol |= System.Net.SecurityProtocolType.Tls12;
+            System.Net.WebClient client = new System.Net.WebClient();
+            client.Headers.Add(System.Net.HttpRequestHeader.UserAgent, "AnnoModificationManager5");
+
+            client.DownloadProgressChanged += delegate(object s, System.Net.DownloadProgressChangedEventArgs args)
+            {
+                set_UpdateStatus.Text = "Lade Update herunter… " + args.ProgressPercentage + " %";
+            };
+
+            client.DownloadFileCompleted += delegate(object s, System.ComponentModel.AsyncCompletedEventArgs args)
+            {
+                client.Dispose();
+
+                if (args.Error != null)
+                {
+                    set_UpdateStatus.Text = "Download fehlgeschlagen: " + args.Error.Message;
+                    set_InstallUpdate.IsEnabled = true;
+                    return;
+                }
+
+                try
+                {
+                    // Start the MSI (MajorUpgrade replaces the installed version) and quit
+                    // so no files of this instance are locked during the upgrade.
+                    set_UpdateStatus.Text = "Starte Installation…";
+                    System.Diagnostics.Process.Start("msiexec.exe", "/i \"" + target + "\"");
+                    Application.Current.Shutdown();
+                }
+                catch (Exception ex)
+                {
+                    set_UpdateStatus.Text = "Installation konnte nicht gestartet werden: " + ex.Message;
+                    set_InstallUpdate.IsEnabled = true;
+                }
+            };
+
+            try
+            {
+                client.DownloadFileAsync(new Uri(_updateMsiUrl), target);
+            }
+            catch (Exception ex)
+            {
+                client.Dispose();
+                set_UpdateStatus.Text = "Download fehlgeschlagen: " + ex.Message;
+                set_InstallUpdate.IsEnabled = true;
+            }
         }
 
         /// <summary>First version number (e.g. 5.0.1) found in a release name/tag, else null.</summary>
