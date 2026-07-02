@@ -122,23 +122,6 @@ free accounts. The manager works around this with a **built-in browser**:
    Development Tools, RDA Explorer). It checks for **.NET Framework 4.7.2**.
 3. Launch the manager; it auto-detects your game on first start.
 
-</details>
-
-## 🗂️ Project structure
-
-```text
-a1404mm-code-r23/
-└─ AnnoModificationManager5/
-   ├─ AnnoModificationManager5.sln      ← open this
-   ├─ AnnoModificationManager5/         ← the main manager (WPF app)
-   ├─ DevelopmentTools/                 ← mod-authoring toolkit
-   ├─ AnnoModificationManager/          ← legacy DTOs (project conversion)
-   └─ Installer/                        ← Inno Setup script + readme
-RDAExplorer/                            ← RDA archive library
-RDAExplorerGUI/                         ← standalone RDA Explorer window
-libs/                                   ← bundled managed dependencies
-```
-
 ## ❓ Troubleshooting
 
 <details>
