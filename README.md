@@ -122,37 +122,6 @@ free accounts. The manager works around this with a **built-in browser**:
    Development Tools, RDA Explorer). It checks for **.NET Framework 4.7.2**.
 3. Launch the manager; it auto-detects your game on first start.
 
-**Option B — From source** — see [Building](#%EF%B8%8F-building).
-
-## 🛠️ Building
-
-<details>
-<summary><b>Visual Studio (recommended)</b></summary>
-
-**Requirements:** Windows · Visual Studio 2022/2026 with the *“.NET desktop development”*
-workload · the **.NET Framework 4.7.2** targeting pack.
-
-1. Open `a1404mm-code-r23/AnnoModificationManager5/AnnoModificationManager5.sln`.
-2. Set the configuration to **Release | x86**.
-3. **Build → Rebuild Solution.** Output lands in
-   `…/AnnoModificationManager5/bin/Release/`.
-
-> Tip: if you debug with **F5** and hit a startup crash, turn off
-> *Tools → Options → Debugging → Enable UI Debugging Tools for XAML* (a known Visual
-> Studio quirk with some WPF apps), or just **Start Without Debugging (Ctrl+F5)**.
-</details>
-
-<details>
-<summary><b>Installer (Inno Setup)</b></summary>
-
-Build the solution first, then compile
-[`Installer/AnnoModificationManager5.iss`](a1404mm-code-r23/AnnoModificationManager5/Installer/AnnoModificationManager5.iss)
-with [Inno Setup 6+](https://jrsoftware.org/isdl.php):
-
-```text
-"C:\Program Files\Inno Setup 7\ISCC.exe" AnnoModificationManager5.iss
-→ Installer\Output\AMM5_Setup_<version>.exe
-```
 </details>
 
 ## 🗂️ Project structure
