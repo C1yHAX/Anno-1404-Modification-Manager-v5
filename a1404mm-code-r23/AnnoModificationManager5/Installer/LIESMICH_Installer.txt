@@ -20,7 +20,7 @@ Setup erzeugen
   2. Im Ordner Installer\ bauen:
        dotnet build Installer.wixproj -c Release -p:Platform=x86
   3. Ergebnis:
-       Installer\bin\x86\Release\AnnoModificationManager5Setup.msi
+       Installer\bin\x86\Release\AMM5_Setup.msi
 
 Was der WiX-Installer macht
   - Installiert nach: Program Files (x86)\Anno 1404 Modification Manager 5
@@ -41,11 +41,11 @@ Was der WiX-Installer macht
     und Lizenztext (License.rtf) liegen im Installer-Ordner.
 
 Stille Installation / Deinstallation
-    msiexec /i AnnoModificationManager5Setup.msi /qn
-    msiexec /x AnnoModificationManager5Setup.msi /qn
+    msiexec /i AMM5_Setup.msi /qn
+    msiexec /x AMM5_Setup.msi /qn
 
 Versionswechsel
-  Die Version steht in Package.wxs (Package/@Version, aktuell 5.0.0.0). Für ein
+  Die Version steht in Package.wxs (Package/@Version, aktuell 5.0.1.0). Für ein
   echtes Update diese Zahl erhöhen (UpgradeCode NICHT ändern) – dann räumt der
   MajorUpgrade die Vorgängerversion automatisch weg.
 

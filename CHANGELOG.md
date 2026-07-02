@@ -4,6 +4,25 @@ All notable changes to the **Anno 1404 Modification Manager** are documented her
 The format is based on [Keep a Changelog](https://keepachangelog.com) and the project
 follows [Semantic Versioning](https://semver.org).
 
+## [5.0.1] — 2026-07-02
+
+### Added
+- **Update check** — *Settings → Updates* checks the GitHub releases for a newer version
+  and links straight to the download page.
+
+### Fixed
+- **Userdefined values** — sliders no longer collapse to a bare thumb; every numeric value
+  now shows a proper slider **plus an editable value box** for exact numbers, with sane
+  min/max bounds. (Affected the "Benutzerdefinierte Werte" tab of the activation dialog.)
+
+### Changed
+- Installer is now produced as **`AMM5_Setup.msi`** (WiX Toolset v7), version 5.0.1.0.
+
+**🇩🇪** *Neu:* Update-Prüfung unter *Einstellungen → Updates* (vergleicht mit GitHub, öffnet
+die Download-Seite). *Behoben:* Benutzerdefinierte Werte zeigen jetzt echte Schieberegler
+**plus Eingabefeld** für exakte Zahlen (vorher kollabierte Regler ohne Track). *Geändert:*
+Installer heißt jetzt `AMM5_Setup.msi` (Version 5.0.1.0).
+
 ## [5.0.0] — 2026-07-02
 
 First official release of the modernised **version 5** — a ground-up interface overhaul,

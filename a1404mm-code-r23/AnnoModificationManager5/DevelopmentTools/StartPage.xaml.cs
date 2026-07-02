@@ -145,7 +145,8 @@ namespace DevelopmentTools
 
         private void CheckUpdates_Click(object sender, RoutedEventArgs e)
         {
-            AnnoModificationManager5.UserInterface.Misc.MessageWindow.Show("Du verwendest die aktuelle Version (5.0.0.0).");
+            AnnoModificationManager5.UserInterface.Misc.MessageWindow.Show("Du verwendest die aktuelle Version ("
+                + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version + ").");
         }
     }
 }

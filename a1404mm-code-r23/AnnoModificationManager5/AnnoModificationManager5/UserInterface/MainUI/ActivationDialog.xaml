@@ -121,7 +121,7 @@
                                                 <TextBlock Text="{Binding UI_Name}" Margin="8,0,0,0" VerticalAlignment="Center" Foreground="#FFEAF1F9" FontWeight="SemiBold"/>
                                             </StackPanel>
                                             <ContentPresenter Grid.Row="1" Margin="24,7,0,0" Content="{Binding UI_Editor}"/>
-                                            <TextBlock Grid.Row="2" Text="{Binding UI_Description}" Margin="24,4,0,0" Foreground="#FFB8C8DC" FontSize="11" TextWrapping="Wrap"/>
+                                            <TextBlock Grid.Row="2" Text="{Binding UI_Description}" Margin="24,4,0,0" Foreground="#FFB8C8DC" FontSize="11" TextWrapping="Wrap" MaxWidth="560" HorizontalAlignment="Left"/>
                                         </Grid>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>

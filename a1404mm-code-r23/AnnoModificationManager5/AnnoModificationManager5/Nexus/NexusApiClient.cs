@@ -25,7 +25,8 @@ namespace AnnoModificationManager5.Nexus
             req.UserAgent = "AnnoModificationManager5/5.0";
             req.Headers["apikey"] = _apiKey;
             req.Headers["Application-Name"] = "AnnoModificationManager5";
-            req.Headers["Application-Version"] = "5.0.0.0";
+            req.Headers["Application-Version"] =
+                System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
             using (HttpWebResponse resp = (HttpWebResponse)req.GetResponse())
             using (StreamReader reader = new StreamReader(resp.GetResponseStream()))

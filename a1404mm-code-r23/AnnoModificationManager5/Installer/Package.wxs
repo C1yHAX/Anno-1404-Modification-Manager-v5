@@ -6,7 +6,7 @@
     <Package
         Name="Anno 1404 Modification Manager 5"
         Manufacturer="Anno 1404 Modding Community"
-        Version="5.0.0.0"
+        Version="5.0.1.0"
         UpgradeCode="a2c6bf9c-9f5d-4fee-9cad-18f3b411a5cc"
         Scope="perMachine"
         InstallerVersion="500">

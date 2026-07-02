@@ -97,53 +97,82 @@ namespace AnnoModificationManager5.ModificationTypes.Userdefined
                     if (!int.TryParse(Current, out current))
                         current = Numeric_Min == int.MinValue ? 0 : Numeric_Min;
 
-                    long range = (long)Numeric_Max - Numeric_Min;
-                    bool usableRange = Numeric_Min != int.MinValue && Numeric_Max != int.MaxValue && range > 0 && range <= 100000;
-
-                    if (!usableRange)
-                    {
-                        NumericUpDown num = new NumericUpDown();
-                        num.Minimum = Numeric_Min;
-                        num.Maximum = Numeric_Max;
-                        num.Value = current;
-                        num.ValueChanged += delegate(object sender, System.Windows.RoutedPropertyChangedEventArgs<decimal> e)
-                        {
-                            Current = num.Value.ToString();
-                        };
-                        return num;
-                    }
+                    // Sensible slider bounds: replace the int.MinValue/MaxValue sentinels
+                    // (author set no limit) and always include the current value.
+                    long min = Numeric_Min == int.MinValue ? Math.Min(0, current) : Numeric_Min;
+                    long max = Numeric_Max == int.MaxValue ? Math.Max(current * 2L, current + 100L) : Numeric_Max;
+                    if (current < min) min = current;
+                    if (current > max) max = current;
+                    if (max == min) max = min + 1;
 
                     win.Slider slider = new win.Slider();
-                    slider.Minimum = Numeric_Min;
-                    slider.Maximum = Numeric_Max;
+                    slider.Minimum = min;
+                    slider.Maximum = max;
                     slider.Value = current;
                     slider.IsSnapToTickEnabled = true;
                     slider.TickFrequency = 1;
+                    slider.IsMoveToPointEnabled = true;
+                    slider.SmallChange = 1;
+                    slider.LargeChange = Math.Max(1, (max - min) / 20);
+                    // Fixed width: the hosting list measures with infinite width, so a
+                    // stretching slider collapses to thumb-size. Fixed = always usable.
+                    slider.Width = 240;
+                    slider.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
                     slider.VerticalAlignment = System.Windows.VerticalAlignment.Center;
 
-                    win.TextBlock valueLabel = new win.TextBlock();
-                    valueLabel.Text = current.ToString();
-                    valueLabel.MinWidth = 52;
-                    valueLabel.TextAlignment = System.Windows.TextAlignment.Right;
-                    valueLabel.VerticalAlignment = System.Windows.VerticalAlignment.Center;
-                    valueLabel.Margin = new System.Windows.Thickness(12, 0, 0, 0);
-                    valueLabel.Foreground = System.Windows.Media.Brushes.White;
-                    valueLabel.FontWeight = System.Windows.FontWeights.SemiBold;
+                    // Editable value box: exact numbers are impossible to hit on a large
+                    // slider range, so the value can also be typed directly.
+                    win.TextBox valueBox = new win.TextBox();
+                    valueBox.Text = current.ToString();
+                    valueBox.Width = 76;
+                    valueBox.Height = 24;
+                    valueBox.MaxLines = 1;
+                    valueBox.TextAlignment = System.Windows.TextAlignment.Right;
+                    valueBox.VerticalAlignment = System.Windows.VerticalAlignment.Center;
+                    valueBox.VerticalContentAlignment = System.Windows.VerticalAlignment.Center;
+                    valueBox.Margin = new System.Windows.Thickness(12, 0, 0, 0);
+
+                    bool syncing = false;
 
                     slider.ValueChanged += delegate(object sender, System.Windows.RoutedPropertyChangedEventArgs<double> e)
                     {
+                        if (syncing) return;
+                        syncing = true;
                         int v = (int)Math.Round(slider.Value);
                         Current = v.ToString();
-                        valueLabel.Text = v.ToString();
+                        valueBox.Text = v.ToString();
+                        syncing = false;
                     };
 
-                    win.Grid panel = new win.Grid();
-                    panel.ColumnDefinitions.Add(new win.ColumnDefinition() { Width = new System.Windows.GridLength(1, System.Windows.GridUnitType.Star) });
-                    panel.ColumnDefinitions.Add(new win.ColumnDefinition() { Width = System.Windows.GridLength.Auto });
-                    win.Grid.SetColumn(slider, 0);
-                    win.Grid.SetColumn(valueLabel, 1);
+                    valueBox.TextChanged += delegate(object sender, win.TextChangedEventArgs e)
+                    {
+                        if (syncing) return;
+                        int v;
+                        if (int.TryParse(valueBox.Text, out v))
+                        {
+                            syncing = true;
+                            if (v < slider.Minimum) v = (int)slider.Minimum;
+                            if (v > slider.Maximum) v = (int)slider.Maximum;
+                            Current = v.ToString();
+                            slider.Value = v;
+                            syncing = false;
+                        }
+                    };
+
+                    valueBox.LostFocus += delegate(object sender, RoutedEventArgs e)
+                    {
+                        // Normalize the display to the accepted value (clamped / last valid).
+                        int v = (int)Math.Round(slider.Value);
+                        syncing = true;
+                        valueBox.Text = v.ToString();
+                        Current = v.ToString();
+                        syncing = false;
+                    };
+
+                    win.StackPanel panel = new win.StackPanel();
+                    panel.Orientation = win.Orientation.Horizontal;
                     panel.Children.Add(slider);
-                    panel.Children.Add(valueLabel);
+                    panel.Children.Add(valueBox);
 
                     return panel;
                 }

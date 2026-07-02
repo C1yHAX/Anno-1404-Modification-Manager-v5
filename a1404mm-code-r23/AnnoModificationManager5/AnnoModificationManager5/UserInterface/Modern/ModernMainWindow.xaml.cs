@@ -32,6 +32,7 @@ namespace AnnoModificationManager5.UserInterface.Modern
             {
                 lbl_Version.Text = "Version " + Assembly.GetExecutingAssembly().GetName().Version;
                 lbl_SideVersion.Text = "v" + Assembly.GetExecutingAssembly().GetName().Version;
+                set_UpdateInfo.Text = "Installierte Version: " + Assembly.GetExecutingAssembly().GetName().Version;
             }
             catch (Exception) { }
 
@@ -431,6 +432,108 @@ namespace AnnoModificationManager5.UserInterface.Modern
                 set_Status.Text = "Fehler: " + ex.Message;
             }
         }
+
+        #region Update-Check (Einstellungen)
+        private const string UpdateApiLatest = "https://api.github.com/repos/C1yHAX/Anno-1404-Modification-Manager-v5/releases/latest";
+        private const string UpdatePage = "https://github.com/C1yHAX/Anno-1404-Modification-Manager-v5/releases/latest";
+
+        private void Set_CheckUpdates_Click(object sender, RoutedEventArgs e)
+        {
+            set_UpdateStatus.Text = "Suche nach Updates…";
+            set_OpenRelease.Visibility = Visibility.Collapsed;
+
+            System.ComponentModel.BackgroundWorker worker = new System.ComponentModel.BackgroundWorker();
+            string json = null;
+            Exception error = null;
+
+            worker.DoWork += delegate(object s, System.ComponentModel.DoWorkEventArgs args)
+            {
+                try
+                {
+                    System.Net.ServicePointManager.SecurityProtocol |= System.Net.SecurityProtocolType.Tls12;
+                    using (System.Net.WebClient client = new System.Net.WebClient())
+                    {
+                        client.Encoding = System.Text.Encoding.UTF8;
+                        client.Headers.Add(System.Net.HttpRequestHeader.UserAgent, "AnnoModificationManager5");
+                        json = client.DownloadString(UpdateApiLatest);
+                    }
+                }
+                catch (Exception ex) { error = ex; }
+            };
+
+            worker.RunWorkerCompleted += delegate(object s, System.ComponentModel.RunWorkerCompletedEventArgs args)
+            {
+                if (error != null || string.IsNullOrEmpty(json))
+                {
+                    set_UpdateStatus.Text = "Update-Prüfung fehlgeschlagen – keine Verbindung zu GitHub.";
+                    return;
+                }
+
+                try
+                {
+                    System.Web.Script.Serialization.JavaScriptSerializer ser =
+                        new System.Web.Script.Serialization.JavaScriptSerializer();
+                    Dictionary<string, object> release = ser.Deserialize<Dictionary<string, object>>(json);
+                    string relName = release != null && release.ContainsKey("name") ? Convert.ToString(release["name"]) : "";
+                    string tagName = release != null && release.ContainsKey("tag_name") ? Convert.ToString(release["tag_name"]) : "";
+
+                    Version latest = ExtractVersion(relName);
+                    if (latest == null)
+                        latest = ExtractVersion(tagName);
+                    Version current = NormalizeVersion(Assembly.GetExecutingAssembly().GetName().Version);
+
+                    if (latest == null)
+                    {
+                        // Release found, but no parseable version number in name/tag.
+                        set_UpdateStatus.Text = "Neueste Version auf GitHub: „"
+                            + (string.IsNullOrEmpty(relName) ? tagName : relName) + "“.";
+                        set_OpenRelease.Visibility = Visibility.Visible;
+                    }
+                    else if (NormalizeVersion(latest) > current)
+                    {
+                        set_UpdateStatus.Text = "Update verfügbar: Version " + latest
+                            + " (installiert: " + current + ").";
+                        set_OpenRelease.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        set_UpdateStatus.Text = "Du verwendest die aktuelle Version (" + current + ").";
+                    }
+                }
+                catch (Exception)
+                {
+                    set_UpdateStatus.Text = "Antwort von GitHub konnte nicht gelesen werden.";
+                }
+            };
+
+            worker.RunWorkerAsync();
+        }
+
+        private void Set_OpenRelease_Click(object sender, RoutedEventArgs e)
+        {
+            try { System.Diagnostics.Process.Start(UpdatePage); }
+            catch (Exception) { }
+        }
+
+        /// <summary>First version number (e.g. 5.0.1) found in a release name/tag, else null.</summary>
+        private static Version ExtractVersion(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+                return null;
+            System.Text.RegularExpressions.Match m =
+                System.Text.RegularExpressions.Regex.Match(text, @"\d+(\.\d+){1,3}");
+            if (!m.Success)
+                return null;
+            Version v;
+            return Version.TryParse(m.Value, out v) ? v : null;
+        }
+
+        /// <summary>Pad missing Build/Revision with 0 so 5.0.1 == 5.0.1.0 in comparisons.</summary>
+        private static Version NormalizeVersion(Version v)
+        {
+            return new Version(v.Major, Math.Max(0, v.Minor), Math.Max(0, v.Build), Math.Max(0, v.Revision));
+        }
+        #endregion
 
         private void nav_About_Click(object sender, RoutedEventArgs e) { ShowView(view_About, nav_About, "Über"); }
 

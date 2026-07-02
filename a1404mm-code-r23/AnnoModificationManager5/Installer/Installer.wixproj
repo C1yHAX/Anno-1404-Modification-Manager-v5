@@ -6,7 +6,7 @@
     <Platform>x86</Platform>
     <InstallerPlatform>x86</InstallerPlatform>
 
-    <OutputName>AnnoModificationManager5Setup</OutputName>
+    <OutputName>AMM5_Setup</OutputName>
 
     <!-- Absolute path to the built Release output that gets harvested by Package.wxs. -->
     <DefineConstants>SourceDir=$(MSBuildThisFileDirectory)..\AnnoModificationManager5\bin\Release</DefineConstants>
