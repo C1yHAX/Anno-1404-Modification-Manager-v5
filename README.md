@@ -115,7 +115,7 @@ free accounts. The manager works around this with a **built-in browser**:
 > **You need Anno 1404 installed** — classic (Anno4.exe / Addon.exe) or the History
 > Edition (Anno1404.exe / Anno1404Addon.exe).
 
-**Option A — Installer (recommended)**
+**Installer**
 
 1. Grab `AMM5_Setup_*.exe` from the [Releases](https://github.com/C1yHAX/Anno-1404-Modification-Manager-v5/releases) (or build it, see below).
 2. Run it — it installs to *Program Files* and adds Start-menu shortcuts (Manager,
