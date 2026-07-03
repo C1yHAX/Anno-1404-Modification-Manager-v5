@@ -4,6 +4,22 @@ All notable changes to the **Anno 1404 Modification Manager** are documented her
 The format is based on [Keep a Changelog](https://keepachangelog.com) and the project
 follows [Semantic Versioning](https://semver.org).
 
+## [5.0.2] — 2026-07-03
+
+### Fixed
+- **Activated mods now actually take effect in the History Edition.** The manager used to
+  write all changes into the highest-priority archive (`data5.rda`) — which works on the
+  Königsedition (patch RDAs override everything) but is ignored by the History Edition,
+  which has no patch layer. Changes are now written **in place into the archive each file
+  lives in** (the proven AMM4 behaviour), so activation works on both editions.
+
+**🇩🇪** *Behoben:* Aktivierte Mods kamen in der **History Edition** nicht im Spiel an —
+der Manager schrieb die Änderungen in `data5.rda`, das die HE (anders als die
+Königsedition mit ihren Patch-RDAs) nicht bevorzugt lädt. Änderungen werden jetzt
+**direkt im jeweiligen Archiv** geschrieben (bewährtes AMM4-Verhalten) — funktioniert auf
+beiden Editionen. Nach dem Update empfohlen: einmal *Wiederherstellung* → RDAs aus dem
+Backup zurückspielen und die Mods neu aktivieren.
+
 ## [5.0.1] — 2026-07-02
 
 ### Added
@@ -12,11 +28,6 @@ follows [Semantic Versioning](https://semver.org).
   ("Update jetzt installieren") — the installer replaces the old version automatically.
 
 ### Fixed
-- **Activated mods now actually take effect in the History Edition.** The manager used to
-  write all changes into the highest-priority archive (`data5.rda`) — which works on the
-  Königsedition (patch RDAs override everything) but is ignored by the History Edition,
-  which has no patch layer. Changes are now written **in place into the archive each file
-  lives in** (the proven AMM4 behaviour), so activation works on both editions.
 - **Userdefined values** — sliders no longer collapse to a bare thumb; every numeric value
   now shows a proper slider **plus an editable value box** for exact numbers, with sane
   min/max bounds. (Affected the "Benutzerdefinierte Werte" tab of the activation dialog.)

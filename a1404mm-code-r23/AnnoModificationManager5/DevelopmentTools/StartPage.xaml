@@ -97,7 +97,7 @@
 
                 <!-- Footer -->
                 <TextBlock DockPanel.Dock="Bottom" Margin="16,8,16,12" Foreground="#FF6C7C90" FontSize="11">
-                    <Run Text="Development Tools 5.0.1"/><LineBreak/><Run Text="© 2026 Anno 1404 Mod Manager"/>
+                    <Run Text="Development Tools 5.0.2"/><LineBreak/><Run Text="© 2026 Anno 1404 Mod Manager"/>
                 </TextBlock>
 
                 <!-- Navigation -->
