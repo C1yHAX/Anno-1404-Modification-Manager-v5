@@ -33,7 +33,11 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;RDA_SAVEATHP</DefineConstants>
+    <!-- RDA_SAVEATHP (write mods into the single highest-priority RDA) is intentionally
+         OFF: the History Edition has no patch RDAs, so the game never picks up files
+         written to data5.rda. Without it, files are edited in place in their own RDA —
+         the proven AMM4 behaviour that works on Königsedition AND History Edition. -->
+    <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>

@@ -12,6 +12,11 @@ follows [Semantic Versioning](https://semver.org).
   ("Update jetzt installieren") — the installer replaces the old version automatically.
 
 ### Fixed
+- **Activated mods now actually take effect in the History Edition.** The manager used to
+  write all changes into the highest-priority archive (`data5.rda`) — which works on the
+  Königsedition (patch RDAs override everything) but is ignored by the History Edition,
+  which has no patch layer. Changes are now written **in place into the archive each file
+  lives in** (the proven AMM4 behaviour), so activation works on both editions.
 - **Userdefined values** — sliders no longer collapse to a bare thumb; every numeric value
   now shows a proper slider **plus an editable value box** for exact numbers, with sane
   min/max bounds. (Affected the "Benutzerdefinierte Werte" tab of the activation dialog.)
