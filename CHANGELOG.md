@@ -4,21 +4,29 @@ All notable changes to the **Anno 1404 Modification Manager** are documented her
 The format is based on [Keep a Changelog](https://keepachangelog.com) and the project
 follows [Semantic Versioning](https://semver.org).
 
-## [5.0.2] — 2026-07-03
+## [5.0.3] — 2026-07-13
 
 ### Fixed
 - **English translation works again.** The redesigned main window had hard-coded German
-  texts; all of its strings (navigation, mods view, categories, settings, update check,
-  about) now go through the language system and follow the language setting.
+  texts, so switching the language to English only affected the old dialogs. Every string
+  of the modern window (navigation, mods view incl. status texts/tooltips, categories,
+  about, settings incl. the update-check messages) now goes through the language system
+  and follows the language setting.
+
+**🇩🇪** *Behoben:* Die **englische Übersetzung** greift wieder — das neue Hauptfenster hatte
+fest verdrahtete deutsche Texte; alle Texte laufen jetzt über das Sprachsystem und folgen
+der Spracheinstellung.
+
+## [5.0.2] — 2026-07-03
+
+### Fixed
 - **Activated mods now actually take effect in the History Edition.** The manager used to
   write all changes into the highest-priority archive (`data5.rda`) — which works on the
   Königsedition (patch RDAs override everything) but is ignored by the History Edition,
   which has no patch layer. Changes are now written **in place into the archive each file
   lives in** (the proven AMM4 behaviour), so activation works on both editions.
 
-**🇩🇪** *Behoben:* Die **englische Übersetzung** greift wieder — das neue Hauptfenster hatte
-fest verdrahtete deutsche Texte; alle Texte laufen jetzt über das Sprachsystem und folgen
-der Spracheinstellung. *Behoben:* Aktivierte Mods kamen in der **History Edition** nicht im Spiel an —
+**🇩🇪** *Behoben:* Aktivierte Mods kamen in der **History Edition** nicht im Spiel an —
 der Manager schrieb die Änderungen in `data5.rda`, das die HE (anders als die
 Königsedition mit ihren Patch-RDAs) nicht bevorzugt lädt. Änderungen werden jetzt
 **direkt im jeweiligen Archiv** geschrieben (bewährtes AMM4-Verhalten) — funktioniert auf

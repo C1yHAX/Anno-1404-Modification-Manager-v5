@@ -45,7 +45,7 @@ Stille Installation / Deinstallation
     msiexec /x AMM5_Setup.msi /qn
 
 Versionswechsel
-  Die Version steht in Package.wxs (Package/@Version, aktuell 5.0.2.0). Für ein
+  Die Version steht in Package.wxs (Package/@Version, aktuell 5.0.3.0). Für ein
   echtes Update diese Zahl erhöhen (UpgradeCode NICHT ändern) – dann räumt der
   MajorUpgrade die Vorgängerversion automatisch weg.
 
