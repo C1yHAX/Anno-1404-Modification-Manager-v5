@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -32,7 +32,7 @@ namespace AnnoModificationManager5.UserInterface.Modern
             {
                 lbl_Version.Text = "Version " + Assembly.GetExecutingAssembly().GetName().Version;
                 lbl_SideVersion.Text = "v" + Assembly.GetExecutingAssembly().GetName().Version;
-                set_UpdateInfo.Text = "Installierte Version: " + Assembly.GetExecutingAssembly().GetName().Version;
+                set_UpdateInfo.Text = L("Set_InstalledVersion") + " " + Assembly.GetExecutingAssembly().GetName().Version;
             }
             catch (Exception) { }
 
@@ -69,7 +69,7 @@ namespace AnnoModificationManager5.UserInterface.Modern
             }
 
             List<CategoryCard> cards = _rows
-                .GroupBy(r => string.IsNullOrEmpty(r.Category) ? "Sonstige" : r.Category)
+                .GroupBy(r => CatKey(r.Category))
                 .OrderByDescending(g => g.Count())
                 .Select(g => new CategoryCard
                 {
@@ -108,33 +108,33 @@ namespace AnnoModificationManager5.UserInterface.Modern
             lst_Mods.ItemsSource = list;
             lbl_Filter.Text = string.IsNullOrEmpty(_filterCategory)
                 ? list.Count + (list.Count == 1 ? " Mod" : " Mods")
-                : "Kategorie: " + _filterCategory + "  (" + list.Count + ")";
+                : L("Filter_Category").Replace("{0}", _filterCategory).Replace("{1}", list.Count.ToString());
         }
 
         private static string CatKey(string category)
         {
-            return string.IsNullOrEmpty(category) ? "Sonstige" : category;
+            return string.IsNullOrEmpty(category) ? L("Category_Other") : category;
         }
 
         private void ShowOverviewCard()
         {
             if (_selected == null)
             {
-                lbl_ModName.Text = "Keine Mods installiert";
-                lbl_ModMeta.Text = "Lade Mods über Nexus oder den GitHub-Browser.";
+                lbl_ModName.Text = L("NoModsInstalled");
+                lbl_ModMeta.Text = L("LoadModsHint");
                 return;
             }
             lbl_ModName.Text = Safe(_selected.UICollector.Name);
-            lbl_ModMeta.Text = Safe(_selected.UICollector.VersionString) + "   •   Erstellt von " + Safe(_selected.UICollector.Author);
+            lbl_ModMeta.Text = Safe(_selected.UICollector.VersionString) + "   •   " + L("CreatedBy") + " " + Safe(_selected.UICollector.Author);
         }
 
         private void UpdateDetail(Modification mod)
         {
             if (mod == null)
             {
-                d_Name.Text = "Keine Mod ausgewählt";
+                d_Name.Text = L("NoModSelected");
                 d_Meta.Text = "";
-                d_Desc.Text = "Wähle links eine Mod aus.";
+                d_Desc.Text = L("SelectModHint");
                 d_StatusChip.Visibility = Visibility.Collapsed;
                 btn_Activate.Visibility = Visibility.Collapsed;
                 btn_Deactivate.Visibility = Visibility.Collapsed;
@@ -159,17 +159,17 @@ namespace AnnoModificationManager5.UserInterface.Modern
                 switch (resp.Result())
                 {
                     case Enums.Modification_ActivationStatus.Activated:
-                        d_Status.Text = "Aktiv";
+                        d_Status.Text = L("Status_Active");
                         btn_Activate.Visibility = Visibility.Collapsed;
                         btn_Deactivate.Visibility = Visibility.Visible;
                         break;
                     case Enums.Modification_ActivationStatus.Partially:
-                        d_Status.Text = "Teilweise aktiv";
+                        d_Status.Text = L("Status_Partially");
                         btn_Activate.Visibility = Visibility.Visible;
                         btn_Deactivate.Visibility = Visibility.Visible;
                         break;
                     default:
-                        d_Status.Text = "Inaktiv";
+                        d_Status.Text = L("Status_Inactive");
                         btn_Activate.Visibility = Visibility.Visible;
                         btn_Deactivate.Visibility = Visibility.Collapsed;
                         break;
@@ -200,6 +200,12 @@ namespace AnnoModificationManager5.UserInterface.Modern
 
         private static string Safe(string s) { return string.IsNullOrEmpty(s) ? "" : s; }
 
+        /// <summary>Shortcut for the ModernUI language dictionary.</summary>
+        private static string L(string key)
+        {
+            return AnnoModificationManager5.Language.DictionarySystem.LanguageDictionary.Get("ModernUI", key);
+        }
+
         private static string GlyphFor(string category)
         {
             string c = (category ?? "").ToLowerInvariant();
@@ -213,9 +219,9 @@ namespace AnnoModificationManager5.UserInterface.Modern
         private static string SubtitleFor(string category)
         {
             string c = (category ?? "").ToLowerInvariant();
-            if (c.Contains("venedig") || c.Contains("venice")) return "Venedig-Erweiterung";
-            if (c.Contains("i.a.a.m") || c.Contains("iaam")) return "I.A.A.M.-Erweiterung";
-            return "Mods & Erweiterungen";
+            if (c.Contains("venedig") || c.Contains("venice")) return L("Subtitle_Venice");
+            if (c.Contains("i.a.a.m") || c.Contains("iaam")) return L("Subtitle_IAAM");
+            return L("Subtitle_Default");
         }
 
         private static string IconFor(string category)
@@ -265,16 +271,16 @@ namespace AnnoModificationManager5.UserInterface.Modern
             finally { dimOverlay.Visibility = Visibility.Collapsed; }
         }
 
-        private void nav_Overview_Click(object sender, RoutedEventArgs e) { ShowView(view_Overview, nav_Overview, "Übersicht"); }
+        private void nav_Overview_Click(object sender, RoutedEventArgs e) { ShowView(view_Overview, nav_Overview, L("Title_Overview")); }
 
         private void nav_Mods_Click(object sender, RoutedEventArgs e)
         {
             _filterCategory = null;
             RefreshList();
-            ShowView(view_Mods, nav_Mods, "Mods");
+            ShowView(view_Mods, nav_Mods, L("Title_Mods"));
         }
 
-        private void nav_Categories_Click(object sender, RoutedEventArgs e) { ShowView(view_Categories, nav_Categories, "Kategorien"); }
+        private void nav_Categories_Click(object sender, RoutedEventArgs e) { ShowView(view_Categories, nav_Categories, L("Title_Categories")); }
 
         private string _setAnnoDir;
         private string _setDataDir;
@@ -311,13 +317,13 @@ namespace AnnoModificationManager5.UserInterface.Modern
         private void nav_Settings_Click(object sender, RoutedEventArgs e)
         {
             LoadSettingsView();
-            ShowView(view_Settings, nav_Settings, "Einstellungen");
+            ShowView(view_Settings, nav_Settings, L("Title_Settings"));
         }
 
         private void nav_Restore_Click(object sender, RoutedEventArgs e)
         {
             try { restoreView.ReloadItems(); } catch (Exception) { }
-            ShowView(view_Restore, nav_Restore, "Wiederherstellung");
+            ShowView(view_Restore, nav_Restore, L("Title_Restore"));
         }
 
         /// <summary>Show the embedded restore manager (used by the legacy menu entry too).</summary>
@@ -424,12 +430,12 @@ namespace AnnoModificationManager5.UserInterface.Modern
 
                 Properties.Settings.Default.StartupShown = true;
                 Properties.Settings.Default.Save();
-                set_Status.Text = "Gespeichert – starte neu …";
+                set_Status.Text = L("Set_Saved");
                 ApplicationExtension.RestartManager();
             }
             catch (Exception ex)
             {
-                set_Status.Text = "Fehler: " + ex.Message;
+                set_Status.Text = L("Error") + " " + ex.Message;
             }
         }
 
@@ -443,7 +449,7 @@ namespace AnnoModificationManager5.UserInterface.Modern
 
         private void Set_CheckUpdates_Click(object sender, RoutedEventArgs e)
         {
-            set_UpdateStatus.Text = "Suche nach Updates…";
+            set_UpdateStatus.Text = L("Upd_Searching");
             set_OpenRelease.Visibility = Visibility.Collapsed;
             set_InstallUpdate.Visibility = Visibility.Collapsed;
             _updateMsiUrl = null;
@@ -472,7 +478,7 @@ namespace AnnoModificationManager5.UserInterface.Modern
             {
                 if (error != null || string.IsNullOrEmpty(json))
                 {
-                    set_UpdateStatus.Text = "Update-Prüfung fehlgeschlagen – keine Verbindung zu GitHub.";
+                    set_UpdateStatus.Text = L("Upd_Failed");
                     return;
                 }
 
@@ -492,8 +498,8 @@ namespace AnnoModificationManager5.UserInterface.Modern
                     if (latest == null)
                     {
                         // Release found, but no parseable version number in name/tag.
-                        set_UpdateStatus.Text = "Neueste Version auf GitHub: „"
-                            + (string.IsNullOrEmpty(relName) ? tagName : relName) + "“.";
+                        set_UpdateStatus.Text = L("Upd_LatestOnGitHub")
+                            .Replace("{0}", string.IsNullOrEmpty(relName) ? tagName : relName);
                         set_OpenRelease.Visibility = Visibility.Visible;
                     }
                     else if (NormalizeVersion(latest) > current)
@@ -501,20 +507,20 @@ namespace AnnoModificationManager5.UserInterface.Modern
                         _updateVersion = latest;
                         _updateMsiUrl = FindMsiAssetUrl(release);
 
-                        set_UpdateStatus.Text = "Update verfügbar: Version " + latest
-                            + " (installiert: " + current + ").";
+                        set_UpdateStatus.Text = L("Upd_Available")
+                            .Replace("{0}", latest.ToString()).Replace("{1}", current.ToString());
                         if (!string.IsNullOrEmpty(_updateMsiUrl))
                             set_InstallUpdate.Visibility = Visibility.Visible;
                         set_OpenRelease.Visibility = Visibility.Visible;
                     }
                     else
                     {
-                        set_UpdateStatus.Text = "Du verwendest die aktuelle Version (" + current + ").";
+                        set_UpdateStatus.Text = L("Upd_UpToDate").Replace("{0}", current.ToString());
                     }
                 }
                 catch (Exception)
                 {
-                    set_UpdateStatus.Text = "Antwort von GitHub konnte nicht gelesen werden.";
+                    set_UpdateStatus.Text = L("Upd_ParseFailed");
                 }
             };
 
@@ -567,7 +573,7 @@ namespace AnnoModificationManager5.UserInterface.Modern
                 return;
 
             set_InstallUpdate.IsEnabled = false;
-            set_UpdateStatus.Text = "Lade Update herunter… 0 %";
+            set_UpdateStatus.Text = L("Upd_Downloading").Replace("{0}", "0");
 
             string target = System.IO.Path.Combine(System.IO.Path.GetTempPath(),
                 "AMM5_Setup_" + (_updateVersion != null ? _updateVersion.ToString() : "update") + ".msi");
@@ -578,7 +584,7 @@ namespace AnnoModificationManager5.UserInterface.Modern
 
             client.DownloadProgressChanged += delegate(object s, System.Net.DownloadProgressChangedEventArgs args)
             {
-                set_UpdateStatus.Text = "Lade Update herunter… " + args.ProgressPercentage + " %";
+                set_UpdateStatus.Text = L("Upd_Downloading").Replace("{0}", args.ProgressPercentage.ToString());
             };
 
             client.DownloadFileCompleted += delegate(object s, System.ComponentModel.AsyncCompletedEventArgs args)
@@ -587,7 +593,7 @@ namespace AnnoModificationManager5.UserInterface.Modern
 
                 if (args.Error != null)
                 {
-                    set_UpdateStatus.Text = "Download fehlgeschlagen: " + args.Error.Message;
+                    set_UpdateStatus.Text = L("Upd_DownloadFailed") + " " + args.Error.Message;
                     set_InstallUpdate.IsEnabled = true;
                     return;
                 }
@@ -596,13 +602,13 @@ namespace AnnoModificationManager5.UserInterface.Modern
                 {
                     // Start the MSI (MajorUpgrade replaces the installed version) and quit
                     // so no files of this instance are locked during the upgrade.
-                    set_UpdateStatus.Text = "Starte Installation…";
+                    set_UpdateStatus.Text = L("Upd_StartingInstall");
                     System.Diagnostics.Process.Start("msiexec.exe", "/i \"" + target + "\"");
                     Application.Current.Shutdown();
                 }
                 catch (Exception ex)
                 {
-                    set_UpdateStatus.Text = "Installation konnte nicht gestartet werden: " + ex.Message;
+                    set_UpdateStatus.Text = L("Upd_InstallFailed") + " " + ex.Message;
                     set_InstallUpdate.IsEnabled = true;
                 }
             };
@@ -614,7 +620,7 @@ namespace AnnoModificationManager5.UserInterface.Modern
             catch (Exception ex)
             {
                 client.Dispose();
-                set_UpdateStatus.Text = "Download fehlgeschlagen: " + ex.Message;
+                set_UpdateStatus.Text = L("Upd_DownloadFailed") + " " + ex.Message;
                 set_InstallUpdate.IsEnabled = true;
             }
         }
@@ -639,7 +645,7 @@ namespace AnnoModificationManager5.UserInterface.Modern
         }
         #endregion
 
-        private void nav_About_Click(object sender, RoutedEventArgs e) { ShowView(view_About, nav_About, "Über"); }
+        private void nav_About_Click(object sender, RoutedEventArgs e) { ShowView(view_About, nav_About, L("Title_About")); }
 
         private void Category_Click(object sender, RoutedEventArgs e)
         {
@@ -648,7 +654,7 @@ namespace AnnoModificationManager5.UserInterface.Modern
             _filterCategory = b.Tag as string;
             txt_Search.Text = "";
             RefreshList();
-            ShowView(view_Mods, nav_Mods, "Mods");
+            ShowView(view_Mods, nav_Mods, L("Title_Mods"));
         }
 
         private void txt_Search_TextChanged(object sender, TextChangedEventArgs e)
@@ -657,7 +663,7 @@ namespace AnnoModificationManager5.UserInterface.Modern
             lbl_SearchHint.Visibility = string.IsNullOrEmpty(q) ? Visibility.Visible : Visibility.Collapsed;
             RefreshList();
             if (!string.IsNullOrEmpty(q) && view_Mods.Visibility != Visibility.Visible)
-                ShowView(view_Mods, nav_Mods, "Mods");
+                ShowView(view_Mods, nav_Mods, L("Title_Mods"));
         }
 
         private void Activate_Click(object sender, RoutedEventArgs e)
@@ -673,7 +679,7 @@ namespace AnnoModificationManager5.UserInterface.Modern
         private void RunActivationDialog(bool deactivate)
         {
             Modification mod = SelectedMod();
-            if (mod == null) { d_Desc.Text = "Bitte zuerst eine Mod auswählen."; return; }
+            if (mod == null) { d_Desc.Text = L("PleaseSelectMod"); return; }
 
             try
             {
@@ -704,7 +710,7 @@ namespace AnnoModificationManager5.UserInterface.Modern
             }
             catch (Exception ex)
             {
-                d_Desc.Text = "Fehler: " + ex.Message;
+                d_Desc.Text = L("Error") + " " + ex.Message;
             }
         }
 
@@ -724,7 +730,7 @@ namespace AnnoModificationManager5.UserInterface.Modern
                 if (MainWindow.CurrentMainWindow != null)
                     MainWindow.CurrentMainWindow.ApplyPendingChanges();
             }
-            catch (Exception ex) { d_Desc.Text = "Fehler: " + ex.Message; }
+            catch (Exception ex) { d_Desc.Text = L("Error") + " " + ex.Message; }
             UpdateApplyButton();
         }
 
@@ -734,14 +740,14 @@ namespace AnnoModificationManager5.UserInterface.Modern
             try { pending = Modification.AMMRDA.Pending; } catch (Exception) { }
             btn_Apply.IsEnabled = pending;
             btn_Apply.ToolTip = pending
-                ? "Ausstehende Änderungen ins Spiel schreiben"
-                : "Keine ausstehenden Änderungen";
+                ? L("ApplyTooltip_Pending")
+                : L("ApplyTooltip_None");
         }
 
         private void Uninstall_Click(object sender, RoutedEventArgs e)
         {
             Modification mod = SelectedMod();
-            if (mod == null) { d_Desc.Text = "Bitte zuerst eine Mod auswählen."; return; }
+            if (mod == null) { d_Desc.Text = L("PleaseSelectMod"); return; }
             try
             {
                 EnsureActivationResponses();
@@ -754,7 +760,7 @@ namespace AnnoModificationManager5.UserInterface.Modern
                         MainWindow.CurrentMainWindow.ReloadModifications(true);
                 }
             }
-            catch (Exception ex) { d_Desc.Text = "Fehler: " + ex.Message; }
+            catch (Exception ex) { d_Desc.Text = L("Error") + " " + ex.Message; }
         }
 
         private void Info_Click(object sender, RoutedEventArgs e)

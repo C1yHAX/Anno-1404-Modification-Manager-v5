@@ -490,6 +490,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Language\Dictionaries\ModernUI.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Language\Dictionaries\Initialization.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

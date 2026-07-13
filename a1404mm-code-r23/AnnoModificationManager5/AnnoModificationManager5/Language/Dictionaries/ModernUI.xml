@@ -1,0 +1,237 @@
+﻿<LanguageDictionary>
+  <!-- Strings of the modern main window (ModernMainWindow). -->
+
+  <!-- Navigation -->
+  <Label Key="Nav_Overview"
+         German="🏠   Übersicht"
+         English="🏠   Overview" />
+  <Label Key="Nav_Mods"
+         German="🧩   Mods"
+         English="🧩   Mods" />
+  <Label Key="Nav_Categories"
+         German="🗂   Kategorien"
+         English="🗂   Categories" />
+  <Label Key="Nav_Settings"
+         German="⚙   Einstellungen"
+         English="⚙   Settings" />
+  <Label Key="Nav_Restore"
+         German="↺   Wiederherstellung"
+         English="↺   Restore" />
+  <Label Key="Nav_About"
+         German="ⓘ   Über"
+         English="ⓘ   About" />
+  <Label Key="GameFound"
+         German="Spiel gefunden"
+         English="Game detected" />
+
+  <!-- View titles -->
+  <Label Key="Title_Overview"
+         German="Übersicht"
+         English="Overview" />
+  <Label Key="Title_Mods"
+         German="Mods"
+         English="Mods" />
+  <Label Key="Title_Categories"
+         German="Kategorien"
+         English="Categories" />
+  <Label Key="Title_Settings"
+         German="Einstellungen"
+         English="Settings" />
+  <Label Key="Title_Restore"
+         German="Wiederherstellung"
+         English="Restore" />
+  <Label Key="Title_About"
+         German="Über"
+         English="About" />
+
+  <!-- Header -->
+  <Label Key="SearchHint"
+         German="Mods suchen…"
+         English="Search mods…" />
+
+  <!-- Overview -->
+  <Label Key="Overview_InstalledVersion"
+         German="Installierte Version"
+         English="Installed version" />
+  <Label Key="Overview_ManageMods"
+         German="🧩  Mods verwalten"
+         English="🧩  Manage mods" />
+  <Label Key="Overview_Categories"
+         German="Mod-Kategorien"
+         English="Mod categories" />
+  <Label Key="NoModsInstalled"
+         German="Keine Mods installiert"
+         English="No mods installed" />
+  <Label Key="LoadModsHint"
+         German="Lade Mods über Nexus oder den GitHub-Browser."
+         English="Get mods via Nexus or the GitHub browser." />
+  <Label Key="CreatedBy"
+         German="Erstellt von"
+         English="Created by" />
+
+  <!-- Mods view -->
+  <Label Key="Apply"
+         German="✓  Änderungen übernehmen"
+         English="✓  Apply changes" />
+  <Label Key="ApplyTooltip_Pending"
+         German="Ausstehende Änderungen ins Spiel schreiben"
+         English="Write pending changes to the game" />
+  <Label Key="ApplyTooltip_None"
+         German="Keine ausstehenden Änderungen"
+         English="No pending changes" />
+  <Label Key="AddMod"
+         German="➕  Mod hinzufügen"
+         English="➕  Add mod" />
+  <Label Key="GitHubBrowser"
+         German="🌐  GitHub-Browser"
+         English="🌐  GitHub browser" />
+  <Label Key="Refresh"
+         German="↻  Aktualisieren"
+         English="↻  Refresh" />
+  <Label Key="NoModSelected"
+         German="Keine Mod ausgewählt"
+         English="No mod selected" />
+  <Label Key="SelectModHint"
+         German="Wähle links eine Mod aus."
+         English="Select a mod on the left." />
+  <Label Key="PleaseSelectMod"
+         German="Bitte zuerst eine Mod auswählen."
+         English="Please select a mod first." />
+  <Label Key="Activate"
+         German="✓  Aktivieren"
+         English="✓  Activate" />
+  <Label Key="Deactivate"
+         German="✕  Deaktivieren"
+         English="✕  Deactivate" />
+  <Label Key="Information"
+         German="ⓘ  Informationen"
+         English="ⓘ  Information" />
+  <Label Key="Delete"
+         German="🗑  Löschen"
+         English="🗑  Delete" />
+  <Label Key="Error"
+         German="Fehler:"
+         English="Error:" />
+  <Label Key="Filter_Category"
+         German="Kategorie: {0}  ({1})"
+         English="Category: {0}  ({1})" />
+  <Label Key="Category_Other"
+         German="Sonstige"
+         English="Other" />
+  <Label Key="Status_Active"
+         German="Aktiv"
+         English="Active" />
+  <Label Key="Status_Partially"
+         German="Teilweise aktiv"
+         English="Partially active" />
+  <Label Key="Status_Inactive"
+         German="Inaktiv"
+         English="Inactive" />
+
+  <!-- Category cards -->
+  <Label Key="Categories_Hint"
+         German="Wähle eine Kategorie, um ihre Mods zu sehen"
+         English="Pick a category to see its mods" />
+  <Label Key="Subtitle_Venice"
+         German="Venedig-Erweiterung"
+         English="Venice expansion" />
+  <Label Key="Subtitle_IAAM"
+         German="I.A.A.M.-Erweiterung"
+         English="I.A.A.M. expansion" />
+  <Label Key="Subtitle_Default"
+         German="Mods &amp; Erweiterungen"
+         English="Mods &amp; expansions" />
+
+  <!-- About -->
+  <Label Key="About_Text"
+         German="Installiere, verwalte und baue Mods für Anno 1404 – Klassik und History Edition – ohne je ein .rda-Archiv von Hand anzufassen. Mit eingebautem RDA Explorer, Development Tools, GitHub- und Nexus-Mods-Browser."
+         English="Install, manage and build mods for Anno 1404 – classic and History Edition – without ever touching an .rda archive by hand. With built-in RDA Explorer, Development Tools, GitHub and Nexus Mods browser." />
+  <Label Key="About_Footer"
+         German="Lizenz: MIT · Powered by RDAExplorer · © 2026 · Basiert auf dem Anno 1404 Modification Manager und der Arbeit der Anno-Modding-Community."
+         English="License: MIT · Powered by RDAExplorer · © 2026 · Based on the Anno 1404 Modification Manager and the work of the Anno modding community." />
+
+  <!-- Settings -->
+  <Label Key="Set_Language"
+         German="Sprache"
+         English="Language" />
+  <Label Key="Set_GameFolder"
+         German="Anno 1404 – Spielordner"
+         English="Anno 1404 – game folder" />
+  <Label Key="Set_ChooseOther"
+         German="Anderen Ordner / EXE wählen…"
+         English="Choose another folder / EXE…" />
+  <Label Key="Set_AutoDetect"
+         German="Automatisch erkennen"
+         English="Detect automatically" />
+  <Label Key="Set_GameFolderHint"
+         German="Bei mehreren Anno-Installationen (z. B. Königsedition + History Edition) hier die gewünschte .exe wählen — Anno4.exe = Klassik, Anno1404.exe = History Edition."
+         English="If several Anno installations exist (e.g. Kings Edition + History Edition), pick the desired .exe here — Anno4.exe = classic, Anno1404.exe = History Edition." />
+  <Label Key="Set_DataFolder"
+         German="Datenordner"
+         English="Data folder" />
+  <Label Key="Set_ChooseFolder"
+         German="Ordner wählen…"
+         English="Choose folder…" />
+  <Label Key="Set_Default"
+         German="Standard"
+         English="Default" />
+  <Label Key="Set_VersionHint"
+         German="Normalerweise automatisch erkannt. Nur ändern, wenn die falsche Version gewählt wurde (z. B. History Edition Addon)."
+         English="Usually detected automatically. Only change this if the wrong version was picked (e.g. History Edition Addon)." />
+  <Label Key="Set_BackupLocation"
+         German="Backup-Speicherort"
+         English="Backup location" />
+  <Label Key="Set_BackupHint"
+         German="Hier wird die unveränderte Spiel-Sicherung (ModificationManager.backup) abgelegt — die Grundlage, um alle Mods zurückzusetzen."
+         English="The untouched game backup (ModificationManager.backup) is stored here — the basis for resetting all mods." />
+  <Label Key="Set_SaveRestart"
+         German="✓  Speichern &amp; neu starten"
+         English="✓  Save &amp; restart" />
+  <Label Key="Set_Saved"
+         German="Gespeichert – starte neu …"
+         English="Saved – restarting …" />
+
+  <!-- Updates -->
+  <Label Key="Set_InstalledVersion"
+         German="Installierte Version:"
+         English="Installed version:" />
+  <Label Key="Set_CheckUpdates"
+         German="⟳  Nach Updates suchen"
+         English="⟳  Check for updates" />
+  <Label Key="Set_InstallUpdate"
+         German="⬆  Update jetzt installieren"
+         English="⬆  Install update now" />
+  <Label Key="Set_OpenDownload"
+         German="⬇  Download-Seite öffnen"
+         English="⬇  Open download page" />
+  <Label Key="Upd_Searching"
+         German="Suche nach Updates…"
+         English="Checking for updates…" />
+  <Label Key="Upd_Failed"
+         German="Update-Prüfung fehlgeschlagen – keine Verbindung zu GitHub."
+         English="Update check failed – no connection to GitHub." />
+  <Label Key="Upd_LatestOnGitHub"
+         German="Neueste Version auf GitHub: „{0}“."
+         English="Latest version on GitHub: &quot;{0}&quot;." />
+  <Label Key="Upd_Available"
+         German="Update verfügbar: Version {0} (installiert: {1})."
+         English="Update available: version {0} (installed: {1})." />
+  <Label Key="Upd_UpToDate"
+         German="Du verwendest die aktuelle Version ({0})."
+         English="You are using the latest version ({0})." />
+  <Label Key="Upd_ParseFailed"
+         German="Antwort von GitHub konnte nicht gelesen werden."
+         English="Could not read the response from GitHub." />
+  <Label Key="Upd_Downloading"
+         German="Lade Update herunter… {0} %"
+         English="Downloading update… {0} %" />
+  <Label Key="Upd_DownloadFailed"
+         German="Download fehlgeschlagen:"
+         English="Download failed:" />
+  <Label Key="Upd_StartingInstall"
+         German="Starte Installation…"
+         English="Starting installation…" />
+  <Label Key="Upd_InstallFailed"
+         German="Installation konnte nicht gestartet werden:"
+         English="Could not start the installation:" />
+</LanguageDictionary>

@@ -1,8 +1,9 @@
-<Window x:Class="AnnoModificationManager5.UserInterface.Modern.ModernMainWindow"
+﻿<Window x:Class="AnnoModificationManager5.UserInterface.Modern.ModernMainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
         xmlns:mainui="clr-namespace:AnnoModificationManager5.UserInterface.MainUI"
+        xmlns:lng="clr-namespace:AnnoModificationManager5.Language.DictionarySystem"
         Title="Anno 1404 Mod Manager" Height="640" Width="1180" MinHeight="520" MinWidth="940" Style="{x:Null}"
         WindowStyle="None" ResizeMode="CanResize" WindowStartupLocation="CenterScreen"
         Background="#0C2036" FontFamily="Segoe UI">
@@ -159,18 +160,18 @@
                         <TextBlock Text="MOD MANAGER" Foreground="#FFC9A24A" FontSize="11" FontWeight="SemiBold" Margin="2,4,0,0"/>
                     </StackPanel>
                     <StackPanel Grid.Row="1" Margin="0,6,0,0">
-                        <Button x:Name="nav_Overview" Style="{StaticResource NavButton}" Click="nav_Overview_Click" Content="🏠   Übersicht" shell:WindowChrome.IsHitTestVisibleInChrome="True"/>
+                        <Button x:Name="nav_Overview" Style="{StaticResource NavButton}" Click="nav_Overview_Click" Content="{lng:LanguageMarkup Dictionary=ModernUI, Key=Nav_Overview}" shell:WindowChrome.IsHitTestVisibleInChrome="True"/>
                         <Button x:Name="nav_Mods" Style="{StaticResource NavButton}" Click="nav_Mods_Click" Content="🧩   Mods"/>
-                        <Button x:Name="nav_Categories" Style="{StaticResource NavButton}" Click="nav_Categories_Click" Content="🗂   Kategorien"/>
-                        <Button x:Name="nav_Settings" Style="{StaticResource NavButton}" Click="nav_Settings_Click" Content="⚙   Einstellungen"/>
-                        <Button x:Name="nav_Restore" Style="{StaticResource NavButton}" Click="nav_Restore_Click" Content="↺   Wiederherstellung"/>
-                        <Button x:Name="nav_About" Style="{StaticResource NavButton}" Click="nav_About_Click" Content="ⓘ   Über"/>
+                        <Button x:Name="nav_Categories" Style="{StaticResource NavButton}" Click="nav_Categories_Click" Content="{lng:LanguageMarkup Dictionary=ModernUI, Key=Nav_Categories}"/>
+                        <Button x:Name="nav_Settings" Style="{StaticResource NavButton}" Click="nav_Settings_Click" Content="{lng:LanguageMarkup Dictionary=ModernUI, Key=Nav_Settings}"/>
+                        <Button x:Name="nav_Restore" Style="{StaticResource NavButton}" Click="nav_Restore_Click" Content="{lng:LanguageMarkup Dictionary=ModernUI, Key=Nav_Restore}"/>
+                        <Button x:Name="nav_About" Style="{StaticResource NavButton}" Click="nav_About_Click" Content="{lng:LanguageMarkup Dictionary=ModernUI, Key=Nav_About}"/>
                     </StackPanel>
                     <StackPanel Grid.Row="2" Margin="22,0,0,20">
                         <StackPanel Orientation="Horizontal">
                             <Ellipse Width="9" Height="9" Fill="{StaticResource Green}" VerticalAlignment="Center"/>
                             <StackPanel Margin="9,0,0,0">
-                                <TextBlock Text="Spiel gefunden" Foreground="{StaticResource TextDim}" FontSize="11"/>
+                                <TextBlock Text="{lng:LanguageMarkup Dictionary=ModernUI, Key=GameFound}" Foreground="{StaticResource TextDim}" FontSize="11"/>
                                 <TextBlock x:Name="lbl_Game" Text="Anno 1404" Foreground="{StaticResource TextMain}" FontSize="13" FontWeight="SemiBold"/>
                             </StackPanel>
                         </StackPanel>
@@ -188,7 +189,7 @@
 
                 <!-- Caption -->
                 <Grid Grid.Row="0">
-                    <TextBlock x:Name="lbl_Title" Text="Übersicht" Foreground="{StaticResource TextMain}" FontSize="20" FontWeight="SemiBold" VerticalAlignment="Center" Margin="26,0,0,0"/>
+                    <TextBlock x:Name="lbl_Title" Text="{lng:LanguageMarkup Dictionary=ModernUI, Key=Title_Overview}" Foreground="{StaticResource TextMain}" FontSize="20" FontWeight="SemiBold" VerticalAlignment="Center" Margin="26,0,0,0"/>
                     <Border Width="300" Height="36" HorizontalAlignment="Right" Margin="0,0,140,0" VerticalAlignment="Center"
                             Background="#14FFFFFF" BorderBrush="{StaticResource CardBorder}" BorderThickness="1" CornerRadius="9"
                             shell:WindowChrome.IsHitTestVisibleInChrome="True">
@@ -196,7 +197,7 @@
                             <TextBlock Text="🔎" Foreground="{StaticResource TextDim}" VerticalAlignment="Center" Margin="11,0,0,0" FontSize="13"/>
                             <TextBox x:Name="txt_Search" Background="Transparent" BorderThickness="0" Foreground="{StaticResource TextMain}"
                                      VerticalContentAlignment="Center" Margin="34,0,10,0" CaretBrush="White" TextChanged="txt_Search_TextChanged"/>
-                            <TextBlock x:Name="lbl_SearchHint" Text="Mods suchen…" Foreground="{StaticResource TextDim}" IsHitTestVisible="False"
+                            <TextBlock x:Name="lbl_SearchHint" Text="{lng:LanguageMarkup Dictionary=ModernUI, Key=SearchHint}" Foreground="{StaticResource TextDim}" IsHitTestVisible="False"
                                        VerticalAlignment="Center" Margin="34,0,0,0"/>
                         </Grid>
                     </Border>
@@ -224,7 +225,7 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0" Text="Installierte Version" Foreground="{StaticResource TextDim}" FontSize="13" Margin="2,0,0,8"/>
+                        <TextBlock Grid.Row="0" Text="{lng:LanguageMarkup Dictionary=ModernUI, Key=Overview_InstalledVersion}" Foreground="{StaticResource TextDim}" FontSize="13" Margin="2,0,0,8"/>
                         <Border Grid.Row="1" Background="{StaticResource Card}" BorderBrush="{StaticResource CardBorder}" BorderThickness="1" CornerRadius="12" Padding="20,16" Margin="0,0,0,22">
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -239,7 +240,7 @@
                                 <Border Grid.Column="1" Width="34" Height="34" CornerRadius="17" Background="#1E3ECF8E" VerticalAlignment="Center" Margin="0,0,14,0">
                                     <TextBlock Text="✓" Foreground="{StaticResource Green}" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
-                                <Button Grid.Column="2" Content="🧩  Mods verwalten" VerticalAlignment="Center" Height="38" Padding="16,0" Foreground="White" Cursor="Hand" Click="nav_Mods_Click">
+                                <Button Grid.Column="2" Content="{lng:LanguageMarkup Dictionary=ModernUI, Key=Overview_ManageMods}" VerticalAlignment="Center" Height="38" Padding="16,0" Foreground="White" Cursor="Hand" Click="nav_Mods_Click">
                                     <Button.Template>
                                         <ControlTemplate TargetType="Button">
                                             <Border x:Name="b" CornerRadius="9" Padding="{TemplateBinding Padding}">
@@ -259,7 +260,7 @@
                                 </Button>
                             </Grid>
                         </Border>
-                        <TextBlock Grid.Row="2" Text="Mod-Kategorien" Foreground="{StaticResource TextDim}" FontSize="13" Margin="2,0,0,8"/>
+                        <TextBlock Grid.Row="2" Text="{lng:LanguageMarkup Dictionary=ModernUI, Key=Overview_Categories}" Foreground="{StaticResource TextDim}" FontSize="13" Margin="2,0,0,8"/>
                         <ItemsControl Grid.Row="3" x:Name="ic_Categories" VerticalAlignment="Top">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate><UniformGrid Rows="1"/></ItemsPanelTemplate>
@@ -313,7 +314,7 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
                         <DockPanel Grid.Row="0" Margin="0,0,0,12" LastChildFill="False">
-                            <Button x:Name="btn_Apply" Content="✓  Änderungen übernehmen" Click="Apply_Click" Cursor="Hand" Height="36" Padding="16,0" Foreground="White" Margin="0,0,8,0">
+                            <Button x:Name="btn_Apply" Content="{lng:LanguageMarkup Dictionary=ModernUI, Key=Apply}" Click="Apply_Click" Cursor="Hand" Height="36" Padding="16,0" Foreground="White" Margin="0,0,8,0">
                                 <Button.Template>
                                     <ControlTemplate TargetType="Button">
                                         <Border x:Name="ab" CornerRadius="9" Padding="{TemplateBinding Padding}">
@@ -329,10 +330,10 @@
                                     </ControlTemplate>
                                 </Button.Template>
                             </Button>
-                            <Button Content="➕  Mod hinzufügen" Style="{StaticResource Pill}" Click="AddMod_Click" Margin="0,0,8,0"/>
+                            <Button Content="{lng:LanguageMarkup Dictionary=ModernUI, Key=AddMod}" Style="{StaticResource Pill}" Click="AddMod_Click" Margin="0,0,8,0"/>
                             <Button Content="🟧  Nexus Mods" Style="{StaticResource Pill}" Click="Nexus_Click" Margin="0,0,8,0"/>
-                            <Button Content="🌐  GitHub-Browser" Style="{StaticResource Pill}" Click="GitHub_Click" Margin="0,0,8,0"/>
-                            <Button Content="↻  Aktualisieren" Style="{StaticResource Pill}" Click="Refresh_Click"/>
+                            <Button Content="{lng:LanguageMarkup Dictionary=ModernUI, Key=GitHubBrowser}" Style="{StaticResource Pill}" Click="GitHub_Click" Margin="0,0,8,0"/>
+                            <Button Content="{lng:LanguageMarkup Dictionary=ModernUI, Key=Refresh}" Style="{StaticResource Pill}" Click="Refresh_Click"/>
                             <TextBlock x:Name="lbl_Filter" DockPanel.Dock="Right" Foreground="{StaticResource TextDim}" FontSize="12" VerticalAlignment="Center"/>
                         </DockPanel>
                         <Grid Grid.Row="1">
@@ -365,7 +366,7 @@
                                         <RowDefinition Height="Auto"/>
                                     </Grid.RowDefinitions>
                                     <StackPanel Grid.Row="0">
-                                        <TextBlock x:Name="d_Name" Text="Keine Mod ausgewählt" Foreground="{StaticResource TextMain}" FontSize="20" FontWeight="SemiBold" TextWrapping="Wrap"/>
+                                        <TextBlock x:Name="d_Name" Text="{lng:LanguageMarkup Dictionary=ModernUI, Key=NoModSelected}" Foreground="{StaticResource TextMain}" FontSize="20" FontWeight="SemiBold" TextWrapping="Wrap"/>
                                         <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
                                             <TextBlock x:Name="d_Meta" Foreground="{StaticResource TextDim}" FontSize="12"/>
                                             <Border x:Name="d_StatusChip" CornerRadius="8" Padding="9,2" Margin="12,0,0,0" Background="#1A9DB2C8" Visibility="Collapsed">
@@ -378,11 +379,11 @@
                                         <TextBlock x:Name="d_Desc" Foreground="{StaticResource TextDim}" FontSize="13" TextWrapping="Wrap"/>
                                     </ScrollViewer>
                                     <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,16,0,0">
-                                        <Button x:Name="btn_Activate" Content="✓  Aktivieren" Style="{StaticResource Pill}" Margin="0,0,10,0" Click="Activate_Click"/>
-                                        <Button x:Name="btn_Deactivate" Content="✕  Deaktivieren" Style="{StaticResource Pill}" Margin="0,0,10,0" Click="Deactivate_Click" Visibility="Collapsed"/>
-                                        <Button Content="ⓘ  Informationen" Style="{StaticResource Pill}" Margin="0,0,10,0" Click="Info_Click"/>
+                                        <Button x:Name="btn_Activate" Content="{lng:LanguageMarkup Dictionary=ModernUI, Key=Activate}" Style="{StaticResource Pill}" Margin="0,0,10,0" Click="Activate_Click"/>
+                                        <Button x:Name="btn_Deactivate" Content="{lng:LanguageMarkup Dictionary=ModernUI, Key=Deactivate}" Style="{StaticResource Pill}" Margin="0,0,10,0" Click="Deactivate_Click" Visibility="Collapsed"/>
+                                        <Button Content="{lng:LanguageMarkup Dictionary=ModernUI, Key=Information}" Style="{StaticResource Pill}" Margin="0,0,10,0" Click="Info_Click"/>
                                         <Button Content="🌐  Website" Style="{StaticResource Pill}" Margin="0,0,10,0" Click="Website_Click"/>
-                                        <Button Content="🗑  Löschen" Style="{StaticResource Pill}" Click="Uninstall_Click"/>
+                                        <Button Content="{lng:LanguageMarkup Dictionary=ModernUI, Key=Delete}" Style="{StaticResource Pill}" Click="Uninstall_Click"/>
                                     </StackPanel>
                                 </Grid>
                             </Border>
@@ -395,7 +396,7 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0" Text="Wähle eine Kategorie, um ihre Mods zu sehen" Foreground="{StaticResource TextDim}" FontSize="13" Margin="2,0,0,10"/>
+                        <TextBlock Grid.Row="0" Text="{lng:LanguageMarkup Dictionary=ModernUI, Key=Categories_Hint}" Foreground="{StaticResource TextDim}" FontSize="13" Margin="2,0,0,10"/>
                         <ItemsControl Grid.Row="1" x:Name="ic_CategoriesFull" VerticalAlignment="Top">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate>
@@ -449,14 +450,14 @@
                                 <TextBlock Text="Anno 1404 Modification Manager" Foreground="{StaticResource TextMain}" FontSize="22" FontWeight="Bold"/>
                                 <TextBlock x:Name="lbl_Version" Text="Version 5.0" Foreground="{StaticResource Green}" FontSize="14" Margin="0,4,0,0"/>
                                 <TextBlock Margin="0,16,0,0" Foreground="{StaticResource TextDim}" FontSize="13" TextWrapping="Wrap"
-                                           Text="Installiere, verwalte und baue Mods für Anno 1404 – Klassik und History Edition – ohne je ein .rda-Archiv von Hand anzufassen. Mit eingebautem RDA Explorer, Development Tools, GitHub- und Nexus-Mods-Browser."/>
+                                           Text="{lng:LanguageMarkup Dictionary=ModernUI, Key=About_Text}"/>
                                 <TextBlock Margin="0,18,0,6" Foreground="{StaticResource TextMain}" FontSize="14" FontWeight="SemiBold" Text="Links"/>
                                 <StackPanel Orientation="Horizontal">
                                     <Button Content="🌐  GitHub" Style="{StaticResource Pill}" Margin="0,0,10,0" Click="LinkGitHub_Click"/>
                                     <Button Content="🟧  Nexus Mods" Style="{StaticResource Pill}" Click="LinkNexus_Click"/>
                                 </StackPanel>
                                 <TextBlock Margin="0,20,0,0" Foreground="{StaticResource TextDim}" FontSize="12" TextWrapping="Wrap"
-                                           Text="Lizenz: MIT · Powered by RDAExplorer · © 2026 · Basiert auf dem Anno 1404 Modification Manager und der Arbeit der Anno-Modding-Community."/>
+                                           Text="{lng:LanguageMarkup Dictionary=ModernUI, Key=About_Footer}"/>
                             </StackPanel>
                         </Border>
                     </Grid>
@@ -465,7 +466,7 @@
                     <Grid x:Name="view_Settings" Visibility="Collapsed">
                         <ScrollViewer VerticalScrollBarVisibility="Auto">
                             <StackPanel>
-                                <TextBlock Text="Sprache" Foreground="{StaticResource TextDim}" FontSize="13" Margin="2,0,0,8"/>
+                                <TextBlock Text="{lng:LanguageMarkup Dictionary=ModernUI, Key=Set_Language}" Foreground="{StaticResource TextDim}" FontSize="13" Margin="2,0,0,8"/>
                                 <Border Background="{StaticResource Card}" BorderBrush="{StaticResource CardBorder}" BorderThickness="1" CornerRadius="12" Padding="18,14" Margin="0,0,0,18">
                                     <StackPanel Orientation="Horizontal">
                                         <RadioButton x:Name="set_LangDe" GroupName="setlang" Content="Deutsch" Foreground="{StaticResource TextMain}"/>
@@ -473,26 +474,26 @@
                                     </StackPanel>
                                 </Border>
 
-                                <TextBlock Text="Anno 1404 – Spielordner" Foreground="{StaticResource TextDim}" FontSize="13" Margin="2,0,0,8"/>
+                                <TextBlock Text="{lng:LanguageMarkup Dictionary=ModernUI, Key=Set_GameFolder}" Foreground="{StaticResource TextDim}" FontSize="13" Margin="2,0,0,8"/>
                                 <Border Background="{StaticResource Card}" BorderBrush="{StaticResource CardBorder}" BorderThickness="1" CornerRadius="12" Padding="18,14" Margin="0,0,0,18">
                                     <StackPanel>
                                         <TextBlock x:Name="set_AnnoDir" Foreground="{StaticResource TextMain}" FontSize="13" TextWrapping="Wrap"/>
                                         <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                                            <Button Content="Anderen Ordner / EXE wählen…" Style="{StaticResource Pill}" Click="Set_ChooseAnno_Click"/>
-                                            <Button Content="Automatisch erkennen" Style="{StaticResource Pill}" Margin="8,0,0,0" Click="Set_AutoAnno_Click"/>
+                                            <Button Content="{lng:LanguageMarkup Dictionary=ModernUI, Key=Set_ChooseOther}" Style="{StaticResource Pill}" Click="Set_ChooseAnno_Click"/>
+                                            <Button Content="{lng:LanguageMarkup Dictionary=ModernUI, Key=Set_AutoDetect}" Style="{StaticResource Pill}" Margin="8,0,0,0" Click="Set_AutoAnno_Click"/>
                                         </StackPanel>
                                         <TextBlock Foreground="{StaticResource TextDim}" FontSize="11" Margin="0,8,0,0" TextWrapping="Wrap"
-                                                   Text="Bei mehreren Anno-Installationen (z. B. Königsedition + History Edition) hier die gewünschte .exe wählen — Anno4.exe = Klassik, Anno1404.exe = History Edition."/>
+                                                   Text="{lng:LanguageMarkup Dictionary=ModernUI, Key=Set_GameFolderHint}"/>
                                     </StackPanel>
                                 </Border>
 
-                                <TextBlock Text="Datenordner" Foreground="{StaticResource TextDim}" FontSize="13" Margin="2,0,0,8"/>
+                                <TextBlock Text="{lng:LanguageMarkup Dictionary=ModernUI, Key=Set_DataFolder}" Foreground="{StaticResource TextDim}" FontSize="13" Margin="2,0,0,8"/>
                                 <Border Background="{StaticResource Card}" BorderBrush="{StaticResource CardBorder}" BorderThickness="1" CornerRadius="12" Padding="18,14" Margin="0,0,0,18">
                                     <StackPanel>
                                         <TextBlock x:Name="set_DataDir" Foreground="{StaticResource TextMain}" FontSize="13" TextWrapping="Wrap"/>
                                         <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                                            <Button Content="Ordner wählen…" Style="{StaticResource Pill}" Click="Set_ChooseData_Click"/>
-                                            <Button Content="Standard" Style="{StaticResource Pill}" Margin="8,0,0,0" Click="Set_StandardData_Click"/>
+                                            <Button Content="{lng:LanguageMarkup Dictionary=ModernUI, Key=Set_ChooseFolder}" Style="{StaticResource Pill}" Click="Set_ChooseData_Click"/>
+                                            <Button Content="{lng:LanguageMarkup Dictionary=ModernUI, Key=Set_Default}" Style="{StaticResource Pill}" Margin="8,0,0,0" Click="Set_StandardData_Click"/>
                                         </StackPanel>
                                     </StackPanel>
                                 </Border>
@@ -503,19 +504,19 @@
                                         <ComboBox x:Name="set_Version" Width="300" HorizontalAlignment="Left"/>
                                         <TextBlock x:Name="set_VersionAuto" Foreground="{StaticResource TextDim}" FontSize="11" Margin="0,8,0,0"/>
                                         <TextBlock Foreground="{StaticResource TextDim}" FontSize="11" Margin="0,4,0,0" TextWrapping="Wrap"
-                                                   Text="Normalerweise automatisch erkannt. Nur ändern, wenn die falsche Version gewählt wurde (z. B. History Edition Addon)."/>
+                                                   Text="{lng:LanguageMarkup Dictionary=ModernUI, Key=Set_VersionHint}"/>
                                     </StackPanel>
                                 </Border>
 
-                                <TextBlock Text="Backup-Speicherort" Foreground="{StaticResource TextDim}" FontSize="13" Margin="2,0,0,8"/>
+                                <TextBlock Text="{lng:LanguageMarkup Dictionary=ModernUI, Key=Set_BackupLocation}" Foreground="{StaticResource TextDim}" FontSize="13" Margin="2,0,0,8"/>
                                 <Border Background="{StaticResource Card}" BorderBrush="{StaticResource CardBorder}" BorderThickness="1" CornerRadius="12" Padding="18,14" Margin="0,0,0,18">
                                     <StackPanel>
                                         <TextBlock x:Name="set_BackupDir" Foreground="{StaticResource TextMain}" FontSize="13" TextWrapping="Wrap"/>
                                         <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                                            <Button Content="Ordner wählen…" Style="{StaticResource Pill}" Click="Set_ChooseBackup_Click"/>
+                                            <Button Content="{lng:LanguageMarkup Dictionary=ModernUI, Key=Set_ChooseFolder}" Style="{StaticResource Pill}" Click="Set_ChooseBackup_Click"/>
                                         </StackPanel>
                                         <TextBlock Foreground="{StaticResource TextDim}" FontSize="11" Margin="0,8,0,0" TextWrapping="Wrap"
-                                                   Text="Hier wird die unveränderte Spiel-Sicherung (ModificationManager.backup) abgelegt — die Grundlage, um alle Mods zurückzusetzen."/>
+                                                   Text="{lng:LanguageMarkup Dictionary=ModernUI, Key=Set_BackupHint}"/>
                                     </StackPanel>
                                 </Border>
 
@@ -524,16 +525,16 @@
                                     <StackPanel>
                                         <TextBlock x:Name="set_UpdateInfo" Foreground="{StaticResource TextMain}" FontSize="13" Text="Installierte Version: 5.0.2.0"/>
                                         <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                                            <Button Content="⟳  Nach Updates suchen" Style="{StaticResource Pill}" Click="Set_CheckUpdates_Click"/>
-                                            <Button x:Name="set_InstallUpdate" Content="⬆  Update jetzt installieren" Style="{StaticResource Pill}" Margin="8,0,0,0" Visibility="Collapsed" Click="Set_InstallUpdate_Click"/>
-                                            <Button x:Name="set_OpenRelease" Content="⬇  Download-Seite öffnen" Style="{StaticResource Pill}" Margin="8,0,0,0" Visibility="Collapsed" Click="Set_OpenRelease_Click"/>
+                                            <Button Content="{lng:LanguageMarkup Dictionary=ModernUI, Key=Set_CheckUpdates}" Style="{StaticResource Pill}" Click="Set_CheckUpdates_Click"/>
+                                            <Button x:Name="set_InstallUpdate" Content="{lng:LanguageMarkup Dictionary=ModernUI, Key=Set_InstallUpdate}" Style="{StaticResource Pill}" Margin="8,0,0,0" Visibility="Collapsed" Click="Set_InstallUpdate_Click"/>
+                                            <Button x:Name="set_OpenRelease" Content="{lng:LanguageMarkup Dictionary=ModernUI, Key=Set_OpenDownload}" Style="{StaticResource Pill}" Margin="8,0,0,0" Visibility="Collapsed" Click="Set_OpenRelease_Click"/>
                                         </StackPanel>
                                         <TextBlock x:Name="set_UpdateStatus" Foreground="{StaticResource TextDim}" FontSize="11" Margin="0,8,0,0" TextWrapping="Wrap"/>
                                     </StackPanel>
                                 </Border>
 
                                 <StackPanel Orientation="Horizontal">
-                                    <Button Content="✓  Speichern &amp; neu starten" Style="{StaticResource Pill}" Click="Set_Save_Click"/>
+                                    <Button Content="{lng:LanguageMarkup Dictionary=ModernUI, Key=Set_SaveRestart}" Style="{StaticResource Pill}" Click="Set_Save_Click"/>
                                     <TextBlock x:Name="set_Status" Foreground="{StaticResource TextDim}" FontSize="12" VerticalAlignment="Center" Margin="12,0,0,0"/>
                                 </StackPanel>
                             </StackPanel>
