@@ -67,7 +67,13 @@ namespace AnnoModificationManager5
             try { Splash = new System.Windows.SplashScreen("Images/Background/splash.png"); Splash.Show(false); }
             catch (Exception) { }
 
-            if (!AnnoModificationManager5.Properties.Settings.Default.StartupShown)
+            // Migrate the settings of a previous version - but never overwrite values this
+            // version already has. Upgrade() replaces the current user.config with the old
+            // one, which wiped the RDABackupDir that StartupDialogBackup had just saved:
+            // the backup check then failed again on every start and the backup dialog
+            // reappeared forever (endless "auto or manual backup?" loop).
+            if (!AnnoModificationManager5.Properties.Settings.Default.StartupShown
+                && string.IsNullOrEmpty(AnnoModificationManager5.Properties.Settings.Default.RDABackupDir))
                 AnnoModificationManager5.Properties.Settings.Default.Upgrade();
 
             //Only One Manager Instance

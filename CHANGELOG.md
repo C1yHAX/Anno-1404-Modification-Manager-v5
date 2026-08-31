@@ -4,6 +4,32 @@ All notable changes to the **Anno 1404 Modification Manager** are documented her
 The format is based on [Keep a Changelog](https://keepachangelog.com) and the project
 follows [Semantic Versioning](https://semver.org).
 
+## [5.0.4] - 2026-07-13
+
+### Fixed
+- **The backup dialog no longer asks again and again.** After creating the backup the
+  manager saved the backup path but never marked the startup configuration as done, so on
+  the next start `Settings.Upgrade()` replaced the current configuration with the previous
+  version's and wiped that path again. The backup check then failed on every start and the
+  "automatic or manual backup?" dialog reappeared forever.
+- **The addon folder is backed up again.** The addon archives were only copied when the
+  selected Anno version was an addon version, so anyone running the History Edition as
+  "History Edition" (instead of "History Edition Addon") ended up with a maindata-only
+  backup. The addon folder is now backed up whenever it exists.
+- A backup is only rejected for a missing addon copy when the installation actually has an
+  addon folder, and the backup is validated right after it was created - so the manager can
+  no longer restart into the very same dialog without saying why.
+- Backup error messages are localized (German/English) and explain what to do instead of
+  showing "addon subfolder not found.".
+
+**DE** *Behoben:* Der **Sicherungs-Dialog fragt nicht mehr endlos erneut** - der Manager
+speicherte den Backup-Pfad, markierte die Ersteinrichtung aber nicht als abgeschlossen,
+worauf `Settings.Upgrade()` beim naechsten Start die Einstellungen der Vorversion
+darueberschrieb und den Pfad wieder loeschte. Ausserdem wurde der **addon-Ordner nicht
+gesichert**, wenn als Version "History Edition" (statt "History Edition Addon") gewaehlt
+war - er wird jetzt immer mitgesichert, sofern vorhanden. Fehlermeldungen zur Sicherung
+sind jetzt verstaendlich und zweisprachig.
+
 ## [5.0.3] — 2026-07-13
 
 ### Fixed

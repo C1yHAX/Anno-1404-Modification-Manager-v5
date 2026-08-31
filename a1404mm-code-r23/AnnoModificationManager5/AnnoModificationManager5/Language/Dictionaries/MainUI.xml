@@ -183,4 +183,13 @@
   <Label Key="RDAStart_WrongFolder"
          German="Der Ordner darf nicht der maindata-Ordner sein!"
          English="The backup folder have not to be equal to the maindata folder!"/>
+  <Label Key="Backup_Invalid_NoDirectory"
+         German="Der Sicherungsordner existiert nicht."
+         English="The backup folder does not exist."/>
+  <Label Key="Backup_Invalid_NoMaindata"
+         German="Im Sicherungsordner fehlt der Unterordner „maindata“.\nBitte wähle den Ordner, der die gesicherten Kopien von maindata (und ggf. addon) enthält."
+         English="The backup folder has no „maindata“ subfolder.\nPlease select the folder containing the backed up copies of maindata (and addon, if present)."/>
+  <Label Key="Backup_Invalid_NoAddon"
+         German="Im Sicherungsordner fehlt der Unterordner „addon“.\nDein Anno 1404 hat einen addon-Ordner, deshalb muss dieser mitgesichert werden."
+         English="The backup folder has no „addon“ subfolder.\nYour Anno 1404 installation has an addon folder, so it has to be backed up as well."/>
 </LanguageDictionary>

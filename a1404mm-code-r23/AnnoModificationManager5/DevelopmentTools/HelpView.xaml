@@ -65,7 +65,7 @@
                            Text="• Mod-Paket-Publisher – verwaltet die online verfügbaren Pakete (aktualisieren, hinzufügen, bearbeiten, entfernen)."/>
 
                 <TextBlock Foreground="#FF9FB2C8" TextWrapping="Wrap" FontSize="12" Margin="0,8,0,0"
-                           Text="Development Tools – Version 5.0.3.0 · .NET Framework 4.7.2 · x86"/>
+                           Text="Development Tools – Version 5.0.4.0 · .NET Framework 4.7.2 · x86"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>

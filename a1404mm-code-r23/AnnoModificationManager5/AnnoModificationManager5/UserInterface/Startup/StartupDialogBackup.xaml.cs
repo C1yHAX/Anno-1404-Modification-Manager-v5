@@ -53,8 +53,23 @@ namespace AnnoModificationManager5.UserInterface.Startup
 
                     BackupHandler.CreateBackup(dstdir);
 
+                    // Never restart into this same dialog: if the freshly created backup
+                    // would not pass the startup check, say why instead of asking again
+                    // on every start.
+                    string checkmsg;
+                    if (!BackupHandler.IsValid(dstdir, out checkmsg))
+                    {
+                        MessageWindow.Show(LanguageDictionary.Get("MainUI", "RDAStart_AutoBackupFailed")
+                            + "\n\n" + checkmsg);
+                        return;
+                    }
+
                     Properties.Settings.Default.RDABackupDir = dstdir;
                     Properties.Settings.Default.LastAnnoVersion = AnnoVersionHandler.GetCurrent().ToString();
+                    // The startup configuration is complete once a backup is set up. Without
+                    // this, App keeps calling Settings.Upgrade() on every start, which
+                    // overwrites the RDABackupDir saved here -> endless backup dialog.
+                    Properties.Settings.Default.StartupShown = true;
                     Properties.Settings.Default.Save();
                     ApplicationExtension.RestartManager();
                 }
@@ -92,6 +107,7 @@ namespace AnnoModificationManager5.UserInterface.Startup
 
                     Properties.Settings.Default.RDABackupDir = dlg.SelectedPath.Trim('\\');
                     Properties.Settings.Default.LastAnnoVersion = AnnoVersionHandler.GetCurrent().ToString();
+                    Properties.Settings.Default.StartupShown = true;
                     Properties.Settings.Default.Save();
                     ApplicationExtension.RestartManager();
                 }

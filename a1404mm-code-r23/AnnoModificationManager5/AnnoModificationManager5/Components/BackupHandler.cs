@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using AnnoModificationManager5.Language.DictionarySystem;
 using vbio = Microsoft.VisualBasic.FileIO;
 
 namespace AnnoModificationManager5.Components
@@ -14,6 +15,23 @@ namespace AnnoModificationManager5.Components
             return IsValid(AnnoModificationManager5.Properties.Settings.Default.RDABackupDir, out reason);
         }
 
+        /// <summary>
+        /// Does the installed game actually have an addon folder that can be backed up?
+        /// The History Edition may be detected as an addon version (Anno1404Addon.exe is
+        /// present) without shipping a separate "addon" archive folder.
+        /// </summary>
+        private static bool GameHasAddonFolder()
+        {
+            try
+            {
+                return Directory.Exists(AnnoDirectoryHandler.GetCurrent().Trim('\\') + "\\addon");
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         public static bool IsValid(string folder, out string reason)
         {
             string currdir = folder.Trim('\\');
@@ -23,9 +41,13 @@ namespace AnnoModificationManager5.Components
             {
                 if (Directory.Exists(currdir + "\\maindata"))
                 {
-                    if (AnnoVersionHandler.IsAddon() && !Directory.Exists(currdir + "\\addon"))
+                    // Only demand an addon backup when the installation actually has an
+                    // addon folder to copy. Otherwise CreateBackup has nothing to back up,
+                    // while this check keeps rejecting its own result -> the backup dialog
+                    // reappears on every start (endless loop).
+                    if (AnnoVersionHandler.IsAddon() && !Directory.Exists(currdir + "\\addon") && GameHasAddonFolder())
                     {
-                        reason = "addon subfolder not found.";
+                        reason = LanguageDictionary.Get("MainUI", "Backup_Invalid_NoAddon");
                         return false;
                     }
 
@@ -34,25 +56,31 @@ namespace AnnoModificationManager5.Components
                 }
                 else
                 {
-                    reason = "maindata subfolder don't exist.";
+                    reason = LanguageDictionary.Get("MainUI", "Backup_Invalid_NoMaindata");
                     return false;
                 }
             }
 
-            reason = "Directory don't exist.";
+            reason = LanguageDictionary.Get("MainUI", "Backup_Invalid_NoDirectory");
             return false;
         }
 
         public static void CreateBackup(string folder)
         {
             folder = folder.Trim('\\');
+            string source = AnnoDirectoryHandler.GetCurrent().Trim('\\');
+
             if (Directory.Exists(folder))
                 vbio.FileSystem.DeleteDirectory(folder, vbio.UIOption.AllDialogs, vbio.RecycleOption.SendToRecycleBin, vbio.UICancelOption.ThrowException);
             Directory.CreateDirectory(folder);
 
-            vbio.FileSystem.CopyDirectory(AnnoDirectoryHandler.GetCurrent() + "\\maindata", folder + "\\maindata", vbio.UIOption.AllDialogs, vbio.UICancelOption.ThrowException);
-            if (AnnoVersionHandler.IsAddon() && Directory.Exists(AnnoDirectoryHandler.GetCurrent() + "\\addon"))
-                vbio.FileSystem.CopyDirectory(AnnoDirectoryHandler.GetCurrent() + "\\addon", folder + "\\addon", vbio.UIOption.AllDialogs, vbio.UICancelOption.ThrowException);
+            vbio.FileSystem.CopyDirectory(source + "\\maindata", folder + "\\maindata", vbio.UIOption.AllDialogs, vbio.UICancelOption.ThrowException);
+
+            // Back up the addon archives whenever they exist — independent of the detected
+            // version. Backing up a folder that is not strictly needed is harmless; missing
+            // it means the addon can never be restored.
+            if (Directory.Exists(source + "\\addon"))
+                vbio.FileSystem.CopyDirectory(source + "\\addon", folder + "\\addon", vbio.UIOption.AllDialogs, vbio.UICancelOption.ThrowException);
         }
     }
 }
