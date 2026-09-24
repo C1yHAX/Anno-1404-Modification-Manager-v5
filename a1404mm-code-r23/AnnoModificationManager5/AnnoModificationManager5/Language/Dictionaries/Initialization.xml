@@ -16,4 +16,12 @@
   <Label Key="AnnoFolder_SelectExeFilter"
          German="Anno 1404 Programmdatei"
          English="Anno 1404 executable" />
+  <Label Key="AnnoFolder_SelectExeFilterAll"
+         German="Alle Programmdateien (*.exe)"
+         English="All executables (*.exe)" />
+  <Label Key="AnnoFolder_NoMaindata"
+         German="In dem gewaehlten Ordner gibt es keinen Unterordner maindata.
+Bitte die .exe direkt im Anno-1404-Hauptordner auswaehlen (dort liegen maindata und ggf. addon)."
+         English="The selected folder has no maindata subfolder.
+Please pick the .exe inside the main Anno 1404 folder (the one containing maindata and, if present, addon)." />
 </LanguageDictionary>

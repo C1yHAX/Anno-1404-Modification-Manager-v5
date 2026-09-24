@@ -157,7 +157,14 @@ namespace AnnoModificationManager5.UserInterface.Startup
             if (radio_AnnoDirectory_Choose.IsChecked == true)
                 Properties.Settings.Default.OverwrittenAnnoDirectory = field_AnnoDirectory.Text;
             else
-                Properties.Settings.Default.OverwrittenAnnoDirectory = "";
+                // Only forget a custom path when automatic detection can actually find the
+                // game. Otherwise "detect automatically" would wipe the folder the user just
+                // picked, and the next start would ask for it again (endless loop on stores
+                // we cannot auto-detect).
+                Properties.Settings.Default.OverwrittenAnnoDirectory =
+                    string.IsNullOrEmpty(AnnoDirectoryHandler.AutoDetect())
+                        ? field_AnnoDirectory.Text
+                        : "";
 
             AnnoModificationManager5.Components.AnnoVersionHandler.AnnoVersion checkedversion
                 = AnnoVersionHandler.AnnoVersion.Retail;

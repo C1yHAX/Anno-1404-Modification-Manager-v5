@@ -4,6 +4,38 @@ All notable changes to the **Anno 1404 Modification Manager** are documented her
 The format is based on [Keep a Changelog](https://keepachangelog.com) and the project
 follows [Semantic Versioning](https://semver.org).
 
+## [5.0.5] - 2026-09-24
+
+### Added
+- **Steam installations are detected.** The manager only looked at the Ubisoft registry
+  keys and the Ubisoft Game Launcher default paths, so a Steam copy of the History Edition
+  was never found ("cannot find Anno installed"). Steam libraries are now read from the
+  registry plus `steamapps/libraryfolders.vdf`, and every library is searched - so games on
+  a second drive are found too.
+
+### Fixed
+- **No more crash with "The Application object is being Shut Down".** When no game folder
+  could be determined the manager called `Application.Current.Shutdown()` and then simply
+  carried on running, so the next access to the already shut down application threw. It now
+  ends cleanly instead.
+- **A manually selected game folder is remembered.** The folder picked in the
+  "Anno not found" dialog was only kept in memory and never saved, so the dialog came back
+  on every start.
+- **"Detect automatically" no longer discards a custom folder.** Confirming the startup
+  dialog cleared the saved path even when automatic detection cannot find the game - it is
+  now only cleared when detection actually works.
+- The executable picker accepts any `*.exe` as a second filter (for stores shipping an
+  unknown executable name) and checks that the chosen folder really contains `maindata`.
+- A game path from the classic registry key is only used when the folder actually exists.
+
+**DE** *Neu:* **Steam-Installationen werden erkannt** (Registry + `libraryfolders.vdf`,
+inkl. Libraries auf anderen Laufwerken) - bisher wurde eine Steam-Version der History
+Edition nie gefunden. *Behoben:* Kein Absturz mehr mit "The Application object is being
+Shut Down", wenn kein Spielordner ermittelt werden konnte; ein **manuell gewaehlter Ordner
+wird jetzt gespeichert**; "Automatisch ermitteln" loescht einen eigenen Pfad nicht mehr,
+wenn die Erkennung gar nicht funktioniert; die .exe-Auswahl erlaubt zur Not jede *.exe und
+prueft, ob wirklich ein `maindata`-Ordner vorhanden ist.
+
 ## [5.0.4] - 2026-07-13
 
 ### Fixed
